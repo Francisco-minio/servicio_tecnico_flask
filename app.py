@@ -16,7 +16,8 @@ from models import Solicitud #agregar solicitudes de repuestos
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'clave_secreta_segura'
 basedir = os.path.abspath(os.path.dirname(__file__))
-app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.join(basedir, 'instance', 'database.db')}"
+#app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.join(basedir, 'instance', 'database.db')}"
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:@localhost/ordenes_db'
 app.config['UPLOAD_FOLDER'] = 'static/uploads'
 app.config['MAIL_DEFAULT_SENDER'] = 'tucorreo@ejemplo.com'
 
