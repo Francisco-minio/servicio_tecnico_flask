@@ -1,0 +1,142 @@
+{% extends 'base.html' %} 
+{% block title %}Detalle de la Orden{% endblock %} 
+{% block content %}
+<div class="container-fluid">
+    <h1 class="h3 mb-4 text-gray-800">Detalle de la Orden</h1>
+
+    <!-- Botón para volver -->
+    <a href="{{ url_for('dashboard_admin') }}" class="btn btn-secondary mb-3">
+        <i class="fas fa-arrow-left"></i> Volver a Órdenes
+    </a>
+
+    <!-- Botón para abrir el modal -->
+    <button class="btn btn-warning mb-3 ms-2" data-bs-toggle="modal" data-bs-target="#solicitudModal">
+        <i class="fas fa-tools"></i> Solicitar Repuesto o Presupuesto
+    </button>
+
+    <div class="row">
+        <!-- Columna Izquierda: Detalles -->
+        <div class="col-md-8">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Cliente: {{ orden.cliente.nombre }}</h5>
+                    <p><strong>Equipo:</strong> {{ orden.equipo }}</p>
+                    <p><strong>Marca:</strong> {{ orden.marca }}</p>
+                    <p><strong>Modelo:</strong> {{ orden.modelo }}</p>
+                    <p><strong>Diagnóstico:</strong><br>{{ orden.descripcion.replace('\n', '<br>') | safe }}</p>
+
+                    <hr>
+                    <form action="{{ url_for('actualizar_estado', orden_id=orden.id) }}" method="POST">
+                        <label><strong>Estado:</strong></label>
+                        <div class="input-group">
+                            <select name="estado" class="form-control">
+                                <option value="Ingresado" {% if orden.estado == 'Ingresado' %}selected{% endif %}>Ingresado</option>
+                                <option value="Enviado a Cotización" {% if orden.estado == 'Enviado a Cotización' %}selected{% endif %}>Enviado a Cotización</option>
+                                <option value="En Espera de Repuestos" {% if orden.estado == 'En Espera de Repuestos' %}selected{% endif %}>En Espera de Repuestos</option>
+                                <option value="Asignada" {% if orden.estado == 'Asignada' %}selected{% endif %}>Asignada</option>
+                                <option value="Cerrada" {% if orden.estado == 'Cerrada' %}selected{% endif %}>Cerrada</option>
+                            </select>
+                            <div class="input-group-append">
+                                <button type="submit" class="btn btn-primary">Actualizar</button>
+                            </div>
+                        </div>
+                    </form>
+
+                    {% if orden.imagenes %}
+                    <hr>
+                    <label><strong>Imágenes:</strong></label><br>
+                    <div class="row">
+                        {% for img in orden.imagenes %}
+                        <div class="col-md-4 mb-3">
+                            <img src="{{ url_for('static', filename='uploads/' + img.filename) }}" class="img-fluid rounded shadow-sm" alt="Imagen {{ loop.index }}">
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Sección Comentarios -->
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Agregar Comentario</h5>
+                    <form method="POST">
+                        <div class="form-group">
+                            <textarea name="comentario" class="form-control" rows="3" required placeholder="Escribe tu comentario..."></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-info">Agregar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Columna Derecha: Historial -->
+        <div class="col-md-4">
+            <h5 class="mb-3">Historial de Modificaciones</h5>
+            <div class="card">
+                <div class="card-body p-2">
+                    <ul class="list-group list-group-flush">
+                        {% for evento in historial %}
+                        {% set icon = 'fas fa-plus-circle' %}
+                        {% set color = 'list-group-item-success' %}
+                        {% if 'editada' in evento.descripcion %}
+                            {% set icon = 'fas fa-edit' %}
+                            {% set color = 'list-group-item-warning' %}
+                        {% elif 'cerrada' in evento.descripcion %}
+                            {% set icon = 'fas fa-check-circle' %}
+                            {% set color = 'list-group-item-danger' %}
+                        {% elif 'asignada' in evento.descripcion %}
+                            {% set icon = 'fas fa-user-check' %}
+                            {% set color = 'list-group-item-primary' %}
+                        {% elif 'Avance' in evento.descripcion %}
+                            {% set icon = 'fas fa-tools' %}
+                            {% set color = 'list-group-item-info' %}
+                        {% elif 'Comentario' in evento.descripcion %}
+                            {% set icon = 'fas fa-comment' %}
+                            {% set color = 'list-group-item-light' %}
+                        {% endif %}
+                        <li class="list-group-item {{ color }}">
+                            <i class="{{ icon }}"></i>
+                            <strong>{{ evento.descripcion }}</strong><br>
+                            <small>Por {{ evento.usuario.username }} el {{ evento.fecha.strftime('%d/%m/%Y %H:%M') }}</small>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Solicitar Repuesto o Presupuesto -->
+    <div class="modal fade" id="solicitudModal" tabindex="-1" aria-labelledby="solicitudModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <form method="POST" action="{{ url_for('solicitar_repuesto_presupuesto', orden_id=orden.id) }}">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="solicitudModalLabel">Solicitar Repuesto o Presupuesto</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="tipo">Tipo de Solicitud</label>
+                            <select name="tipo" class="form-control" required>
+                                <option value="">Seleccione</option>
+                                <option value="Repuesto">Repuesto</option>
+                                <option value="Presupuesto">Presupuesto</option>
+                            </select>
+                        </div>
+                        <div class="form-group mt-2">
+                            <label for="descripcion">Descripción</label>
+                            <textarea name="descripcion" class="form-control" rows="3" required></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-warning">Enviar Solicitud</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

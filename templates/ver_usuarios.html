@@ -1,0 +1,28 @@
+{% extends 'base.html' %} {% block title %}Administrar Usuarios{% endblock %} {% block content %}
+<h1 class="h3 mb-4 text-gray-800">Lista de Usuarios</h1>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>Correo</th>
+            <th>Rol</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for usuario in usuarios %}
+        <tr>
+            <td>{{ usuario.username }}</td>
+            <td>{{ usuario.correo }}</td>
+            <td>{{ usuario.rol }}</td>
+            <td>
+                <!-- Aquí puedes añadir acciones como editar o eliminar usuarios -->
+                <a href="{{ url_for('editar_usuario', id=usuario.id) }}" class="btn btn-sm btn-warning">Editar</a>
+
+                <!-- Agregar más acciones según sea necesario -->
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

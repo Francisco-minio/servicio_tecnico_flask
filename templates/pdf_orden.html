@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 2em;
+        }
+        
+        h1 {
+            color: #333;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1em;
+        }
+        
+        td,
+        th {
+            border: 1px solid #ccc;
+            padding: 8px;
+        }
+        
+        .historial {
+            margin-top: 2em;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Orden de Trabajo #{{ orden.id }}</h1>
+    <p><strong>Cliente:</strong> {{ orden.cliente }}</p>
+    <p><strong>Correo:</strong> {{ orden.correo }}</p>
+    <p><strong>Equipo:</strong> {{ orden.equipo }} ({{ orden.marca }} {{ orden.modelo }})</p>
+    <p><strong>Estado:</strong> {{ orden.estado }}</p>
+
+    <div class="historial">
+        <h2>Historial</h2>
+        <ul>
+            {% for evento in historial %}
+            <li>{{ evento.fecha.strftime('%Y-%m-%d %H:%M') }} - {{ evento.descripcion }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+
+</html>

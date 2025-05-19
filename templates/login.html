@@ -1,0 +1,70 @@
+{% extends 'login_base.html' %} {% block title %}Iniciar Sesión{% endblock %} {% block content %}
+<div class="d-flex justify-content-center align-items-center vh-100 bg-light">
+    <div class="card shadow border-0 rounded-4 p-4 animate__animated animate__fadeInDown" style="width: 100%; max-width: 400px;">
+        <div class="text-center mb-4">
+            <h1 class="h4 text-gray-900">¡Bienvenido de nuevo!</h1>
+            <p class="text-muted mb-0">Ingresa tus credenciales para continuar</p>
+        </div>
+
+        {% if error %}
+        <div class="alert alert-danger text-center py-2">
+            {{ error }}
+        </div>
+        {% endif %}
+
+        <form method="POST" id="loginForm" novalidate>
+            <div class="form-group mb-3">
+                <label for="username" class="form-label">Nombre de usuario</label>
+                <input type="text" class="form-control" id="username" name="username" required>
+                <div class="invalid-feedback">Este campo es obligatorio.</div>
+            </div>
+            <div class="form-group mb-4">
+                <label for="password" class="form-label">Contraseña</label>
+                <input type="password" class="form-control" id="password" name="password" required>
+                <div class="invalid-feedback">Este campo es obligatorio.</div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block w-100" id="loginBtn">
+                <span class="spinner-border spinner-border-sm me-2 d-none" id="spinner" role="status" aria-hidden="true"></span>
+                Iniciar Sesión
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %} {% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const form = document.getElementById('loginForm');
+        const inputs = form.querySelectorAll('input');
+        const spinner = document.getElementById('spinner');
+        const loginBtn = document.getElementById('loginBtn');
+
+        form.addEventListener('submit', function(event) {
+            let valid = true;
+            inputs.forEach(input => {
+                if (!input.value.trim()) {
+                    input.classList.add('is-invalid');
+                    valid = false;
+                } else {
+                    input.classList.remove('is-invalid');
+                }
+            });
+
+            if (!valid) {
+                event.preventDefault();
+                event.stopPropagation();
+            } else {
+                spinner.classList.remove('d-none');
+                loginBtn.setAttribute('disabled', 'disabled');
+            }
+        });
+
+        inputs.forEach(input => {
+            input.addEventListener('input', () => {
+                if (input.value.trim()) {
+                    input.classList.remove('is-invalid');
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

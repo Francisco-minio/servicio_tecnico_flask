@@ -1,0 +1,20 @@
+{% extends 'base.html' %} {% block content %}
+<div class="container mt-4">
+    <h2>Asignar Técnico a la Orden #{{ orden.id }}</h2>
+    <form method="POST">
+        <div class="form-group">
+            <label for="tecnico_id">Selecciona un técnico:</label>
+            <select name="tecnico_id" class="form-control" required>
+                <option value="">-- Seleccionar --</option>
+                {% for tecnico in tecnicos %}
+                    <option value="{{ tecnico.id }}" {% if orden.tecnico_id == tecnico.id %}selected{% endif %}>
+                        {{ tecnico.username }} ({{ tecnico.correo }})
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">Asignar Técnico</button>
+        <a href="{{ url_for('dashboard_admin') }}" class="btn btn-secondary mt-3">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,71 @@
+{% extends 'base.html' %} {% block content %}
+<div class="container mt-4">
+    <h2>Editar Orden</h2>
+    <form method="POST" enctype="multipart/form-data">
+        <label for="cliente">Cliente</label>
+        <input type="text" name="cliente" value="{{ orden.cliente.nombre }}" class="form-control" readonly>
+
+        <label for="correo">Correo</label>
+        <input type="email" name="correo" value="{{ orden.correo }}" class="form-control">
+
+        <label for="descripcion">Descripción</label>
+        <textarea name="descripcion" class="form-control">{{ orden.descripcion }}</textarea>
+
+        <label for="equipo">Equipo</label>
+        <input type="text" name="equipo" value="{{ orden.equipo }}" class="form-control">
+
+        <label for="marca">Marca</label>
+        <input type="text" name="marca" value="{{ orden.marca }}" class="form-control">
+
+        <label for="modelo">Modelo</label>
+        <input type="text" name="modelo" value="{{ orden.modelo }}" class="form-control">
+
+        <label for="procesador">Procesador</label>
+        <input type="text" name="procesador" value="{{ orden.procesador }}" class="form-control">
+
+        <label for="ram">RAM</label>
+        <input type="text" name="ram" value="{{ orden.ram }}" class="form-control">
+
+        <label for="disco">Disco</label>
+        <input type="text" name="disco" value="{{ orden.disco }}" class="form-control">
+
+        <label for="pantalla">Pantalla</label>
+        <input type="text" name="pantalla" value="{{ orden.pantalla }}" class="form-control">
+
+        <label for="tecnico_id">Asignar técnico</label>
+        <select name="tecnico_id" class="form-control">
+            <option value="">-- No asignado --</option>
+            {% for tecnico in tecnicos %}
+                <option value="{{ tecnico.id }}" {% if orden.tecnico_id == tecnico.id %}selected{% endif %}>
+                    {{ tecnico.username }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <label for="estado">Estado</label>
+        <select name="estado" class="form-control">
+            <option value="Ingresado" {% if orden.estado == 'Ingresado' %}selected{% endif %}>Ingresado</option>
+            <option value="Enviado a Cotización" {% if orden.estado == 'Enviado a Cotización' %}selected{% endif %}>Enviado a Cotización</option>
+            <option value="En Espera de Repuestos" {% if orden.estado == 'En Espera de Repuestos' %}selected{% endif %}>En Espera de Repuestos</option>
+            <option value="Asignada" {% if orden.estado == 'Asignada' %}selected{% endif %}>Asignada</option>
+            <option value="Cerrada" {% if orden.estado == 'Cerrada' %}selected{% endif %}>Cerrada</option>
+        </select>
+
+        <label for="imagenes">Subir nuevas imágenes</label>
+        <input type="file" name="imagenes" multiple class="form-control">
+
+        <div class="mt-3">
+            <h5>Imágenes existentes:</h5>
+            <div class="row">
+                {% for imagen in orden.imagenes %}
+                <div class="col-md-3">
+                    <img src="{{ url_for('static', filename='uploads/' ~ imagen.filename) }}" class="img-thumbnail" alt="Imagen">
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary mt-3">Guardar Cambios</button>
+    </form>
+</div>
+{% endblock %}

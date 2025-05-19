@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>{{ cliente and 'Editar Cliente' or 'Nuevo Cliente' }}</h2>
+
+<form method="POST">
+    <div class="form-group">
+        <label for="nombre">Nombre</label>
+        <input type="text" class="form-control" id="nombre" name="nombre" required
+               value="{{ cliente.nombre if cliente else '' }}">
+    </div>
+    <div class="form-group">
+        <label for="correo">Correo</label>
+        <input type="email" class="form-control" id="correo" name="correo" required
+               value="{{ cliente.correo if cliente else '' }}">
+    </div>
+    <div class="form-group">
+        <label for="telefono">Teléfono</label>
+        <input type="text" class="form-control" id="telefono" name="telefono"
+               value="{{ cliente.telefono if cliente else '' }}">
+    </div>
+    <div class="form-group">
+        <label for="direccion">Dirección</label>
+        <textarea class="form-control" id="direccion" name="direccion">{{ cliente.direccion if cliente else '' }}</textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary">{{ cliente and 'Actualizar' or 'Crear' }}</button>
+    <a href="{{ url_for('listar_clientes') }}" class="btn btn-secondary">Cancelar</a>
+</form>
+{% endblock %}
