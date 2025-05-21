@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+*.egg
+*.sqlite3
+*.db
+
+# Flask
+instance/
+.webassets-cache/
+.env
+.venv
+venv/
+ENV/
+env/
+env.bak/
+venv.bak/
+
+# Flask-Session
+# instance/flask_session/ # Covered by instance/
+
+# Other
+.DS_Store

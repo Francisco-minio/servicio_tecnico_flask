@@ -6,20 +6,34 @@ from extensions import db
 from datetime import datetime
 import os
 from models import Historial, Usuario, Orden
-from utils.pdf_generator import generar_pdf
-from utils.mail_sender import enviar_correo
+from utils.pdf_generator import generar_pdf_task # <--- IMPORT NEW Celery task for PDF
+# Updated import for Celery tasks
+from utils.mail_sender import enviar_correo_task, enviar_notificacion_admin_task
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
+from flask_wtf.csrf import CSRFProtect
+from flask_session import Session # Import Flask-Session
+from flask_talisman import Talisman # Import Flask-Talisman
 from models import Orden, Imagen
 from models import Cliente  # Asegúrate de importar el modelo Cliente
 from models import Solicitud #agregar solicitudes de repuestos
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'clave_secreta_segura'
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'a_strong_default_secret_key_for_development_only')
+csrf = CSRFProtect(app) # Initialize CSRFProtect
 basedir = os.path.abspath(os.path.dirname(__file__))
 #app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.join(basedir, 'instance', 'database.db')}"
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:@localhost/ordenes_db'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'mysql+pymysql://user:password@localhost/default_db')
 app.config['UPLOAD_FOLDER'] = 'static/uploads'
 app.config['MAIL_DEFAULT_SENDER'] = 'tucorreo@ejemplo.com'
+app.config['ALLOWED_EXTENSIONS'] = {'png', 'jpg', 'jpeg', 'gif', 'pdf'}
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16 MB
+
+# Flask-Session Configuration
+app.config['SESSION_TYPE'] = 'filesystem'
+app.config['SESSION_PERMANENT'] = False
+app.config['SESSION_USE_SIGNER'] = True
+app.config['SESSION_FILE_DIR'] = os.path.join(basedir, 'instance', 'flask_session')
+# app.config['SESSION_FILE_THRESHOLD'] = 500 # Optional
 
 # Inicializar extensiones
 db.init_app(app)
@@ -29,12 +43,22 @@ login_manager = LoginManager()
 login_manager.login_view = 'login'
 login_manager.init_app(app)
 
+# Initialize Flask-Session AFTER other configurations
+Session(app)
+
+# Initialize Talisman for security headers
+talisman = Talisman(app)
+
 @login_manager.user_loader
 def load_user(user_id):
     return Usuario.query.get(int(user_id))
 
 with app.app_context():
     db.create_all()
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
 
 @app.route('/')
 def index():
@@ -135,6 +159,9 @@ def nueva_orden():
         imagenes = request.files.getlist('imagenes')
         for imagen in imagenes:
             if imagen and imagen.filename:
+                if not allowed_file(imagen.filename):
+                    flash(f"Tipo de archivo no permitido: {imagen.filename}. Permitidos: {', '.join(app.config['ALLOWED_EXTENSIONS'])}", 'danger')
+                    continue  # Skip this file and proceed with the next
                 filename = secure_filename(imagen.filename)
                 imagen.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
                 nueva_imagen = Imagen(orden_id=nueva.id, filename=filename)
@@ -144,11 +171,21 @@ def nueva_orden():
 
         # Enviar correo
         try:
-            enviar_correo(nueva)
-            flash('Orden ingresada exitosamente y correo enviado al cliente.', 'success')
+            cliente_nombre_para_email = nueva.cliente.nombre # Assuming 'nueva.cliente' is accessible and has 'nombre'
+            fecha_creacion_str_para_email = nueva.fecha_creacion.strftime('%d-%m-%Y %H:%M')
+
+            enviar_correo_task.delay(
+                cliente_nombre=cliente_nombre_para_email,
+                orden_id=nueva.id,
+                equipo=nueva.equipo,
+                estado=nueva.estado,
+                fecha_creacion_str=fecha_creacion_str_para_email,
+                destinatario_email=nueva.correo
+            )
+            flash('Orden ingresada exitosamente. Se enviará una confirmación por correo.', 'success')
         except Exception as e:
-            print(f"Error al enviar el correo: {e}")
-            flash('Orden ingresada pero ocurrió un error al enviar el correo.', 'warning')
+            app.logger.error(f"Error al encolar tarea de envío de correo: {e}") # Use app.logger
+            flash('Orden ingresada pero ocurrió un error al programar el envío del correo.', 'warning')
 
         return redirect(url_for('dashboard_admin'))
 
@@ -295,17 +332,40 @@ def modificar_avances(orden_id):
 @app.route('/orden/<int:orden_id>/pdf')
 @login_required
 def descargar_pdf(orden_id):
-    from utils.pdf_generator import generar_pdf  # asegúrate de tener esta función
+    pdf_filename = f"orden_{orden_id}.pdf"
+    # Ensure UPLOAD_FOLDER is defined and accessible, or use a dedicated PDF folder
+    # For consistency with original code, using 'static/pdfs/'
+    pdf_dir = os.path.join(app.static_folder, 'pdfs') 
+    if not os.path.exists(pdf_dir):
+        os.makedirs(pdf_dir) # Ensure the directory exists
+    pdf_path = os.path.join(pdf_dir, pdf_filename)
 
-    pdf_path = os.path.join('static', 'pdfs', f"orden_{orden_id}.pdf")
-    
-    # Si no existe el PDF, lo genera
     if not os.path.exists(pdf_path):
-        orden = Orden.query.get_or_404(orden_id)
-        historial = Historial.query.filter_by(orden_id=orden_id).order_by(Historial.fecha.desc()).all()
-        generar_pdf(orden, historial, pdf_path)
+        try:
+            # Call the task and wait for it to complete (interim step)
+            # In a fully async setup, you'd redirect or notify the user.
+            task_result = generar_pdf_task.apply_async(args=[orden_id, pdf_path])
+            task_result.get(timeout=30)  # Wait up to 30 seconds for PDF generation
+                                        # This will raise an exception on task error or timeout.
+            flash('El PDF ha sido generado.', 'success')
+        except TimeoutError: # Make sure TimeoutError is imported or handle celery.exceptions.TimeoutError
+            app.logger.error(f"Timeout generando PDF para orden {orden_id}")
+            flash('La generación del PDF tardó demasiado. Intente nuevamente.', 'danger')
+            # Depending on desired UX, redirect to order details or another relevant page
+            return redirect(url_for('ver_orden', orden_id=orden_id))
+        except Exception as e:
+            app.logger.error(f"Error generando PDF para orden {orden_id}: {e}")
+            flash(f'Error al generar el PDF: {str(e)}', 'danger')
+            return redirect(url_for('ver_orden', orden_id=orden_id))
 
-    return send_file(pdf_path, as_attachment=True)
+    # If PDF exists (either pre-existing or just generated)
+    if os.path.exists(pdf_path):
+        return send_file(pdf_path, as_attachment=True)
+    else:
+        # This case should ideally not be reached if generation was successful
+        # but task.get() didn't error and file still not there.
+        flash('No se pudo encontrar el PDF generado. Por favor, intente generarlo de nuevo.', 'danger')
+        return redirect(url_for('ver_orden', orden_id=orden_id))
 
 #ingresar solicitudes de repuesto
 
@@ -346,24 +406,29 @@ def solicitar_repuesto_presupuesto(orden_id):
 
     # Enviar correo al administrador
     try:
-        msg = Message(
-            subject=f"Solicitud de {tipo} para orden #{orden.id}",
-            recipients=['franciscominio@bcode.cl'],  # Puedes cambiarlo o hacerlo dinámico
-            html=f"""
-                <h4>Solicitud de {tipo}</h4>
-                <p><strong>Usuario:</strong> {current_user.username}</p>
-                <p><strong>Orden ID:</strong> {orden.id}</p>
-                <p><strong>Cliente:</strong> {orden.cliente.nombre}</p>
-                <p><strong>Equipo:</strong> {orden.equipo}</p>
-                <p><strong>Descripción de la solicitud:</strong><br>{descripcion}</p>
-                <hr>
-                <p><a href="{url_for('ver_orden', orden_id=orden.id, _external=True)}">Ver Orden en el sistema</a></p>
-            """
+        subject = f"Solicitud de {tipo} para orden #{orden.id}"
+        html_body = f"""
+            <h4>Solicitud de {tipo}</h4>
+            <p><strong>Usuario:</strong> {current_user.username}</p>
+            <p><strong>Orden ID:</strong> {orden.id}</p>
+            <p><strong>Cliente:</strong> {orden.cliente.nombre}</p>
+            <p><strong>Equipo:</strong> {orden.equipo}</p>
+            <p><strong>Descripción de la solicitud:</strong><br>{descripcion}</p>
+            <hr>
+            <p><a href="{url_for('ver_orden', orden_id=orden.id, _external=True)}">Ver Orden en el sistema</a></p>
+        """
+        admin_email_recipient = 'franciscominio@bcode.cl' # Or from app.config
+
+        enviar_notificacion_admin_task.delay(
+            subject=subject,
+            html_body=html_body,
+            recipient=admin_email_recipient
         )
-        mail.send(msg)
     except Exception as e:
-        print("Error al enviar el correo:", e)
-        flash("La solicitud fue registrada, pero ocurrió un error al enviar el correo.", "warning")
+        app.logger.error(f"Error al encolar tarea de notificación al admin: {e}")
+        # The flash message about the error in scheduling email is optional, 
+        # as the main operation (solicitud) was successful.
+        # flash("La solicitud fue registrada, pero ocurrió un error al programar la notificación por correo.", "warning")
 
     flash(f"Solicitud de {tipo.lower()} registrada correctamente.", "success")
     return redirect(url_for('ver_orden', orden_id=orden.id))
@@ -491,5 +556,6 @@ def eliminar_cliente(id):
 
 
 
+# IMPORTANT: debug=True should be False in a production environment.
 if __name__ == '__main__':
     app.run(debug=True)

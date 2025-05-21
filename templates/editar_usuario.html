@@ -5,6 +5,7 @@
 <div class="container mt-4">
     <h2>Editar Usuario</h2>
     <form method="POST">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
         <label for="username">Nombre de usuario</label>
         <input type="text" name="username" value="{{ usuario.username }}" class="form-control" required>
 

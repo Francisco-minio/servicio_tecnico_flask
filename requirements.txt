@@ -2,3 +2,9 @@ Flask
 Flask-SQLAlchemy
 Werkzeug
 fpdf
+Flask-WTF
+Flask-Session
+celery
+redis
+Flask-Talisman
+gunicorn

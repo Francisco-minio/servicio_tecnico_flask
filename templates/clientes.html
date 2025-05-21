@@ -28,6 +28,7 @@
                 <a href="{{ url_for('editar_cliente', id=cliente.id) }}" class="btn btn-sm btn-warning">Editar</a>
 
                 <form method="POST" action="{{ url_for('eliminar_cliente', id=cliente.id) }}" style="display:inline-block;" onsubmit="return confirm('¿Estás seguro de eliminar este cliente?');">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                     <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
                 </form>
             </td>

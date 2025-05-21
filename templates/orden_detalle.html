@@ -27,6 +27,7 @@
 
                     <hr>
                     <form action="{{ url_for('actualizar_estado', orden_id=orden.id) }}" method="POST">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                         <label><strong>Estado:</strong></label>
                         <div class="input-group">
                             <select name="estado" class="form-control">
@@ -61,6 +62,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Agregar Comentario</h5>
                     <form method="POST">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                         <div class="form-group">
                             <textarea name="comentario" class="form-control" rows="3" required placeholder="Escribe tu comentario..."></textarea>
                         </div>
@@ -111,6 +113,7 @@
     <div class="modal fade" id="solicitudModal" tabindex="-1" aria-labelledby="solicitudModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <form method="POST" action="{{ url_for('solicitar_repuesto_presupuesto', orden_id=orden.id) }}">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="solicitudModalLabel">Solicitar Repuesto o Presupuesto</h5>

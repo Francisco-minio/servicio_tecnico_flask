@@ -4,7 +4,7 @@
     <div class="card">
         <div class="card-body">
             <form action="{{ url_for('nueva_orden') }}" method="POST" enctype="multipart/form-data">
-             
+              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
               <!-- Datos del cliente -->
         <fieldset class="border p-3 mb-3">
          <legend class="w-auto px-2">Datos del Cliente</legend>
