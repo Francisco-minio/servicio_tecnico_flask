@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="h3 mb-4 text-gray-800">Nueva Solicitud de Cotización</h1>
+
+<div class="row">
+    <div class="col-lg-8">
+        <form method="POST" action="{{ url_for('nueva_solicitud_cotizacion') }}">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Formulario de Cotización</h6>
+                </div>
+                <div class="card-body">
+
+                    <div class="form-group">
+                        <label for="asunto">Asunto</label>
+                        <input type="text" class="form-control" id="asunto" name="asunto" placeholder="Ej: Cotización de piezas..." required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="descripcion">Descripción</label>
+                        <textarea class="form-control" id="descripcion" name="descripcion" rows="4" placeholder="Detalles de la solicitud..." required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="orden_id">Orden asociada (opcional)</label>
+                        <select class="form-control" id="orden_id" name="orden_id">
+                            <option value="">-- Sin orden --</option>
+                            {% for orden in ordenes %}
+                                <option value="{{ orden.id }}" data-cliente="{{ orden.cliente.nombre }}">{{ "#" + orden.id|string }} - {{ orden.cliente.nombre }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="form-group mt-3">
+                        <label for="cliente">Cliente</label>
+                        <input type="text" class="form-control" id="cliente" readonly>
+                    </div>
+
+                </div>
+                <div class="card-footer text-right">
+                    <a href="{{ url_for('dashboard_admin') }}" class="btn btn-secondary">Cancelar</a>
+                    <button type="submit" class="btn btn-primary">Enviar Solicitud</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Script para mostrar cliente automáticamente -->
+<script>
+    const selectOrden = document.getElementById('orden_id');
+    const clienteInput = document.getElementById('cliente');
+
+    selectOrden.addEventListener('change', function () {
+        const selectedOption = this.options[this.selectedIndex];
+        const clienteNombre = selectedOption.getAttribute('data-cliente');
+        clienteInput.value = clienteNombre || '';
+    });
+</script>
+{% endblock %}

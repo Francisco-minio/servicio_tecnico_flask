@@ -52,7 +52,7 @@ class Orden(db.Model):
     # FK y relación con el usuario que creó la orden
     usuario_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'), nullable=False)
     usuario = db.relationship('Usuario', back_populates='ordenes_creadas', foreign_keys=[usuario_id])
-
+    cliente_id = db.Column(db.Integer, db.ForeignKey('cliente.id'))
     # Historial
     historial = db.relationship('Historial', back_populates='orden', lazy='select')
     
@@ -118,5 +118,20 @@ class CorreoLog(db.Model):
     estado = db.Column(db.String(50), nullable=False)  # "Enviado", "Error", etc.
     error = db.Column(db.Text, nullable=True)
 
+class SolicitudCotizacion(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    asunto = db.Column(db.String(255), nullable=False)
+    descripcion = db.Column(db.Text, nullable=False)
+    orden_id = db.Column(db.Integer, db.ForeignKey('ordenes.id'), nullable=True)  # Referencia opcional
+    usuario_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'), nullable=False)
+    cliente_id = db.Column(db.Integer, db.ForeignKey('cliente.id'), nullable=True)  # 👈 agregado correctamente
+    fecha_creacion = db.Column(db.DateTime, default=datetime.utcnow)
+    correo_encargado = db.Column(db.String(255), nullable=True)
+
+    # Relaciones
+    orden = db.relationship('Orden', backref='cotizaciones', lazy='select')
+    usuario = db.relationship('Usuario', backref='cotizaciones', lazy='select')
+    cliente = db.relationship('Cliente', backref='cotizaciones', lazy='select')
+
     def __repr__(self):
-        return f"<CorreoLog a {self.destinatario} - {self.estado}>"
+        return f"<SolicitudCotizacion de {self.usuario.username}, asunto: {self.asunto}>"

@@ -11,10 +11,28 @@ SMTP_PORT = 2525
 SMTP_USER = os.environ.get('SMTP_USER', 'no-reply@backupcode.cl')
 SMTP_PASS = os.environ.get('SMTP_PASS', 'NtUBu2TME0f22mHQ')
 
-def enviar_correo(orden, tipo='ingreso'):
-    if tipo == 'ingreso':
-        asunto = "Equipo ingresado al servicio técnico"
-        cuerpo = f"""Estimado/a {orden.cliente.nombre},
+def enviar_correo(objeto, tipo='ingreso'):
+    """
+    Envía correos para distintos tipos de notificaciones:
+    - ingreso: notifica ingreso de orden
+    - cerrada: notifica cierre de orden
+    - solicitud_cotizacion: notifica nueva solicitud de cotización
+    """
+    asunto = ""
+    cuerpo = ""
+    destinatario = ""
+
+    if tipo in ['ingreso', 'cerrada']:
+        orden = objeto
+        if not orden or not hasattr(orden, 'correo') or not orden.correo:
+            print("[ERROR] Orden inválida o sin correo.")
+            return
+
+        destinatario = orden.correo
+
+        if tipo == 'ingreso':
+            asunto = "Equipo ingresado al servicio técnico"
+            cuerpo = f"""Estimado/a {orden.cliente.nombre},
 
 Su equipo ha sido ingresado correctamente al servicio técnico.
 
@@ -26,9 +44,9 @@ Detalles:
 
 Gracias por confiar en nosotros.
 """
-    elif tipo == 'cerrada':
-        asunto = "Orden de servicio cerrada"
-        cuerpo = f"""Estimado/a {orden.cliente.nombre},
+        elif tipo == 'cerrada':
+            asunto = "Orden de servicio cerrada"
+            cuerpo = f"""Estimado/a {orden.cliente.nombre},
 
 Su orden de servicio ha sido finalizada y cerrada.
 
@@ -40,19 +58,58 @@ Detalles:
 
 Gracias por confiar en nuestro servicio técnico.
 """
-    else:
-        asunto = "Notificación del servicio técnico"
-        cuerpo = "Su orden ha sido actualizada."
 
+    elif tipo == 'solicitud_cotizacion':
+        solicitud = objeto
+    if not solicitud or not hasattr(solicitud, 'correo_encargado'):
+        print("[ERROR] Solicitud inválida o sin correo.")
+        return
+
+    # Verificar si hay una orden asociada
+    orden = solicitud.orden if hasattr(solicitud, 'orden') else None
+    destinatario = solicitud.correo_encargado
+
+    if orden:
+        asunto = f"Solicitud de cotización para Orden #{orden.id}"
+        cuerpo = f"""Estimado/a encargado,
+
+Se ha generado una nueva solicitud de cotización.
+
+Detalles:
+- Solicitud ID: {solicitud.id}
+- Orden ID: {orden.id}
+- Equipo: {orden.equipo}
+- Descripción de la solicitud: {solicitud.descripcion}
+- Fecha: {solicitud.fecha_creacion.strftime('%d-%m-%Y %H:%M')}
+
+Por favor, revise esta solicitud a la brevedad.
+"""
+    else:
+        asunto = "Solicitud de cotización sin orden asociada"
+        cuerpo = f"""Estimado/a encargado,
+
+Se ha generado una nueva solicitud de cotización sin orden asociada.
+
+Detalles:
+- Solicitud ID: {solicitud.id}
+- Quien Solicita: {solicitud.usuario.username}
+- Descripción de la solicitud: {solicitud.descripcion}
+- Fecha: {solicitud.fecha_creacion.strftime('%d-%m-%Y %H:%M')}
+
+Por favor, revise esta solicitud a la brevedad.
+"""
+
+    # Crear mensaje
     msg = MIMEMultipart()
     msg['From'] = SMTP_USER
-    msg['To'] = orden.correo
+    msg['To'] = destinatario
     msg['Subject'] = asunto
     msg.attach(MIMEText(cuerpo, 'plain'))
 
+    # Log
     log = CorreoLog(
-        orden_id=orden.id,
-        destinatario=orden.correo,
+        orden_id=getattr(objeto, 'orden_id', None) or getattr(objeto, 'id', None),
+        destinatario=destinatario,
         asunto=asunto,
         cuerpo=cuerpo,
         fecha_envio=datetime.utcnow(),
@@ -67,9 +124,10 @@ Gracias por confiar en nuestro servicio técnico.
         server.quit()
 
         log.estado = "Enviado"
+        print(f"[CORREO ENVIADO] A: {destinatario}, Asunto: {asunto}", flush=True)
+
     except Exception as e:
         log.estado = "Error"
-        print(f"[CORREO ENVIADO] A: {orden.correo}, Asunto: {asunto}", flush=True)
         log.error = str(e)
         print(f"[ERROR AL ENVIAR CORREO] {e}", flush=True)
 

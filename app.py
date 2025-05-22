@@ -12,7 +12,7 @@ from flask_login import LoginManager, login_user, logout_user, login_required, c
 from models import Orden, Imagen
 from models import Cliente  # Asegúrate de importar el modelo Cliente
 from models import Solicitud #agregar solicitudes de repuestos
-from models import CorreoLog
+from models import CorreoLog, SolicitudCotizacion
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'clave_secreta_segura'
@@ -382,18 +382,22 @@ def descargar_pdf(orden_id):
 
 #ingresar solicitudes de repuesto
 
+import logging
+
+logger = logging.getLogger(__name__)
+
 @app.route('/orden/<int:orden_id>/solicitud', methods=['POST'])
 @login_required
 def solicitar_repuesto_presupuesto(orden_id):
     orden = Orden.query.get_or_404(orden_id)
-    tipo = request.form.get('tipo')
-    descripcion = request.form.get('descripcion')
+    tipo = request.form.get('tipo', '').capitalize()
+    descripcion = request.form.get('descripcion', '').strip()
 
-    if tipo not in ['Repuesto', 'Presupuesto'] or not descripcion:
-        flash("Debes completar todos los campos.", "danger")
+    tipos_validos = ['Repuesto', 'Presupuesto']
+    if tipo not in tipos_validos or not descripcion:
+        flash("Debes completar todos los campos correctamente.", "danger")
         return redirect(url_for('ver_orden', orden_id=orden.id))
 
-    # Crear solicitud
     solicitud = Solicitud(
         tipo=tipo,
         descripcion=descripcion,
@@ -402,7 +406,6 @@ def solicitar_repuesto_presupuesto(orden_id):
     )
     db.session.add(solicitud)
 
-    # Crear evento en historial
     evento = Historial(
         orden_id=orden.id,
         usuario_id=current_user.id,
@@ -410,27 +413,26 @@ def solicitar_repuesto_presupuesto(orden_id):
     )
     db.session.add(evento)
 
-    # Cambiar estado solo si corresponde
-    if tipo == "Presupuesto":
-        orden.estado = "Enviado a Cotización"
-    elif tipo == "Repuesto":
-        orden.estado = "Solicitud de Repuesto"
+    estado_map = {
+        "Presupuesto": "Enviado a Cotización",
+        "Repuesto": "Solicitud de Repuesto"
+    }
+    orden.estado = estado_map.get(tipo, orden.estado)
 
     try:
         db.session.commit()
     except Exception as e:
         db.session.rollback()
+        logger.error(f"Error al registrar solicitud para orden {orden.id}: {e}")
         flash("Error al registrar la solicitud.", "danger")
         return redirect(url_for('ver_orden', orden_id=orden.id))
 
-    # Determinar correo destinatario
-    destinatario = app.config.get('CORREO_ADMIN', 'admin@tusistema.cl')  # por defecto
+    destinatario = app.config.get('CORREO_ADMIN', 'franciscominio@backupcode.cl')
     if tipo == 'Repuesto':
         destinatario = app.config.get('CORREO_REPUESTOS', destinatario)
     elif tipo == 'Presupuesto':
         destinatario = app.config.get('CORREO_PRESUPUESTOS', destinatario)
 
-    # Enviar correo
     try:
         msg = Message(
             subject=f"Solicitud de {tipo} para orden #{orden.id}",
@@ -448,12 +450,11 @@ def solicitar_repuesto_presupuesto(orden_id):
         )
         mail.send(msg)
     except Exception as e:
-        print("Error al enviar el correo:", e)
+        logger.error(f"Error al enviar correo para solicitud en orden {orden.id}: {e}")
         flash("La solicitud fue registrada, pero ocurrió un error al enviar el correo.", "warning")
 
     flash(f"Solicitud de {tipo.lower()} registrada correctamente.", "success")
     return redirect(url_for('ver_orden', orden_id=orden.id))
-
 
 
 @app.route('/usuarios')
@@ -584,6 +585,60 @@ def ver_logs_correos():
 
     logs = CorreoLog.query.order_by(CorreoLog.fecha_envio.desc()).all()
     return render_template('correos_logs.html', logs=logs)
+
+#solicitudes de cotizaciones aparte.
+
+@app.route('/cotizaciones/nueva', methods=['GET', 'POST'])
+@login_required
+def nueva_solicitud_cotizacion():
+    if request.method == 'POST':
+        asunto = request.form.get('asunto')
+        descripcion = request.form.get('descripcion')
+        orden_id = request.form.get('orden_id') or None
+
+        cliente_id = None
+        if orden_id:
+            try:
+                orden = Orden.query.get(int(orden_id))
+                if orden:
+                    cliente_id = orden.cliente_id
+                else:
+                    flash("La orden seleccionada no existe.", "danger")
+                    return redirect(url_for('nueva_solicitud_cotizacion'))
+            except ValueError:
+                flash("ID de orden inválido.", "danger")
+                return redirect(url_for('nueva_solicitud_cotizacion'))
+
+        solicitud = SolicitudCotizacion(
+            asunto=asunto,
+            descripcion=descripcion,
+            orden_id=orden_id,
+            usuario_id=current_user.id,
+            cliente_id=cliente_id,
+            correo_encargado='miniodrive@gmail.com'  # o configurable
+        )
+
+        db.session.add(solicitud)
+        db.session.commit()
+
+        try:
+            from utils.mail_sender import enviar_correo
+            enviar_correo(solicitud, tipo='solicitud_cotizacion')
+            flash("Solicitud creada y correo enviado correctamente.", "success")
+        except Exception as e:
+            flash("Solicitud creada, pero ocurrió un error al enviar el correo.", "warning")
+            print("[ERROR EN CORREO SOLICITUD]:", e)
+
+        return redirect(url_for('nueva_solicitud_cotizacion'))
+
+    ordenes = Orden.query.all()
+    return render_template('cotizacion_form.html', ordenes=ordenes)
+
+@app.route('/cotizaciones/<int:solicitud_id>')
+@login_required
+def ver_solicitud_cotizacion(solicitud_id):
+    solicitud = SolicitudCotizacion.query.get_or_404(solicitud_id)
+    return render_template('cotizacion_ver.html', solicitud=solicitud)
 
 if __name__ == '__main__':
     app.run(debug=True)

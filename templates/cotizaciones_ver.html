@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Solicitud de Cotización #{{ solicitud.id }}</h2>
+<p><strong>Asunto:</strong> {{ solicitud.asunto }}</p>
+<p><strong>Descripción:</strong></p>
+<p>{{ solicitud.descripcion | nl2br }}</p>
+<p><strong>Usuario:</strong> {{ solicitud.usuario.username }}</p>
+{% if solicitud.orden_id %}
+<p><strong>Orden Referenciada:</strong> #{{ solicitud.orden_id }}</p>
+{% endif %}
+<p><strong>Fecha:</strong> {{ solicitud.fecha_creacion.strftime('%d-%m-%Y %H:%M') }}</p>
+<a href="{{ url_for('nueva_solicitud_cotizacion') }}">Nueva solicitud</a>
+{% endblock %}
