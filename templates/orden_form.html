@@ -1,25 +1,28 @@
-{% extends 'base.html' %} {% block title %}Ingreso de Orden{% endblock %} {% block content %}
+{% extends 'base.html' %}
+{% block title %}Ingreso de Orden{% endblock %}
+{% block content %}
 <div class="container-fluid">
     <h1 class="h3 mb-4 text-gray-800">Ingreso de Orden de Trabajo</h1>
+
     <div class="card">
         <div class="card-body">
             <form action="{{ url_for('nueva_orden') }}" method="POST" enctype="multipart/form-data">
-             
-              <!-- Datos del cliente -->
-        <fieldset class="border p-3 mb-3">
-         <legend class="w-auto px-2">Datos del Cliente</legend>
-    
-             <div class="form-group">
-        <label for="cliente">Nombre del Cliente</label>
-        <input type="text" class="form-control" id="cliente" name="cliente" required>
-        <small class="form-text text-muted">Si el cliente no existe, será creado automáticamente.</small>
-    </div>
 
-    <div class="form-group">
-        <label for="correo">Correo Electrónico</label>
-        <input type="email" class="form-control" id="correo" name="correo" required>
-    </div>
-</fieldset>
+                <!-- Datos del cliente -->
+                <fieldset class="border p-3 mb-4">
+                    <legend class="w-auto px-2">Datos del Cliente</legend>
+
+                    <div class="form-group">
+                        <label for="cliente">Nombre del Cliente</label>
+                        <input type="text" class="form-control" id="cliente" name="cliente" required>
+                        <small class="form-text text-muted">Si el cliente no existe, será creado automáticamente.</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="correo">Correo Electrónico</label>
+                        <input type="email" class="form-control" id="correo" name="correo" required>
+                    </div>
+                </fieldset>
 
                 <!-- Tipo de equipo -->
                 <div class="form-group">
@@ -32,43 +35,44 @@
                 </div>
 
                 <!-- Marca y modelo -->
-                <div class="form-group">
-                    <label for="marca">Marca</label>
-                    <input type="text" class="form-control" id="marca" name="marca" required>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="marca">Marca</label>
+                        <input type="text" class="form-control" id="marca" name="marca" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="modelo">Modelo</label>
+                        <input type="text" class="form-control" id="modelo" name="modelo" required>
+                    </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="modelo">Modelo</label>
-                    <input type="text" class="form-control" id="modelo" name="modelo" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="descripcion">Diagnostico</label>
+                    <label for="descripcion">Diagnóstico</label>
                     <textarea class="form-control" id="descripcion" name="descripcion" rows="4" required></textarea>
                 </div>
 
                 <!-- Campos comunes para Notebook y PC -->
                 <div id="campos_comunes" style="display: none;">
-                    <div class="form-group">
-                        <label for="procesador">Procesador</label>
-                        <input type="text" class="form-control" id="procesador" name="procesador">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="ram">Memoria RAM</label>
-                        <input type="text" class="form-control" id="ram" name="ram">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="disco">Disco</label>
-                        <select class="form-control" id="disco" name="disco">
-                            <option value="SSD">SSD</option>
-                            <option value="HDD">HDD</option>
-                        </select>
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="procesador">Procesador</label>
+                            <input type="text" class="form-control" id="procesador" name="procesador">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="ram">Memoria RAM</label>
+                            <input type="text" class="form-control" id="ram" name="ram">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="disco">Disco</label>
+                            <select class="form-control" id="disco" name="disco">
+                                <option value="SSD">SSD</option>
+                                <option value="HDD">HDD</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Campo exclusivo para pantalla (Notebook y Tablet) -->
+                <!-- Campo exclusivo para pantalla -->
                 <div id="campo_pantalla" style="display: none;">
                     <div class="form-group">
                         <label for="pantalla">Pantalla (Tamaño)</label>
@@ -82,25 +86,25 @@
                         </select>
                     </div>
                 </div>
+
+                <!-- Técnico -->
                 <div class="form-group">
                     <label for="tecnico_id">Asignar Técnico</label>
                     <select class="form-control" id="tecnico_id" name="tecnico_id" required>
-                        <option value="">-- Seleccionar Técnico --</option>
+                        <option disabled selected value="">-- Seleccionar Técnico --</option>
                         {% for tecnico in tecnicos %}
                             <option value="{{ tecnico.id }}">{{ tecnico.username }} ({{ tecnico.correo }})</option>
                         {% endfor %}
                     </select>
                 </div>
 
-                <!-- Imagenes -->
+                <!-- Imágenes -->
                 <div class="form-group">
                     <label for="imagenes">Imágenes del equipo</label>
-                    <input type="file" name="imagenes" multiple class="form-control">
-
+                    <input type="file" name="imagenes" multiple class="form-control-file">
                 </div>
 
                 <button type="submit" class="btn btn-primary">Guardar Orden</button>
-
             </form>
         </div>
     </div>
@@ -126,7 +130,6 @@
         }
     }
 
-    // Ejecutar al cargar
-    mostrarCaracteristicas();
+    document.addEventListener("DOMContentLoaded", mostrarCaracteristicas);
 </script>
 {% endblock %}

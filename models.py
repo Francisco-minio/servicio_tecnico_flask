@@ -55,6 +55,11 @@ class Orden(db.Model):
 
     # Historial
     historial = db.relationship('Historial', back_populates='orden', lazy='select')
+    
+    #relaciones backref/back_populates
+    
+    correos = db.relationship('CorreoLog', backref='orden', lazy='select')
+
 
     def __repr__(self):
         return f"<Orden {self.id}, Estado: {self.estado}>"
@@ -100,3 +105,18 @@ class Solicitud(db.Model):
 
     orden = db.relationship('Orden', backref='solicitudes')
     usuario = db.relationship('Usuario')
+
+class CorreoLog(db.Model):
+    __tablename__ = 'correo_log'
+
+    id = db.Column(db.Integer, primary_key=True)
+    orden_id = db.Column(db.Integer, db.ForeignKey('ordenes.id'), nullable=True)
+    destinatario = db.Column(db.String(120), nullable=False)
+    asunto = db.Column(db.String(255), nullable=False)
+    cuerpo = db.Column(db.Text, nullable=False)
+    fecha_envio = db.Column(db.DateTime, default=datetime.utcnow)
+    estado = db.Column(db.String(50), nullable=False)  # "Enviado", "Error", etc.
+    error = db.Column(db.Text, nullable=True)
+
+    def __repr__(self):
+        return f"<CorreoLog a {self.destinatario} - {self.estado}>"

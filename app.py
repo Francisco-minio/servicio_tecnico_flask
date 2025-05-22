@@ -12,14 +12,22 @@ from flask_login import LoginManager, login_user, logout_user, login_required, c
 from models import Orden, Imagen
 from models import Cliente  # Asegúrate de importar el modelo Cliente
 from models import Solicitud #agregar solicitudes de repuestos
+from models import CorreoLog
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'clave_secreta_segura'
 basedir = os.path.abspath(os.path.dirname(__file__))
-#app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.join(basedir, 'instance', 'database.db')}"
+#Para conectar a Cpanel base de datos
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://miniofot_soporte:Deser.1451@localhost/miniofot_soporte'
+# Para pruebas locales
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:@localhost/ordenes_db'
 app.config['UPLOAD_FOLDER'] = 'static/uploads'
 app.config['MAIL_DEFAULT_SENDER'] = 'tucorreo@ejemplo.com'
+
+#agregar correos a necesitar
+app.config['CORREO_ADMIN'] = 'franciscominio@backupcode.cl'
+app.config['CORREO_REPUESTOS'] = 'franciscominio@backupcode.cl'
+app.config['CORREO_PRESUPUESTOS'] = 'franciscominio@backupcode.cl'
 
 # Inicializar extensiones
 db.init_app(app)
@@ -82,15 +90,14 @@ def dashboard_tecnico():
     ordenes = Orden.query.filter_by(tecnico_id=current_user.id).all()
     return render_template('dashboard_tecnico.html', ordenes=ordenes, usuario=current_user)
 
+
 @app.route('/orden/nueva', methods=['GET', 'POST'])
 @login_required
 def nueva_orden():
     if request.method == 'POST':
-        # Datos del cliente (puede ser nuevo o existente)
         cliente_nombre = request.form['cliente']
         cliente_correo = request.form['correo']
 
-        # Buscar si ya existe
         cliente_existente = Cliente.query.filter_by(nombre=cliente_nombre, correo=cliente_correo).first()
         if cliente_existente:
             cliente_id = cliente_existente.id
@@ -100,7 +107,6 @@ def nueva_orden():
             db.session.commit()
             cliente_id = nuevo_cliente.id
 
-        # Datos de la orden
         equipo = request.form['equipo']
         marca = request.form['marca']
         modelo = request.form['modelo']
@@ -111,9 +117,18 @@ def nueva_orden():
         pantalla = request.form.get('pantalla')
         tecnico_id = request.form.get('tecnico_id') or None
 
+        # Validar que tecnico_id es válido
+        if tecnico_id:
+            tecnico = Usuario.query.filter_by(id=tecnico_id, rol='tecnico').first()
+            if not tecnico:
+                flash('Técnico seleccionado no es válido.', 'danger')
+                return redirect(url_for('nueva_orden'))
+        else:
+            tecnico = None
+
         nueva = Orden(
             cliente_id=cliente_id,
-            correo=cliente_correo, 
+            correo=cliente_correo,
             equipo=equipo,
             marca=marca,
             modelo=modelo,
@@ -131,12 +146,20 @@ def nueva_orden():
         db.session.add(nueva)
         db.session.commit()
 
-        # Guardar imágenes si hay
+        # Guardar imágenes
         imagenes = request.files.getlist('imagenes')
+        upload_folder = app.config.get('UPLOAD_FOLDER', 'uploads')
+
         for imagen in imagenes:
             if imagen and imagen.filename:
                 filename = secure_filename(imagen.filename)
-                imagen.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                # Opcional: renombrar para evitar conflictos
+                timestamp = datetime.now().strftime("%Y%m%d%H%M%S%f")
+                filename = f"{timestamp}_{filename}"
+
+                # Guardar archivo
+                imagen.save(os.path.join(upload_folder, filename))
+
                 nueva_imagen = Imagen(orden_id=nueva.id, filename=filename)
                 db.session.add(nueva_imagen)
 
@@ -144,15 +167,27 @@ def nueva_orden():
 
         # Enviar correo
         try:
-            enviar_correo(nueva)
+            asunto = "Equipo ingresado al servicio técnico"
+            cuerpo = f"""Estimado/a {cliente_nombre},
+
+Su equipo ha sido ingresado correctamente al servicio técnico.
+
+Detalles:
+- Orden ID: {nueva.id}
+- Equipo: {nueva.equipo}
+- Estado: {nueva.estado}
+- Fecha: {nueva.fecha_creacion.strftime('%d-%m-%Y %H:%M')}
+
+Gracias por confiar en nosotros.
+"""
+
+            enviar_correo(nueva, tipo='ingreso')
             flash('Orden ingresada exitosamente y correo enviado al cliente.', 'success')
         except Exception as e:
-            print(f"Error al enviar el correo: {e}")
+            app.logger.error(f"Error al enviar el correo: {e}")
             flash('Orden ingresada pero ocurrió un error al enviar el correo.', 'warning')
 
         return redirect(url_for('dashboard_admin'))
-
-    # 👇👇👇 Estas variables deben definirse para GET
     tecnicos = Usuario.query.filter_by(rol='tecnico').all()
     clientes = Cliente.query.all()
 
@@ -204,9 +239,27 @@ def ver_orden(orden_id):
 @login_required
 def editar_orden(id):
     orden = Orden.query.get_or_404(id)
+    clientes = Cliente.query.all()
+    tecnicos = Usuario.query.filter_by(rol='tecnico').all()
 
     if request.method == 'POST':
-        orden.cliente = request.form['cliente']
+        # Cliente
+        cliente_id = request.form.get('cliente_id')
+        cliente = Cliente.query.get(cliente_id)
+        if cliente:
+            orden.cliente_id = cliente.id
+        else:
+            flash('Cliente no válido.', 'danger')
+            return redirect(url_for('editar_orden', id=id))
+
+        # Técnico asignado
+        tecnico_id = request.form.get('tecnico_id')
+        if tecnico_id:
+            tecnico = Usuario.query.get(tecnico_id)
+            if tecnico:
+                orden.tecnico_id = tecnico.id
+
+        # Otros campos
         orden.correo = request.form['correo']
         orden.equipo = request.form['equipo']
         orden.marca = request.form['marca']
@@ -216,13 +269,13 @@ def editar_orden(id):
         orden.ram = request.form.get('ram')
         orden.disco = request.form.get('disco')
         orden.pantalla = request.form.get('pantalla')
-        
-        
+        orden.estado = request.form.get('estado')
+
         db.session.commit()
         flash('Orden actualizada correctamente.', 'success')
         return redirect(url_for('ver_orden', orden_id=orden.id))
 
-    return render_template('editar_orden.html', orden=orden)
+    return render_template('editar_orden.html', orden=orden, clientes=clientes, tecnicos=tecnicos)
 
 
 @app.route('/orden/<int:orden_id>/asignar', methods=['POST'])
@@ -255,20 +308,38 @@ def asignar_orden(orden_id):
 @login_required
 def cerrar_orden(orden_id):
     if current_user.rol != 'admin':
-        flash('No tienes permiso para cerrar esta orden')
+        flash('No tienes permiso para cerrar esta orden', 'danger')
         return redirect(url_for('dashboard_admin'))
 
     orden = Orden.query.get_or_404(orden_id)
-    orden.fecha_cierre = datetime.utcnow()
+
+    if orden.estado == 'Cerrada':
+        flash('La orden ya está cerrada.', 'info')
+        return redirect(url_for('ver_orden', orden_id=orden.id))
+
     orden.estado = 'Cerrada'
+    orden.fecha_cierre = datetime.utcnow()
 
-    historial = Historial(orden_id=orden.id, usuario_id=current_user.id,
-                          descripcion="Orden cerrada")
+    historial = Historial(
+        orden_id=orden.id,
+        usuario_id=current_user.id,
+        descripcion="Orden cerrada"
+    )
     db.session.add(historial)
-    db.session.commit()
 
-    flash('Orden cerrada con éxito')
-    return redirect(url_for('dashboard_admin'))
+    try:
+        db.session.commit()
+        flash('Orden cerrada con éxito.', 'success')
+
+        # Enviar correo al cliente si tiene correo registrado
+        if orden.correo:
+            enviar_correo(orden, tipo='cerrada')
+
+    except Exception as e:
+        db.session.rollback()
+        flash(f'Error al cerrar la orden: {e}', 'danger')
+
+    return redirect(url_for('ver_orden', orden_id=orden.id))
 
 @app.route('/orden/<int:orden_id>/avances', methods=['GET', 'POST'])
 @login_required
@@ -292,6 +363,8 @@ def modificar_avances(orden_id):
         return redirect(url_for('ver_orden', orden_id=orden.id))
 
     return render_template('modificar_avances.html', orden=orden)
+
+
 @app.route('/orden/<int:orden_id>/pdf')
 @login_required
 def descargar_pdf(orden_id):
@@ -320,6 +393,7 @@ def solicitar_repuesto_presupuesto(orden_id):
         flash("Debes completar todos los campos.", "danger")
         return redirect(url_for('ver_orden', orden_id=orden.id))
 
+    # Crear solicitud
     solicitud = Solicitud(
         tipo=tipo,
         descripcion=descripcion,
@@ -328,27 +402,39 @@ def solicitar_repuesto_presupuesto(orden_id):
     )
     db.session.add(solicitud)
 
+    # Crear evento en historial
     evento = Historial(
         orden_id=orden.id,
         usuario_id=current_user.id,
         descripcion=f"Solicitud de {tipo.lower()}: {descripcion}"
     )
-
-       # 🔥 Actualizar el estado de la orden
-    orden = Orden.query.get_or_404(orden_id)
-    orden.estado = "Enviado a Cotización"
     db.session.add(evento)
-    db.session.commit()
 
-   # 🔥 Actualizar el estado de la orden
-    orden = Orden.query.get_or_404(orden_id)
-    orden.estado = "Enviado a Cotización"
+    # Cambiar estado solo si corresponde
+    if tipo == "Presupuesto":
+        orden.estado = "Enviado a Cotización"
+    elif tipo == "Repuesto":
+        orden.estado = "Solicitud de Repuesto"
 
-    # Enviar correo al administrador
+    try:
+        db.session.commit()
+    except Exception as e:
+        db.session.rollback()
+        flash("Error al registrar la solicitud.", "danger")
+        return redirect(url_for('ver_orden', orden_id=orden.id))
+
+    # Determinar correo destinatario
+    destinatario = app.config.get('CORREO_ADMIN', 'admin@tusistema.cl')  # por defecto
+    if tipo == 'Repuesto':
+        destinatario = app.config.get('CORREO_REPUESTOS', destinatario)
+    elif tipo == 'Presupuesto':
+        destinatario = app.config.get('CORREO_PRESUPUESTOS', destinatario)
+
+    # Enviar correo
     try:
         msg = Message(
             subject=f"Solicitud de {tipo} para orden #{orden.id}",
-            recipients=['franciscominio@bcode.cl'],  # Puedes cambiarlo o hacerlo dinámico
+            recipients=[destinatario],
             html=f"""
                 <h4>Solicitud de {tipo}</h4>
                 <p><strong>Usuario:</strong> {current_user.username}</p>
@@ -489,7 +575,15 @@ def eliminar_cliente(id):
     return redirect(url_for('listar_clientes'))
 
 
+@app.route('/correos')
+@login_required
+def ver_logs_correos():
+    if current_user.rol != 'admin':
+        flash('Acceso no autorizado.', 'danger')
+        return redirect(url_for('dashboard_admin'))
 
+    logs = CorreoLog.query.order_by(CorreoLog.fecha_envio.desc()).all()
+    return render_template('correos_logs.html', logs=logs)
 
 if __name__ == '__main__':
     app.run(debug=True)
