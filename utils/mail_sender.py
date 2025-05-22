@@ -104,7 +104,7 @@ Por favor, revise esta solicitud a la brevedad.
     msg['From'] = SMTP_USER
     msg['To'] = destinatario
     msg['Subject'] = asunto
-    msg.attach(MIMEText(cuerpo, 'plain'))
+    msg.attach(MIMEText(cuerpo, 'plain', _charset='utf-8'))
 
     # Log
     log = CorreoLog(
