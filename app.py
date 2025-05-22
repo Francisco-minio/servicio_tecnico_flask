@@ -632,7 +632,8 @@ def nueva_solicitud_cotizacion():
         return redirect(url_for('nueva_solicitud_cotizacion'))
 
     ordenes = Orden.query.all()
-    return render_template('cotizacion_form.html', ordenes=ordenes)
+    clientes = Cliente.query.all()  # <== AQUÍ defines `clientes`
+    return render_template('cotizacion_form.html', ordenes=ordenes , clientes=clientes)
 
 @app.route('/cotizaciones/<int:solicitud_id>')
 @login_required
