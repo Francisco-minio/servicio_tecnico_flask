@@ -1,23 +1,30 @@
+# utils/mail_sender.py
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from datetime import datetime
-from models import CorreoLog  # Asegúrate de importar correctamente
+from models import CorreoLog
 from extensions import db
 import os
+from celery_app import celery
 
 SMTP_HOST = 'mail.smtp2go.com'
 SMTP_PORT = 2525
-SMTP_USER = os.environ.get('SMTP_USER', 'no-reply@backupcode.cl')
-SMTP_PASS = os.environ.get('SMTP_PASS', 'NtUBu2TME0f22mHQ')
+SMTP_USER = os.environ.get('SMTP_USER')
+SMTP_PASS = os.environ.get('SMTP_PASS')
 
-def enviar_correo(objeto, tipo='ingreso'):
+@celery.task
+def enviar_correo_task(objeto, tipo='ingreso'):
     """
     Envía correos para distintos tipos de notificaciones:
     - ingreso: notifica ingreso de orden
     - cerrada: notifica cierre de orden
     - solicitud_cotizacion: notifica nueva solicitud de cotización
     """
+    if not SMTP_USER or not SMTP_PASS:
+        print("CRITICAL: SMTP_USER or SMTP_PASS not set. Cannot send email.")
+        raise ValueError("SMTP_USER and SMTP_PASS environment variables must be set for task execution.")
+
     asunto = ""
     cuerpo = ""
     destinatario = ""
@@ -61,17 +68,16 @@ Gracias por confiar en nuestro servicio técnico.
 
     elif tipo == 'solicitud_cotizacion':
         solicitud = objeto
-    if not solicitud or not hasattr(solicitud, 'correo_encargado'):
-        print("[ERROR] Solicitud inválida o sin correo.")
-        return
+        if not solicitud or not hasattr(solicitud, 'correo_encargado'):
+            print("[ERROR] Solicitud inválida o sin correo.")
+            return
 
-    # Verificar si hay una orden asociada
-    orden = solicitud.orden if hasattr(solicitud, 'orden') else None
-    destinatario = solicitud.correo_encargado
+        orden = solicitud.orden if hasattr(solicitud, 'orden') else None
+        destinatario = solicitud.correo_encargado
 
-    if orden:
-        asunto = f"Solicitud de cotización para Orden #{orden.id}"
-        cuerpo = f"""Estimado/a encargado,
+        if orden:
+            asunto = f"Solicitud de cotización para Orden #{orden.id}"
+            cuerpo = f"""Estimado/a encargado,
 
 Se ha generado una nueva solicitud de cotización.
 
@@ -84,9 +90,9 @@ Detalles:
 
 Por favor, revise esta solicitud a la brevedad.
 """
-    else:
-        asunto = "Solicitud de cotización sin orden asociada"
-        cuerpo = f"""Estimado/a encargado,
+        else:
+            asunto = "Solicitud de cotización sin orden asociada"
+            cuerpo = f"""Estimado/a encargado,
 
 Se ha generado una nueva solicitud de cotización sin orden asociada.
 
@@ -99,7 +105,6 @@ Detalles:
 Por favor, revise esta solicitud a la brevedad.
 """
 
-    # Crear mensaje
     msg = MIMEMultipart()
     msg['From'] = SMTP_USER
     msg['To'] = destinatario
@@ -125,11 +130,36 @@ Por favor, revise esta solicitud a la brevedad.
 
         log.estado = "Enviado"
         print(f"[CORREO ENVIADO] A: {destinatario}, Asunto: {asunto}", flush=True)
+        return f"Email sent to {destinatario}"
 
     except Exception as e:
         log.estado = "Error"
         log.error = str(e)
         print(f"[ERROR AL ENVIAR CORREO] {e}", flush=True)
+        raise
 
     db.session.add(log)
     db.session.commit()
+
+@celery.task
+def enviar_notificacion_admin_task(subject, html_body, recipient):
+    if not SMTP_USER or not SMTP_PASS:
+        print("CRITICAL: SMTP_USER or SMTP_PASS not set. Cannot send admin notification.")
+        raise ValueError("SMTP_USER and SMTP_PASS environment variables must be set for task execution.")
+
+    msg = MIMEMultipart()
+    msg['From'] = SMTP_USER
+    msg['To'] = recipient
+    msg['Subject'] = subject
+    msg.attach(MIMEText(html_body, 'html'))
+
+    try:
+        server = smtplib.SMTP(SMTP_HOST, SMTP_PORT, timeout=10)
+        server.starttls()
+        server.login(SMTP_USER, SMTP_PASS)
+        server.send_message(msg)
+        server.quit()
+        return f"Admin notification '{subject}' sent to {recipient}"
+    except Exception as e:
+        print(f"Failed to send admin notification email to {recipient}: {e}")
+        raise
