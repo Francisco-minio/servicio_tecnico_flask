@@ -7,6 +7,7 @@
     <h1 class="h3 mb-4 text-gray-800">Editar Orden de Trabajo</h1>
 
     <form method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
 
         <!-- Datos del cliente -->
         <fieldset class="border p-3 mb-3">
@@ -25,7 +26,7 @@
 
             <div class="form-group">
                 <label for="correo">Correo</label>
-                <input type="email" name="correo" class="form-control" value="{{ orden.correo }}">
+                <input type="email" name="correo" class="form-control" value="{{ orden.correo }}" required>
             </div>
         </fieldset>
 
@@ -35,22 +36,22 @@
 
             <div class="form-group">
                 <label for="descripcion">Diagnóstico</label>
-                <textarea name="descripcion" class="form-control" rows="3">{{ orden.descripcion }}</textarea>
+                <textarea name="descripcion" class="form-control" rows="3" required>{{ orden.descripcion }}</textarea>
             </div>
 
             <div class="form-group">
                 <label for="equipo">Tipo de Equipo</label>
-                <input type="text" name="equipo" class="form-control" value="{{ orden.equipo }}">
+                <input type="text" name="equipo" class="form-control" value="{{ orden.equipo }}" required>
             </div>
 
             <div class="form-group">
                 <label for="marca">Marca</label>
-                <input type="text" name="marca" class="form-control" value="{{ orden.marca }}">
+                <input type="text" name="marca" class="form-control" value="{{ orden.marca }}" required>
             </div>
 
             <div class="form-group">
                 <label for="modelo">Modelo</label>
-                <input type="text" name="modelo" class="form-control" value="{{ orden.modelo }}">
+                <input type="text" name="modelo" class="form-control" value="{{ orden.modelo }}" required>
             </div>
 
             <div class="form-group">
@@ -68,16 +69,13 @@
                 <select name="disco" class="form-control">
                     <option value="SSD" {% if orden.disco == 'SSD' %}selected{% endif %}>SSD</option>
                     <option value="HDD" {% if orden.disco == 'HDD' %}selected{% endif %}>HDD</option>
+                    <option value="" {% if not orden.disco %}selected{% endif %}>No especificado</option>
                 </select>
             </div>
 
             <div class="form-group">
                 <label for="pantalla">Pantalla (Tamaño)</label>
-                <select name="pantalla" class="form-control">
-                    {% for size in ['14', '15.6', '17', '7', '8', '10'] %}
-                        <option value="{{ size }}" {% if orden.pantalla == size %}selected{% endif %}>{{ size }}"</option>
-                    {% endfor %}
-                </select>
+                <input type="text" name="pantalla" class="form-control" value="{{ orden.pantalla }}">
             </div>
         </fieldset>
 
@@ -99,7 +97,7 @@
 
             <div class="form-group">
                 <label for="estado">Estado</label>
-                <select name="estado" class="form-control">
+                <select name="estado" class="form-control" required>
                     <option value="Ingresado" {% if orden.estado == 'Ingresado' %}selected{% endif %}>Ingresado</option>
                     <option value="Enviado a Cotización" {% if orden.estado == 'Enviado a Cotización' %}selected{% endif %}>Enviado a Cotización</option>
                     <option value="En Espera de Repuestos" {% if orden.estado == 'En Espera de Repuestos' %}selected{% endif %}>En Espera de Repuestos</option>
@@ -125,12 +123,9 @@
                     {% for imagen in orden.imagenes %}
                     <div class="col-md-3 mb-3">
                         <img src="{{ url_for('static', filename='uploads/' ~ imagen.filename) }}" class="img-thumbnail" alt="Imagen">
-                        <!-- Opcional: botón para eliminar imagen -->
-                        <!--
-                        <form method="POST" action="{{ url_for('eliminar_imagen', imagen_id=imagen.id) }}">
+                        <form method="POST" action="{{ url_for('eliminar_imagen', imagen_id=imagen.id) }}" onsubmit="return confirm('¿Estás seguro de eliminar esta imagen?')">
                             <button type="submit" class="btn btn-danger btn-sm mt-1">Eliminar</button>
                         </form>
-                        -->
                     </div>
                     {% endfor %}
                 </div>

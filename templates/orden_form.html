@@ -7,6 +7,7 @@
     <div class="card">
         <div class="card-body">
             <form action="{{ url_for('nueva_orden') }}" method="POST" enctype="multipart/form-data">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
 
                 <!-- Datos del cliente -->
                 <fieldset class="border p-3 mb-4">
@@ -28,9 +29,12 @@
                 <div class="form-group">
                     <label for="equipo">Tipo de Equipo</label>
                     <select class="form-control" id="equipo" name="equipo" required onchange="mostrarCaracteristicas()">
+                        <option value="">-- Seleccionar tipo --</option>
                         <option value="Notebook">Notebook</option>
                         <option value="Pc de Escritorio">PC de Escritorio</option>
                         <option value="Tablet">Tablet</option>
+                        <option value="Celular">Celular</option>
+                        <option value="Otro">Otro</option>
                     </select>
                 </div>
 
@@ -47,7 +51,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="descripcion">Diagnóstico</label>
+                    <label for="descripcion">Diagnóstico/Problema</label>
                     <textarea class="form-control" id="descripcion" name="descripcion" rows="4" required></textarea>
                 </div>
 
@@ -65,8 +69,10 @@
                         <div class="form-group col-md-4">
                             <label for="disco">Disco</label>
                             <select class="form-control" id="disco" name="disco">
+                                <option value="">-- Seleccionar --</option>
                                 <option value="SSD">SSD</option>
                                 <option value="HDD">HDD</option>
+                                <option value="SSD+HDD">SSD+HDD</option>
                             </select>
                         </div>
                     </div>
@@ -77,12 +83,15 @@
                     <div class="form-group">
                         <label for="pantalla">Pantalla (Tamaño)</label>
                         <select class="form-control" id="pantalla" name="pantalla">
+                            <option value="">-- Seleccionar --</option>
                             <option value="14">14"</option>
                             <option value="15.6">15.6"</option>
                             <option value="17">17"</option>
                             <option value="7">7"</option>
                             <option value="8">8"</option>
                             <option value="10">10"</option>
+                            <option value="6">6"</option>
+                            <option value="6.5">6.5"</option>
                         </select>
                     </div>
                 </div>
@@ -90,8 +99,8 @@
                 <!-- Técnico -->
                 <div class="form-group">
                     <label for="tecnico_id">Asignar Técnico</label>
-                    <select class="form-control" id="tecnico_id" name="tecnico_id" required>
-                        <option disabled selected value="">-- Seleccionar Técnico --</option>
+                    <select class="form-control" id="tecnico_id" name="tecnico_id">
+                        <option value="">-- No asignado --</option>
                         {% for tecnico in tecnicos %}
                             <option value="{{ tecnico.id }}">{{ tecnico.username }} ({{ tecnico.correo }})</option>
                         {% endfor %}
@@ -100,36 +109,53 @@
 
                 <!-- Imágenes -->
                 <div class="form-group">
-                    <label for="imagenes">Imágenes del equipo</label>
-                    <input type="file" name="imagenes" multiple class="form-control-file">
+                    <label for="imagenes">Imágenes del equipo (Máx. 5)</label>
+                    <input type="file" name="imagenes" multiple class="form-control-file" accept="image/*">
+                    <small class="form-text text-muted">Puedes seleccionar múltiples imágenes (JPEG, PNG)</small>
                 </div>
 
-                <button type="submit" class="btn btn-primary">Guardar Orden</button>
+                <div class="form-group">
+                    <label for="observaciones">Observaciones adicionales</label>
+                    <textarea class="form-control" id="observaciones" name="observaciones" rows="2"></textarea>
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Guardar Orden
+                    </button>
+                    <a href="{{ url_for('dashboard_admin') }}" class="btn btn-secondary">
+                        <i class="fas fa-times"></i> Cancelar
+                    </a>
+                </div>
             </form>
         </div>
     </div>
 </div>
 
-<!-- Script -->
+<!-- Script para mostrar campos dinámicos -->
 <script>
     function mostrarCaracteristicas() {
         const equipo = document.getElementById('equipo').value;
         const comunes = document.getElementById('campos_comunes');
         const pantalla = document.getElementById('campo_pantalla');
 
+        // Resetear todos los campos
         comunes.style.display = 'none';
         pantalla.style.display = 'none';
 
-        if (equipo === 'Notebook') {
+        // Mostrar campos según tipo de equipo
+        if (equipo === 'Notebook' || equipo === 'Pc de Escritorio') {
             comunes.style.display = 'block';
-            pantalla.style.display = 'block';
-        } else if (equipo === 'Pc de Escritorio') {
-            comunes.style.display = 'block';
-        } else if (equipo === 'Tablet') {
+        }
+        
+        if (equipo === 'Notebook' || equipo === 'Tablet' || equipo === 'Celular') {
             pantalla.style.display = 'block';
         }
     }
 
-    document.addEventListener("DOMContentLoaded", mostrarCaracteristicas);
+    // Inicializar al cargar la página
+    document.addEventListener("DOMContentLoaded", function() {
+        mostrarCaracteristicas();
+    });
 </script>
 {% endblock %}

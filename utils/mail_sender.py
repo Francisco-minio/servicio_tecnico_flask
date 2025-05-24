@@ -16,7 +16,7 @@ SMTP_PASS = os.environ.get('SMTP_PASS')
 @celery.task
 def enviar_correo_task(objeto, tipo='ingreso'):
     """
-    Envía correos para distintos tipos de notificaciones:
+    Envía correos para distintos tipos de notificaciones como tarea Celery:
     - ingreso: notifica ingreso de orden
     - cerrada: notifica cierre de orden
     - solicitud_cotizacion: notifica nueva solicitud de cotización
@@ -85,7 +85,7 @@ Detalles:
 - Solicitud ID: {solicitud.id}
 - Orden ID: {orden.id}
 - Equipo: {orden.equipo}
-- Descripción de la solicitud: {solicitud.descripcion}
+- Descripción: {solicitud.descripcion}
 - Fecha: {solicitud.fecha_creacion.strftime('%d-%m-%Y %H:%M')}
 
 Por favor, revise esta solicitud a la brevedad.
@@ -98,8 +98,8 @@ Se ha generado una nueva solicitud de cotización sin orden asociada.
 
 Detalles:
 - Solicitud ID: {solicitud.id}
-- Quien Solicita: {solicitud.usuario.username}
-- Descripción de la solicitud: {solicitud.descripcion}
+- Solicitante: {solicitud.usuario.username}
+- Descripción: {solicitud.descripcion}
 - Fecha: {solicitud.fecha_creacion.strftime('%d-%m-%Y %H:%M')}
 
 Por favor, revise esta solicitud a la brevedad.
@@ -111,7 +111,7 @@ Por favor, revise esta solicitud a la brevedad.
     msg['Subject'] = asunto
     msg.attach(MIMEText(cuerpo, 'plain', _charset='utf-8'))
 
-    # Log
+    # Log en base de datos
     log = CorreoLog(
         orden_id=getattr(objeto, 'orden_id', None) or getattr(objeto, 'id', None),
         destinatario=destinatario,
@@ -130,19 +130,21 @@ Por favor, revise esta solicitud a la brevedad.
 
         log.estado = "Enviado"
         print(f"[CORREO ENVIADO] A: {destinatario}, Asunto: {asunto}", flush=True)
-        return f"Email sent to {destinatario}"
+        return f"Correo enviado a {destinatario}"
 
     except Exception as e:
         log.estado = "Error"
         log.error = str(e)
         print(f"[ERROR AL ENVIAR CORREO] {e}", flush=True)
-        raise
+        raise  # Para que Celery pueda manejar el reintento
 
-    db.session.add(log)
-    db.session.commit()
+    finally:
+        db.session.add(log)
+        db.session.commit()
 
 @celery.task
 def enviar_notificacion_admin_task(subject, html_body, recipient):
+    """Envía notificaciones administrativas como tarea Celery"""
     if not SMTP_USER or not SMTP_PASS:
         print("CRITICAL: SMTP_USER or SMTP_PASS not set. Cannot send admin notification.")
         raise ValueError("SMTP_USER and SMTP_PASS environment variables must be set for task execution.")
@@ -159,7 +161,9 @@ def enviar_notificacion_admin_task(subject, html_body, recipient):
         server.login(SMTP_USER, SMTP_PASS)
         server.send_message(msg)
         server.quit()
-        return f"Admin notification '{subject}' sent to {recipient}"
+        return f"Notificación administrativa enviada a {recipient}"
     except Exception as e:
-        print(f"Failed to send admin notification email to {recipient}: {e}")
+        print(f"Error al enviar notificación a {recipient}: {e}")
         raise
+
+    

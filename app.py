@@ -6,13 +6,18 @@ from extensions import db
 from datetime import datetime
 import os
 from models import Historial, Usuario, Orden
-from utils.pdf_generator import generar_pdf
-from utils.mail_sender import enviar_correo
+from utils.pdf_generator import generar_pdf_task # <--- IMPORT NEW Celery task for PDF
+# Updated import for Celery tasks
+from utils.mail_sender import enviar_correo_task, enviar_notificacion_admin_task
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
+from flask_wtf.csrf import CSRFProtect
+from flask_session import Session # Import Flask-Session
+from flask_talisman import Talisman # Import Flask-Talisman
 from models import Orden, Imagen
 from models import Cliente  # Asegúrate de importar el modelo Cliente
 from models import Solicitud #agregar solicitudes de repuestos
 from models import CorreoLog, SolicitudCotizacion
+
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'clave_secreta_segura'
