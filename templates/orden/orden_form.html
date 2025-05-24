@@ -1,13 +1,11 @@
-{% extends 'base.html' %}
-{% block title %}Ingreso de Orden{% endblock %}
-{% block content %}
+{% extends 'base.html' %} {% block title %}Ingreso de Orden{% endblock %} {% block content %}
 <div class="container-fluid">
     <h1 class="h3 mb-4 text-gray-800">Ingreso de Orden de Trabajo</h1>
 
     <div class="card">
         <div class="card-body">
-            <form action="{{ url_for('nueva_orden') }}" method="POST" enctype="multipart/form-data">
-                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+            <form action="{{ url_for('orden.nueva_orden') }}" method="POST" enctype="multipart/form-data">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
 
                 <!-- Datos del cliente -->
                 <fieldset class="border p-3 mb-4">
@@ -123,7 +121,7 @@
                     <button type="submit" class="btn btn-primary">
                         <i class="fas fa-save"></i> Guardar Orden
                     </button>
-                    <a href="{{ url_for('dashboard_admin') }}" class="btn btn-secondary">
+                    <a href="{{ url_for('admin.dashboard') }}" class="btn btn-secondary">
                         <i class="fas fa-times"></i> Cancelar
                     </a>
                 </div>
@@ -147,7 +145,7 @@
         if (equipo === 'Notebook' || equipo === 'Pc de Escritorio') {
             comunes.style.display = 'block';
         }
-        
+
         if (equipo === 'Notebook' || equipo === 'Tablet' || equipo === 'Celular') {
             pantalla.style.display = 'block';
         }

@@ -1,18 +1,16 @@
-{% extends 'base.html' %} 
-{% block title %}Detalle de la Orden{% endblock %} 
-{% block content %}
+{% extends 'base.html' %} {% block title %}Detalle de la Orden{% endblock %} {% block content %}
 <div class="container-fluid">
     <h1 class="h3 mb-4 text-gray-800">Detalle de la Orden</h1>
 
     <!-- Botón para volver -->
-    <a href="{{ url_for('dashboard_admin') }}" class="btn btn-secondary mb-3">
+    <a href="{{ url_for('admin.dashboard') }}" class="btn btn-secondary mb-3">
         <i class="fas fa-arrow-left"></i> Volver a Órdenes
     </a>
 
-    <!-- Botón para abrir el modal -->
-    <button class="btn btn-warning mb-3 ms-2" data-toggle="modal" data-target="#solicitudModal">
-        <i class="fas fa-tools"></i> Solicitar Repuesto o Presupuesto
-    </button>
+    <!-- Botón para cotización -->
+    <a href="{{ url_for('cotizacion.nueva', orden_id=orden.id) }}" class="btn btn-warning mb-3 ml-2">
+        <i class="fas fa-file-invoice-dollar"></i> Solicitar Cotización
+    </a>
 
     <div class="row">
         <!-- Columna Izquierda: Detalles -->
@@ -25,8 +23,27 @@
                     <p><strong>Modelo:</strong> {{ orden.modelo }}</p>
                     <p><strong>Diagnóstico:</strong><br>{{ orden.descripcion.replace('\n', '<br>') | safe }}</p>
 
+                    <!-- Sección de Solicitudes -->
+                    {% if orden.solicitudes %}
                     <hr>
-                    <form action="{{ url_for('actualizar_estado', orden_id=orden.id) }}" method="POST">
+                    <h6 class="mb-3">Solicitudes Asociadas:</h6>
+                    <div class="list-group">
+                        {% for solicitud in orden.solicitudes %}
+                        <div class="list-group-item">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1">{{ solicitud.tipo }}</h6>
+                                <small>{{ solicitud.fecha.strftime('%d/%m/%Y %H:%M') }}</small>
+                            </div>
+                            <p class="mb-1">{{ solicitud.descripcion }}</p>
+                            <small>Por: {{ solicitud.usuario.username }}</small>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+
+                    <hr>
+                    <form action="{{ url_for('orden.actualizar_estado', orden_id=orden.id) }}" method="POST">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                         <label><strong>Estado:</strong></label>
                         <div class="input-group">
                             <select name="estado" class="form-control">
@@ -61,6 +78,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Agregar Comentario</h5>
                     <form method="POST">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                         <div class="form-group">
                             <textarea name="comentario" class="form-control" rows="3" required placeholder="Escribe tu comentario..."></textarea>
                         </div>
@@ -76,25 +94,10 @@
             <div class="card">
                 <div class="card-body p-2">
                     <ul class="list-group list-group-flush">
-                        {% for evento in historial %}
-                        {% set icon = 'fas fa-plus-circle' %}
-                        {% set color = 'list-group-item-success' %}
-                        {% if 'editada' in evento.descripcion %}
-                            {% set icon = 'fas fa-edit' %}
-                            {% set color = 'list-group-item-warning' %}
-                        {% elif 'cerrada' in evento.descripcion %}
-                            {% set icon = 'fas fa-check-circle' %}
-                            {% set color = 'list-group-item-danger' %}
-                        {% elif 'asignada' in evento.descripcion %}
-                            {% set icon = 'fas fa-user-check' %}
-                            {% set color = 'list-group-item-primary' %}
-                        {% elif 'Avance' in evento.descripcion %}
-                            {% set icon = 'fas fa-tools' %}
-                            {% set color = 'list-group-item-info' %}
-                        {% elif 'Comentario' in evento.descripcion %}
-                            {% set icon = 'fas fa-comment' %}
-                            {% set color = 'list-group-item-light' %}
-                        {% endif %}
+                        {% for evento in historial %} {% set icon = 'fas fa-plus-circle' %} {% set color = 'list-group-item-success' %} {% if 'editada' in evento.descripcion %} {% set icon = 'fas fa-edit' %} {% set color = 'list-group-item-warning' %} {% elif 'cerrada' in evento.descripcion
+                        %} {% set icon = 'fas fa-check-circle' %} {% set color = 'list-group-item-danger' %} {% elif 'asignada' in evento.descripcion %} {% set icon = 'fas fa-user-check' %} {% set color = 'list-group-item-primary' %} {% elif 'Avance'
+                        in evento.descripcion %} {% set icon = 'fas fa-tools' %} {% set color = 'list-group-item-info' %} {% elif 'Comentario' in evento.descripcion %} {% set icon = 'fas fa-comment' %} {% set color = 'list-group-item-light' %} {% endif
+                        %}
                         <li class="list-group-item {{ color }}">
                             <i class="{{ icon }}"></i>
                             <strong>{{ evento.descripcion }}</strong><br>
@@ -107,27 +110,29 @@
         </div>
     </div>
 
-    <!-- Modal para Solicitar Repuesto o Presupuesto -->
-    <div class="modal fade" id="solicitudModal" tabindex="-1" aria-labelledby="solicitudModalLabel" aria-hidden="true">
+    <!-- Modal -->
+    <div class="modal fade" id="solicitudModal" tabindex="-1" role="dialog">
         <div class="modal-dialog">
-            <form method="POST" action="{{ url_for('solicitar_repuesto_presupuesto', orden_id=orden.id) }}">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="solicitudModalLabel">Solicitar Repuesto o Presupuesto</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"></button>
-                        <span aria-hidden="true">&times;</span>
-                    </div>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Solicitar Repuesto o Presupuesto</h5>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <form method="POST" action="{{ url_for('orden.solicitar_repuesto_presupuesto', orden_id=orden.id) }}">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="tipo">Tipo de Solicitud</label>
+                            <label>Tipo de Solicitud</label>
                             <select name="tipo" class="form-control" required>
                                 <option value="">Seleccione</option>
                                 <option value="Repuesto">Repuesto</option>
                                 <option value="Presupuesto">Presupuesto</option>
                             </select>
                         </div>
-                        <div class="form-group mt-2">
-                            <label for="descripcion">Descripción</label>
+                        <div class="form-group">
+                            <label>Descripción</label>
                             <textarea name="descripcion" class="form-control" rows="3" required></textarea>
                         </div>
                     </div>
@@ -135,9 +140,39 @@
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
                         <button type="submit" class="btn btn-warning">Enviar Solicitud</button>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
 </div>
+{% endblock %} {% block extra_js %}
+<script>
+    $(document).ready(function() {
+        // Test button click
+        $('[data-toggle="modal"]').click(function(e) {
+            e.preventDefault();
+            $('#solicitudModal').modal('show');
+        });
+
+        // Test modal directly
+        setTimeout(function() {
+            console.log('Testing modal...');
+            try {
+                var modal = $('#solicitudModal');
+                console.log('Modal element:', modal.length > 0 ? 'Found' : 'Not found');
+                console.log('Bootstrap modal function:', typeof modal.modal);
+
+                // Add test button
+                if (!$('#testModalBtn').length) {
+                    $('body').append('<button id="testModalBtn" style="position: fixed; bottom: 10px; right: 10px; z-index: 9999;">Test Modal</button>');
+                    $('#testModalBtn').click(function() {
+                        $('#solicitudModal').modal('show');
+                    });
+                }
+            } catch (e) {
+                console.error('Modal test error:', e);
+            }
+        }, 1000);
+    });
+</script>
 {% endblock %}

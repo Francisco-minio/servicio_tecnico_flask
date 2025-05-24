@@ -1,11 +1,7 @@
-{% extends 'base.html' %}
-
-{% block title %}Dashboard Admin{% endblock %}
-
-{% block content %}
+{% extends 'base.html' %} {% block title %}Dashboard Admin{% endblock %} {% block content %}
 <div class="container-fluid">
     <h1 class="h3 mb-4 text-gray-800">Órdenes Pendientes</h1>
-    <a href="{{ url_for('nueva_orden') }}" class="btn btn-success mb-3">Nueva Orden</a>
+    <a href="{{ url_for('orden.nueva_orden') }}" class="btn btn-success mb-3">Nueva Orden</a>
 
     <!-- Contenedor responsive para la tabla -->
     <div class="table-responsive">
@@ -28,15 +24,12 @@
                     <td>{{ orden.equipo }}</td>
                     <td>{{ orden.estado }}</td>
                     <td>
-                        {% if orden.tecnico %}
-                            {{ orden.tecnico.username }}
-                        {% else %}
-                            <span class="text-muted">No asignado</span>
-                        {% endif %}
+                        {% if orden.tecnico %} {{ orden.tecnico.username }} {% else %}
+                        <span class="text-muted">No asignado</span> {% endif %}
                     </td>
                     <td>
-                        <a href="{{ url_for('ver_orden', orden_id=orden.id) }}" class="btn btn-sm btn-info mb-1">Ver detalle</a>
-                        <a href="{{ url_for('editar_orden', id=orden.id) }}" class="btn btn-sm btn-outline-primary">
+                        <a href="{{ url_for('orden.ver_orden', orden_id=orden.id) }}" class="btn btn-sm btn-info mb-1">Ver detalle</a>
+                        <a href="{{ url_for('orden.asignar_tecnico', orden_id=orden.id) }}" class="btn btn-sm btn-outline-primary">
                             {% if orden.tecnico_id %}
                                 Editar asignación
                             {% else %}

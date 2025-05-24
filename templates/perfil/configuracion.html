@@ -1,0 +1,68 @@
+{% extends 'base.html' %} {% block title %}Configuración{% endblock %} {% block content %}
+<div class="container-fluid">
+    <h1 class="h3 mb-4 text-gray-800">Configuración</h1>
+
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Preferencias</h6>
+                </div>
+                <div class="card-body">
+                    <form method="POST">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+                        <h6 class="font-weight-bold mb-3">Notificaciones</h6>
+                        <div class="custom-control custom-switch mb-3">
+                            <input type="checkbox" class="custom-control-input" id="notificaciones_email" name="notificaciones_email" {% if current_user.notificaciones_email %}checked{% endif %}>
+                            <label class="custom-control-label" for="notificaciones_email">
+                                Recibir notificaciones por correo electrónico
+                            </label>
+                        </div>
+
+                        <hr>
+                        <h6 class="font-weight-bold mb-3">Apariencia</h6>
+                        <div class="custom-control custom-switch mb-3">
+                            <input type="checkbox" class="custom-control-input" id="tema_oscuro" name="tema_oscuro" {% if current_user.tema_oscuro %}checked{% endif %}>
+                            <label class="custom-control-label" for="tema_oscuro">
+                                Modo Oscuro
+                            </label>
+                        </div>
+
+                        <hr>
+                        <h6 class="font-weight-bold mb-3">Idioma</h6>
+                        <div class="form-group">
+                            <select class="form-control" id="idioma" name="idioma">
+                                <option value="es" {% if current_user.idioma == 'es' %}selected{% endif %}>Español</option>
+                                <option value="en" {% if current_user.idioma == 'en' %}selected{% endif %}>English</option>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Guardar Preferencias</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Información</h6>
+                </div>
+                <div class="card-body">
+                    <p>Aquí puedes personalizar tu experiencia en la plataforma. Los cambios se aplicarán inmediatamente después de guardar.</p>
+
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle"></i> Las notificaciones por correo te mantendrán informado sobre:
+                        <ul class="mb-0">
+                            <li>Actualizaciones de órdenes</li>
+                            <li>Nuevas cotizaciones</li>
+                            <li>Mensajes importantes</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

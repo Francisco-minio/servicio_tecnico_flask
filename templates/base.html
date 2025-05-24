@@ -2,123 +2,164 @@
 <html lang="es">
 
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>{% block title %}Dashboard{% endblock %}</title>
-    <link href="{{ url_for('static', filename='css/sb-admin-2.min.css') }}" rel="stylesheet">
+    <title>{% block title %}Servicio Técnico{% endblock %}</title>
+
+    <!-- Custom fonts -->
     <link href="{{ url_for('static', filename='vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css">
+
+    <!-- Custom styles -->
+    <link href="{{ url_for('static', filename='css/sb-admin-2.min.css') }}" rel="stylesheet"> {% block extra_css %}{% endblock %}
 </head>
 
 <body id="page-top">
-
+    <!-- Page Wrapper -->
     <div id="wrapper">
+        {% if current_user.is_authenticated %}
         <!-- Sidebar -->
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
-                <div class="sidebar-brand-icon">
-                    <i class="fas fa-laptop"></i>
+            <!-- Sidebar - Brand -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ url_for('index') }}">
+                <div class="sidebar-brand-icon rotate-n-15">
+                    <i class="fas fa-tools"></i>
                 </div>
                 <div class="sidebar-brand-text mx-3">Servicio Técnico</div>
             </a>
 
+            <!-- Divider -->
             <hr class="sidebar-divider my-0">
-            <li class="nav-item active">
-                <a class="nav-link" href="{{ url_for('dashboard_admin') }}">
+
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('index') }}">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span>
                 </a>
             </li>
 
+            <!-- Divider -->
             <hr class="sidebar-divider">
+
+            <!-- Nav Items -->
+            {% if current_user.rol == 'admin' %}
             <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('nueva_orden') }}">
-                    <i class="fas fa-plus-circle"></i>
-                    <span>Nueva Orden</span>
+                <a class="nav-link" href="{{ url_for('admin.ver_usuarios') }}">
+                    <i class="fas fa-fw fa-users"></i>
+                    <span>Usuarios</span>
                 </a>
             </li>
+            {% endif %}
+
             <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('crear_usuario') }}">
-                    <i class="fas fa-user-plus"></i>
-                    <span>Crear Usuario</span>
+                <a class="nav-link" href="{{ url_for('orden.listar_ordenes') }}">
+                    <i class="fas fa-fw fa-clipboard-list"></i>
+                    <span>Órdenes</span>
                 </a>
             </li>
+
             <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('ver_usuarios') }}">
-                    <i class="fas fa-users"></i>
-                    <span>Administrar Usuarios</span>
+                <a class="nav-link" href="{{ url_for('cliente.listar_clientes') }}">
+                    <i class="fas fa-fw fa-user"></i>
+                    <span>Clientes</span>
                 </a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('listar_clientes') }}">
-                    <i class="fas fa-users"></i>
-                    <span>Administrar Clientes</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('ver_logs_correos') }}">
-                    <div class="sb-nav-link-icon"><i class="fas fa-envelope"></i></div>
-                    Correos Enviados
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('nueva_solicitud_cotizacion') }}">
-                    <i class="fas fa-file-invoice-dollar"></i>
-                    <span>Solicitudes de Cotización</span>
-                </a>
-            </li>
-            <hr class="sidebar-divider">
         </ul>
+        <!-- End of Sidebar -->
+        {% endif %}
 
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
-
+            <!-- Main Content -->
             <div id="content">
+                {% if current_user.is_authenticated %}
                 <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-                    <!-- Botón para mostrar/ocultar sidebar en móviles -->
-                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-                        <i class="fa fa-bars"></i>
-                    </button>
-
+                    <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
+                        <div class="topbar-divider d-none d-sm-block"></div>
+                        <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                {% if usuario %}
-                                    <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ usuario.username }}</span>
-                                {% else %}
-                                    <span class="mr-2 d-none d-lg-inline text-gray-600 small">Login</span>
-                                {% endif %}
-                                <i class="fas fa-user-circle fa-2x"></i>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ current_user.username }}</span>
+                                <img class="img-profile rounded-circle" src="{{ url_for('static', filename='img/undraw_profile.svg') }}">
                             </a>
-                            <div class="dropdown-menu dropdown-menu-right shadow" aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="{{ url_for('logout') }}">
-                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i> Cerrar sesión
+                            <!-- Dropdown - User Information -->
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                                <h6 class="dropdown-header">
+                                    Rol: {{ current_user.rol|title }}
+                                </h6>
+                                <a class="dropdown-item" href="{{ url_for('perfil.mi_perfil') }}">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i> Mi Perfil
+                                </a>
+                                <a class="dropdown-item" href="{{ url_for('perfil.configuracion') }}">
+                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i> Configuración
+                                </a>
+                                <a class="dropdown-item" href="{{ url_for('perfil.actividad') }}">
+                                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i> Registro de Actividad
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i> Cerrar Sesión
                                 </a>
                             </div>
                         </li>
                     </ul>
                 </nav>
+                <!-- End of Topbar -->
+                {% endif %}
 
-                <!-- Page Content -->
+                <!-- Begin Page Content -->
                 <div class="container-fluid">
-                    {% block content %}{% endblock %}
+                    {% with messages = get_flashed_messages(with_categories=true) %} {% if messages %} {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                    </div>
+                    {% endfor %} {% endif %} {% endwith %} {% block content %}{% endblock %}
+                </div>
+                <!-- End of Page Content -->
+            </div>
+            <!-- End of Main Content -->
+        </div>
+        <!-- End of Content Wrapper -->
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">¿Listo para salir?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Seleccione "Cerrar Sesión" si está seguro de que desea finalizar su sesión actual.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                    <a class="btn btn-primary" href="{{ url_for('auth.logout') }}">Cerrar Sesión</a>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- JS locales compatibles con SB Admin 2 (Bootstrap 4) -->
-    <script src="{{ url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <!-- Core JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Custom scripts -->
     <script src="{{ url_for('static', filename='js/sb-admin-2.min.js') }}"></script>
 
-    <!-- Script adicional para colapsar sidebar en móviles si no funciona por defecto -->
-    <script>
-        document.getElementById('sidebarToggleTop').addEventListener('click', function () {
-            document.body.classList.toggle('sidebar-toggled');
-            document.querySelector('.sidebar').classList.toggle('toggled');
-        });
-    </script>
+    {% block extra_js %}{% endblock %}
 </body>
 
 </html>

@@ -1,0 +1,103 @@
+{% extends 'base.html' %} {% block title %}Registro de Actividad{% endblock %} {% block content %}
+<div class="container-fluid">
+    <h1 class="h3 mb-4 text-gray-800">Registro de Actividad</h1>
+
+    <div class="row">
+        <!-- Estadísticas -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                Total Órdenes</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ total_ordenes }}</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Historial de Actividad -->
+        <div class="col-12">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Historial de Actividad</h6>
+                </div>
+                <div class="card-body">
+                    <div class="timeline">
+                        {% for evento in historial %}
+                        <div class="timeline-item">
+                            <div class="timeline-item-marker">
+                                {% if 'creó' in evento.descripcion %}
+                                <i class="fas fa-plus-circle text-success"></i> {% elif 'editó' in evento.descripcion %}
+                                <i class="fas fa-edit text-warning"></i> {% elif 'eliminó' in evento.descripcion %}
+                                <i class="fas fa-trash text-danger"></i> {% else %}
+                                <i class="fas fa-info-circle text-info"></i> {% endif %}
+                            </div>
+                            <div class="timeline-item-content">
+                                <p class="mb-0">{{ evento.descripcion }}</p>
+                                <small class="text-muted">{{ evento.fecha.strftime('%d/%m/%Y %H:%M') }}</small>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} {% block extra_css %}
+<style>
+    .timeline {
+        position: relative;
+        padding: 20px 0;
+    }
+    
+    .timeline-item {
+        position: relative;
+        padding-left: 40px;
+        margin-bottom: 20px;
+    }
+    
+    .timeline-item:before {
+        content: '';
+        position: absolute;
+        left: 15px;
+        top: 0;
+        bottom: -20px;
+        width: 2px;
+        background: #e3e6f0;
+    }
+    
+    .timeline-item:last-child:before {
+        display: none;
+    }
+    
+    .timeline-item-marker {
+        position: absolute;
+        left: 0;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background: white;
+        border: 2px solid #e3e6f0;
+        text-align: center;
+        line-height: 28px;
+    }
+    
+    .timeline-item-marker i {
+        font-size: 14px;
+    }
+    
+    .timeline-item-content {
+        background: white;
+        padding: 15px;
+        border-radius: 4px;
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    }
+</style>
+{% endblock %}

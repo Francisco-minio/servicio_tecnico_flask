@@ -6,19 +6,25 @@ class Usuario(UserMixin, db.Model):
     __tablename__ = 'usuarios'
 
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(50), unique=True, nullable=False)
-    correo = db.Column(db.String(100), unique=True, nullable=False)
+    username = db.Column(db.String(80), unique=True, nullable=False)
     password = db.Column(db.String(200), nullable=False)
-    rol = db.Column(db.String(20), nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    nombre = db.Column(db.String(120))
+    rol = db.Column(db.String(20), default='tecnico')
+    activo = db.Column(db.Boolean, default=True)
+    fecha_registro = db.Column(db.DateTime, default=datetime.utcnow)
+    ultimo_acceso = db.Column(db.DateTime)
+    
+    # Preferencias
+    notificaciones_email = db.Column(db.Boolean, default=True)
+    tema_oscuro = db.Column(db.Boolean, default=False)
+    idioma = db.Column(db.String(2), default='es')
 
-    # Relación con historial
-    historiales = db.relationship('Historial', back_populates='usuario', lazy='select')
-
-    # Relación con órdenes como creador
+    # Relaciones
     ordenes_creadas = db.relationship('Orden', back_populates='usuario', foreign_keys='Orden.usuario_id', lazy='select')
-
-    # Relación con órdenes como técnico asignado
     ordenes_asignadas = db.relationship('Orden', back_populates='tecnico', foreign_keys='Orden.tecnico_id', lazy='select')
+    historiales = db.relationship('Historial', back_populates='usuario', lazy='select')
+    cotizaciones = db.relationship('SolicitudCotizacion', backref='usuario', lazy='select')
 
     def __repr__(self):
         return f"<Usuario {self.username}, Rol: {self.rol}>"

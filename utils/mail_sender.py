@@ -7,6 +7,7 @@ from models import CorreoLog
 from extensions import db
 import os
 from celery_app import celery
+from flask_mail import Message
 
 SMTP_HOST = 'mail.smtp2go.com'
 SMTP_PORT = 2525
@@ -14,156 +15,101 @@ SMTP_USER = os.environ.get('SMTP_USER')
 SMTP_PASS = os.environ.get('SMTP_PASS')
 
 @celery.task
-def enviar_correo_task(objeto, tipo='ingreso'):
-    """
-    Envía correos para distintos tipos de notificaciones como tarea Celery:
-    - ingreso: notifica ingreso de orden
-    - cerrada: notifica cierre de orden
-    - solicitud_cotizacion: notifica nueva solicitud de cotización
-    """
-    if not SMTP_USER or not SMTP_PASS:
-        print("CRITICAL: SMTP_USER or SMTP_PASS not set. Cannot send email.")
-        raise ValueError("SMTP_USER and SMTP_PASS environment variables must be set for task execution.")
+def enviar_correo_task(orden_id, tipo='ingreso'):
+    """Envía un correo relacionado con una orden."""
+    from app import create_app
+    app = create_app()
+    
+    with app.app_context():
+        from models import Orden, CorreoLog
+        from extensions import mail, db
+        
+        orden = Orden.query.get(orden_id)
+        if not orden:
+            return False
+            
+        templates = {
+            'ingreso': {
+                'asunto': 'Equipo ingresado al servicio técnico',
+                'mensaje': f"""
+                    Estimado/a {orden.cliente.nombre},
 
-    asunto = ""
-    cuerpo = ""
-    destinatario = ""
+                    Su equipo ha sido ingresado correctamente al servicio técnico.
 
-    if tipo in ['ingreso', 'cerrada']:
-        orden = objeto
-        if not orden or not hasattr(orden, 'correo') or not orden.correo:
-            print("[ERROR] Orden inválida o sin correo.")
-            return
+                    Detalles:
+                    - Orden ID: {orden.id}
+                    - Equipo: {orden.equipo}
+                    - Estado: {orden.estado}
+                    - Fecha: {orden.fecha_creacion.strftime('%d-%m-%Y %H:%M')}
 
-        destinatario = orden.correo
+                    Gracias por confiar en nosotros.
+                """
+            },
+            'actualización': {
+                'asunto': 'Actualización de su orden de servicio',
+                'mensaje': f"""
+                    Estimado/a {orden.cliente.nombre},
 
-        if tipo == 'ingreso':
-            asunto = "Equipo ingresado al servicio técnico"
-            cuerpo = f"""Estimado/a {orden.cliente.nombre},
+                    Su orden de servicio ha sido actualizada.
 
-Su equipo ha sido ingresado correctamente al servicio técnico.
+                    Estado actual: {orden.estado}
+                    
+                    Puede revisar los detalles en nuestro sistema.
 
-Detalles:
-- Orden ID: {orden.id}
-- Equipo: {orden.equipo}
-- Estado: {orden.estado}
-- Fecha: {orden.fecha_creacion.strftime('%d-%m-%Y %H:%M')}
-
-Gracias por confiar en nosotros.
-"""
-        elif tipo == 'cerrada':
-            asunto = "Orden de servicio cerrada"
-            cuerpo = f"""Estimado/a {orden.cliente.nombre},
-
-Su orden de servicio ha sido finalizada y cerrada.
-
-Detalles:
-- Orden ID: {orden.id}
-- Equipo: {orden.equipo}
-- Estado: {orden.estado}
-- Fecha de cierre: {orden.fecha_cierre.strftime('%d-%m-%Y %H:%M')}
-
-Gracias por confiar en nuestro servicio técnico.
-"""
-
-    elif tipo == 'solicitud_cotizacion':
-        solicitud = objeto
-        if not solicitud or not hasattr(solicitud, 'correo_encargado'):
-            print("[ERROR] Solicitud inválida o sin correo.")
-            return
-
-        orden = solicitud.orden if hasattr(solicitud, 'orden') else None
-        destinatario = solicitud.correo_encargado
-
-        if orden:
-            asunto = f"Solicitud de cotización para Orden #{orden.id}"
-            cuerpo = f"""Estimado/a encargado,
-
-Se ha generado una nueva solicitud de cotización.
-
-Detalles:
-- Solicitud ID: {solicitud.id}
-- Orden ID: {orden.id}
-- Equipo: {orden.equipo}
-- Descripción: {solicitud.descripcion}
-- Fecha: {solicitud.fecha_creacion.strftime('%d-%m-%Y %H:%M')}
-
-Por favor, revise esta solicitud a la brevedad.
-"""
-        else:
-            asunto = "Solicitud de cotización sin orden asociada"
-            cuerpo = f"""Estimado/a encargado,
-
-Se ha generado una nueva solicitud de cotización sin orden asociada.
-
-Detalles:
-- Solicitud ID: {solicitud.id}
-- Solicitante: {solicitud.usuario.username}
-- Descripción: {solicitud.descripcion}
-- Fecha: {solicitud.fecha_creacion.strftime('%d-%m-%Y %H:%M')}
-
-Por favor, revise esta solicitud a la brevedad.
-"""
-
-    msg = MIMEMultipart()
-    msg['From'] = SMTP_USER
-    msg['To'] = destinatario
-    msg['Subject'] = asunto
-    msg.attach(MIMEText(cuerpo, 'plain', _charset='utf-8'))
-
-    # Log en base de datos
-    log = CorreoLog(
-        orden_id=getattr(objeto, 'orden_id', None) or getattr(objeto, 'id', None),
-        destinatario=destinatario,
-        asunto=asunto,
-        cuerpo=cuerpo,
-        fecha_envio=datetime.utcnow(),
-        estado="Pendiente"
-    )
-
-    try:
-        server = smtplib.SMTP(SMTP_HOST, SMTP_PORT, timeout=10)
-        server.starttls()
-        server.login(SMTP_USER, SMTP_PASS)
-        server.send_message(msg)
-        server.quit()
-
-        log.estado = "Enviado"
-        print(f"[CORREO ENVIADO] A: {destinatario}, Asunto: {asunto}", flush=True)
-        return f"Correo enviado a {destinatario}"
-
-    except Exception as e:
-        log.estado = "Error"
-        log.error = str(e)
-        print(f"[ERROR AL ENVIAR CORREO] {e}", flush=True)
-        raise  # Para que Celery pueda manejar el reintento
-
-    finally:
-        db.session.add(log)
-        db.session.commit()
+                    Gracias por su preferencia.
+                """
+            }
+        }
+        
+        template = templates.get(tipo, templates['ingreso'])
+        
+        try:
+            msg = Message(
+                subject=template['asunto'],
+                recipients=[orden.correo],
+                body=template['mensaje']
+            )
+            mail.send(msg)
+            
+            # Registrar el envío
+            log = CorreoLog(
+                orden_id=orden.id,
+                tipo=tipo,
+                destinatario=orden.correo,
+                fecha_envio=datetime.now(),
+                exitoso=True
+            )
+            db.session.add(log)
+            db.session.commit()
+            
+            return True
+        except Exception as e:
+            app.logger.error(f"Error al enviar correo: {str(e)}")
+            return False
 
 @celery.task
-def enviar_notificacion_admin_task(subject, html_body, recipient):
-    """Envía notificaciones administrativas como tarea Celery"""
-    if not SMTP_USER or not SMTP_PASS:
-        print("CRITICAL: SMTP_USER or SMTP_PASS not set. Cannot send admin notification.")
-        raise ValueError("SMTP_USER and SMTP_PASS environment variables must be set for task execution.")
-
-    msg = MIMEMultipart()
-    msg['From'] = SMTP_USER
-    msg['To'] = recipient
-    msg['Subject'] = subject
-    msg.attach(MIMEText(html_body, 'html'))
-
-    try:
-        server = smtplib.SMTP(SMTP_HOST, SMTP_PORT, timeout=10)
-        server.starttls()
-        server.login(SMTP_USER, SMTP_PASS)
-        server.send_message(msg)
-        server.quit()
-        return f"Notificación administrativa enviada a {recipient}"
-    except Exception as e:
-        print(f"Error al enviar notificación a {recipient}: {e}")
-        raise
+def enviar_notificacion_admin_task(orden_id, tipo, mensaje):
+    """Envía una notificación al administrador."""
+    from app import create_app
+    app = create_app()
+    
+    with app.app_context():
+        from extensions import mail
+        
+        try:
+            msg = Message(
+                subject=f'Notificación de Orden #{orden_id}',
+                recipients=[app.config['CORREO_ADMIN']],
+                body=f"""
+                    Tipo: {tipo}
+                    Orden: #{orden_id}
+                    Mensaje: {mensaje}
+                """
+            )
+            mail.send(msg)
+            return True
+        except Exception as e:
+            app.logger.error(f"Error al enviar notificación: {str(e)}")
+            return False
 
     

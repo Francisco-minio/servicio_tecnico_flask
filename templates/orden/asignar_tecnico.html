@@ -1,0 +1,13 @@
+{% extends "form_base.html" %} {% block title %}Asignar Técnico{% endblock %} {% block form_title %}Asignar Técnico a Orden #{{ orden.id }}{% endblock %} {% block form_content %}
+<div class="form-group">
+    <label for="tecnico_id">Técnico</label>
+    <select class="form-control" id="tecnico_id" name="tecnico_id" required>
+        <option value="">Seleccione un técnico...</option>
+        {% for tecnico in tecnicos %}
+        <option value="{{ tecnico.id }}" {{ 'selected' if orden.tecnico_id == tecnico.id else '' }}>
+            {{ tecnico.username }}
+        </option>
+        {% endfor %}
+    </select>
+</div>
+{% endblock %} {% block submit_text %}Asignar{% endblock %} {% block cancel_url %}{{ url_for('orden.ver_orden', orden_id=orden.id) }}{% endblock %}
