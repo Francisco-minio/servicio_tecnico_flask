@@ -41,7 +41,7 @@ def nueva(orden_id=None):
         
     clientes = Cliente.query.all()
     ordenes = Orden.query.all()
-    return render_template('cotizacion_form.html', 
+    return render_template('cotizacion/cotizacion_form.html', 
                          clientes=clientes, 
                          ordenes=ordenes, 
                          orden_preseleccionada=orden)
@@ -50,4 +50,37 @@ def nueva(orden_id=None):
 @login_required
 def listar():
     cotizaciones = SolicitudCotizacion.query.all()
-    return render_template('cotizacion/listar_cotizaciones.html', cotizaciones=cotizaciones) 
+    return render_template('cotizacion/listar_cotizaciones.html', cotizaciones=cotizaciones)
+
+@cotizacion_bp.route('/<int:cotizacion_id>')
+@login_required
+def ver(cotizacion_id):
+    cotizacion = SolicitudCotizacion.query.get_or_404(cotizacion_id)
+    return render_template('cotizacion/ver_cotizacion.html', cotizacion=cotizacion)
+
+@cotizacion_bp.route('/<int:cotizacion_id>/editar', methods=['GET', 'POST'])
+@login_required
+def editar(cotizacion_id):
+    cotizacion = SolicitudCotizacion.query.get_or_404(cotizacion_id)
+    
+    # Verificar permisos
+    if not current_user.rol == 'admin' and cotizacion.usuario_id != current_user.id:
+        flash('No tienes permiso para editar esta cotización', 'danger')
+        return redirect(url_for('cotizacion.listar'))
+    
+    if request.method == 'POST':
+        cotizacion.asunto = request.form.get('asunto')
+        cotizacion.descripcion = request.form.get('descripcion')
+        cotizacion.cliente_id = request.form.get('cliente_id')
+        cotizacion.orden_id = request.form.get('orden_id')
+        
+        db.session.commit()
+        flash('Cotización actualizada exitosamente', 'success')
+        return redirect(url_for('cotizacion.ver', cotizacion_id=cotizacion.id))
+    
+    clientes = Cliente.query.all()
+    ordenes = Orden.query.all()
+    return render_template('cotizacion/cotizacion_form.html',
+                         cotizacion=cotizacion,
+                         clientes=clientes,
+                         ordenes=ordenes) 

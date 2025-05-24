@@ -3,14 +3,24 @@
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Registro de Correos Enviados</h1>
+        <div>
+            <button class="btn btn-secondary" id="btnExportar">
+                <i class="fas fa-download"></i> Exportar
+            </button>
+        </div>
     </div>
 
     <!-- Content Row -->
     <div class="row">
         <div class="col-12">
             <div class="card shadow mb-4">
-                <div class="card-header py-3">
+                <div class="card-header py-3 d-flex justify-content-between align-items-center">
                     <h6 class="m-0 font-weight-bold text-primary">Historial de Correos</h6>
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-outline-primary btn-sm" data-filter="todos">Todos</button>
+                        <button type="button" class="btn btn-outline-success btn-sm" data-filter="Enviado">Enviados</button>
+                        <button type="button" class="btn btn-outline-danger btn-sm" data-filter="Error">Errores</button>
+                    </div>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -18,21 +28,32 @@
                             <thead>
                                 <tr>
                                     <th>Fecha</th>
+                                    <th>Orden</th>
                                     <th>Destinatario</th>
                                     <th>Asunto</th>
                                     <th>Estado</th>
+                                    <th>Detalles</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {% for log in logs %}
                                 <tr>
                                     <td>{{ log.fecha_envio.strftime('%d/%m/%Y %H:%M:%S') }}</td>
+                                    <td>
+                                        {% if log.orden_id %}
+                                        <a href="{{ url_for('orden.ver_orden', orden_id=log.orden_id) }}">#{{ log.orden_id }}</a> {% else %} - {% endif %}
+                                    </td>
                                     <td>{{ log.destinatario }}</td>
                                     <td>{{ log.asunto }}</td>
                                     <td>
-                                        <span class="badge badge-{{ 'success' if log.enviado else 'danger' }}">
-                                            {{ 'Enviado' if log.enviado else 'Error' }}
+                                        <span class="badge badge-{{ 'success' if log.estado == 'Enviado' else 'danger' }}">
+                                            {{ log.estado }}
                                         </span>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-info btn-sm" onclick="verDetalles('{{ log.id }}')">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
                                     </td>
                                 </tr>
                                 {% endfor %}
@@ -44,10 +65,29 @@
         </div>
     </div>
 </div>
+
+<!-- Modal de Detalles -->
+<div class="modal fade" id="detallesModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Detalles del Correo</h5>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="detallesCorreo">
+                    <!-- Los detalles se cargarán aquí -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %} {% block extra_js %}
 <script>
     $(document).ready(function() {
-        $('#dataTable').DataTable({
+        let table = $('#dataTable').DataTable({
             "order": [
                 [0, "desc"]
             ],
@@ -55,6 +95,48 @@
                 "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
             }
         });
+
+        // Filtros de estado
+        $('.btn-group button').on('click', function() {
+            let filtro = $(this).data('filter');
+            if (filtro === 'todos') {
+                table.column(4).search('').draw();
+            } else {
+                table.column(4).search(filtro).draw();
+            }
+            $('.btn-group button').removeClass('active');
+            $(this).addClass('active');
+        });
+
+        // Exportar a Excel
+        $('#btnExportar').on('click', function() {
+            window.location.href = "{{ url_for('admin.exportar_logs_correos') }}";
+        });
     });
+
+    function verDetalles(logId) {
+        // Aquí deberías hacer una llamada AJAX para obtener los detalles del correo
+        $.get(`/admin/correos/${logId}`, function(data) {
+                    $('#detallesCorreo').html(`
+                <div class="card">
+                    <div class="card-body">
+                        <h6>Asunto:</h6>
+                        <p>${data.asunto}</p>
+                        <h6>Contenido:</h6>
+                        <div class="border p-3 bg-light">
+                            ${data.cuerpo}
+                        </div>
+                        ${data.error ? `
+                            <h6 class="text-danger mt-3">Error:</h6>
+                            <div class="border p-3 bg-light text-danger">
+                                ${data.error}
+                            </div>
+                        ` : ''}
+                    </div>
+                </div>
+            `);
+            $('#detallesModal').modal('show');
+        });
+    }
 </script>
 {% endblock %}

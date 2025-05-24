@@ -9,6 +9,19 @@ class Config:
     # Configuración de sesión
     SESSION_TYPE = 'filesystem'
     PERMANENT_SESSION_LIFETIME = timedelta(hours=2)
+    SESSION_COOKIE_SECURE = True
+    SESSION_COOKIE_HTTPONLY = True
+    SESSION_COOKIE_SAMESITE = 'Lax'
+    
+    # Configuración CSRF mejorada
+    WTF_CSRF_TIME_LIMIT = 3600  # 1 hora
+    WTF_CSRF_SSL_STRICT = True
+    WTF_CSRF_ENABLED = True
+    WTF_CSRF_CHECK_DEFAULT = True
+    WTF_CSRF_METHODS = ['POST', 'PUT', 'PATCH', 'DELETE']
+    CSRF_COOKIE_SECURE = True
+    CSRF_COOKIE_HTTPONLY = True
+    CSRF_COOKIE_SAMESITE = 'Lax'
     
     # Configuración de correo
     MAIL_SERVER = os.environ.get('MAIL_SERVER', 'smtp.gmail.com')
@@ -32,9 +45,9 @@ class Config:
         'mysql+pymysql://root:@localhost/ordenes_db'
     
     # Configuración de seguridad adicionales
-    SESSION_COOKIE_SECURE = True
     REMEMBER_COOKIE_SECURE = True
-    SESSION_COOKIE_HTTPONLY = True
+    REMEMBER_COOKIE_HTTPONLY = True
+    REMEMBER_COOKIE_SAMESITE = 'Lax'
 
     CORREO_ADMIN = os.environ.get('CORREO_ADMIN') or 'franciscominio@backupcode.cl'
     CORREO_REPUESTOS = os.environ.get('CORREO_REPUESTOS') or 'franciscominio@backupcode.cl'
@@ -45,21 +58,21 @@ class DevelopmentConfig(Config):
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
         'mysql+pymysql://root:@localhost/ordenes_db'
     SQLALCHEMY_ECHO = True
+    # Desactivar configuraciones de seguridad estrictas en desarrollo
+    SESSION_COOKIE_SECURE = False
+    REMEMBER_COOKIE_SECURE = False
 
 class ProductionConfig(Config):
     DEBUG = False
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
     SQLALCHEMY_ECHO = False
-    
-    # Configuraciones de seguridad adicionales
-    SESSION_COOKIE_SECURE = True
-    REMEMBER_COOKIE_SECURE = True
-    SESSION_COOKIE_HTTPONLY = True
 
 class TestingConfig(Config):
     TESTING = True
     SQLALCHEMY_DATABASE_URI = 'sqlite:///test.db'
     WTF_CSRF_ENABLED = False
+    SESSION_COOKIE_SECURE = False
+    REMEMBER_COOKIE_SECURE = False
 
 config = {
     'development': DevelopmentConfig,

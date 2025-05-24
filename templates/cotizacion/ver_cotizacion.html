@@ -1,0 +1,109 @@
+{% extends 'base.html' %} {% block content %}
+<div class="container-fluid">
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Detalle de Cotización #{{ cotizacion.id }}</h1>
+        <div>
+            {% if current_user.rol == 'admin' or current_user.id == cotizacion.usuario_id %}
+            <a href="{{ url_for('cotizacion.editar', cotizacion_id=cotizacion.id) }}" class="btn btn-warning">
+                <i class="fas fa-edit"></i> Editar
+            </a>
+            {% endif %}
+            <a href="{{ url_for('cotizacion.listar') }}" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Volver
+            </a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-8">
+            <!-- Detalles de la Cotización -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Información de la Cotización</h6>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-3">
+                            <strong>Asunto:</strong>
+                        </div>
+                        <div class="col-md-9">
+                            {{ cotizacion.asunto }}
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-3">
+                            <strong>Descripción:</strong>
+                        </div>
+                        <div class="col-md-9">
+                            {{ cotizacion.descripcion.replace('\n', '<br>')|safe }}
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-3">
+                            <strong>Fecha de Creación:</strong>
+                        </div>
+                        <div class="col-md-9">
+                            {{ cotizacion.fecha_creacion.strftime('%d/%m/%Y %H:%M') }}
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-3">
+                            <strong>Solicitante:</strong>
+                        </div>
+                        <div class="col-md-9">
+                            {{ cotizacion.usuario.username }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <!-- Información Relacionada -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Información Relacionada</h6>
+                </div>
+                <div class="card-body">
+                    <!-- Cliente -->
+                    <div class="mb-4">
+                        <h6 class="font-weight-bold">Cliente</h6>
+                        {% if cotizacion.cliente %}
+                        <p class="mb-0">{{ cotizacion.cliente.nombre }}</p>
+                        <small class="text-muted">
+                            {{ cotizacion.cliente.correo }}<br>
+                            {{ cotizacion.cliente.telefono or 'Sin teléfono' }}
+                        </small> {% else %}
+                        <p class="text-muted">Sin cliente asociado</p>
+                        {% endif %}
+                    </div>
+
+                    <!-- Orden -->
+                    <div class="mb-4">
+                        <h6 class="font-weight-bold">Orden Asociada</h6>
+                        {% if cotizacion.orden %}
+                        <p class="mb-0">
+                            <a href="{{ url_for('orden.ver_orden', orden_id=cotizacion.orden.id) }}" class="text-primary">
+                                Orden #{{ cotizacion.orden.id }}
+                            </a>
+                        </p>
+                        <small class="text-muted">
+                            {{ cotizacion.orden.equipo }} - {{ cotizacion.orden.marca }} {{ cotizacion.orden.modelo }}
+                        </small> {% else %}
+                        <p class="text-muted">Sin orden asociada</p>
+                        {% endif %}
+                    </div>
+
+                    {% if cotizacion.correo_encargado %}
+                    <div class="mb-4">
+                        <h6 class="font-weight-bold">Correo del Encargado</h6>
+                        <p class="mb-0">{{ cotizacion.correo_encargado }}</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

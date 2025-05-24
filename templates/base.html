@@ -48,13 +48,42 @@
 
             <!-- Nav Items -->
             {% if current_user.rol == 'admin' %}
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                Administración
+            </div>
+
             <li class="nav-item">
                 <a class="nav-link" href="{{ url_for('admin.ver_usuarios') }}">
                     <i class="fas fa-fw fa-users"></i>
                     <span>Usuarios</span>
                 </a>
             </li>
+
+            <!-- Monitoreo -->
+            <div class="sidebar-heading">
+                Monitoreo
+            </div>
+
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('admin.ver_logs_correos') }}">
+                    <i class="fas fa-fw fa-envelope"></i>
+                    <span>Logs de Correos</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('admin.ver_logs_sistema') }}">
+                    <i class="fas fa-fw fa-terminal"></i>
+                    <span>Logs del Sistema</span>
+                </a>
+            </li>
             {% endif %}
+
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                Gestión
+            </div>
 
             <li class="nav-item">
                 <a class="nav-link" href="{{ url_for('orden.listar_ordenes') }}">
@@ -67,6 +96,13 @@
                 <a class="nav-link" href="{{ url_for('cliente.listar_clientes') }}">
                     <i class="fas fa-fw fa-user"></i>
                     <span>Clientes</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('cotizacion.listar') }}">
+                    <i class="fas fa-fw fa-file-invoice-dollar"></i>
+                    <span>Cotizaciones</span>
                 </a>
             </li>
         </ul>
