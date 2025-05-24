@@ -3,6 +3,7 @@ from flask_login import login_required
 from models import Cliente
 from extensions import db
 from . import cliente_bp
+from forms import ClienteForm
 
 @cliente_bp.route('/')
 @login_required
@@ -13,32 +14,29 @@ def listar_clientes():
 @cliente_bp.route('/nuevo', methods=['GET', 'POST'])
 @login_required
 def nuevo_cliente():
-    if request.method == 'POST':
-        cliente = Cliente(
-            nombre=request.form['nombre'],
-            correo=request.form['correo'],
-            telefono=request.form.get('telefono'),
-            direccion=request.form.get('direccion')
-        )
+    form = ClienteForm()
+    if form.validate_on_submit():
+        cliente = Cliente()
+        form.populate_obj(cliente)
         db.session.add(cliente)
         db.session.commit()
         flash('Cliente creado exitosamente', 'success')
         return redirect(url_for('cliente.listar_clientes'))
-    return render_template('clientes/form.html')
+    return render_template('clientes/form.html', form=form)
 
 @cliente_bp.route('/editar/<int:id>', methods=['GET', 'POST'])
 @login_required
 def editar_cliente(id):
     cliente = Cliente.query.get_or_404(id)
-    if request.method == 'POST':
-        cliente.nombre = request.form['nombre']
-        cliente.correo = request.form['correo']
-        cliente.telefono = request.form.get('telefono')
-        cliente.direccion = request.form.get('direccion')
+    form = ClienteForm(obj=cliente)
+    
+    if form.validate_on_submit():
+        form.populate_obj(cliente)
         db.session.commit()
         flash('Cliente actualizado exitosamente', 'success')
         return redirect(url_for('cliente.listar_clientes'))
-    return render_template('clientes/form.html', cliente=cliente)
+        
+    return render_template('clientes/form.html', cliente=cliente, form=form)
 
 @cliente_bp.route('/eliminar/<int:id>', methods=['POST'])
 @login_required

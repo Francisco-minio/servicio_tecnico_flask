@@ -24,11 +24,11 @@ class Config:
     CSRF_COOKIE_SAMESITE = 'Lax'
     
     # Configuración de correo
-    MAIL_SERVER = os.environ.get('MAIL_SERVER', 'smtp.gmail.com')
-    MAIL_PORT = int(os.environ.get('MAIL_PORT', 587))
+    MAIL_SERVER = os.environ.get('MAIL_SERVER', 'mail.smtp2go.com')
+    MAIL_PORT = int(os.environ.get('MAIL_PORT', 2525))
     MAIL_USE_TLS = os.environ.get('MAIL_USE_TLS', True)
-    MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
-    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
+    MAIL_USERNAME = os.environ.get('SMTP_USER')
+    MAIL_PASSWORD = os.environ.get('SMTP_PASS')
     MAIL_DEFAULT_SENDER = os.environ.get('MAIL_DEFAULT_SENDER')
     
     # Configuración de archivos
