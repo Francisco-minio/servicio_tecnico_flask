@@ -24,7 +24,7 @@ class Usuario(UserMixin, db.Model):
     ordenes_creadas = db.relationship('Orden', back_populates='usuario', foreign_keys='Orden.usuario_id', lazy='select')
     ordenes_asignadas = db.relationship('Orden', back_populates='tecnico', foreign_keys='Orden.tecnico_id', lazy='select')
     historiales = db.relationship('Historial', back_populates='usuario', lazy='select')
-    cotizaciones = db.relationship('SolicitudCotizacion', backref='usuario', lazy='select')
+    cotizaciones = db.relationship('SolicitudCotizacion', back_populates='usuario', lazy='select')
 
     def __repr__(self):
         return f"<Usuario {self.username}, Rol: {self.rol}>"
@@ -130,13 +130,13 @@ class SolicitudCotizacion(db.Model):
     descripcion = db.Column(db.Text, nullable=False)
     orden_id = db.Column(db.Integer, db.ForeignKey('ordenes.id'), nullable=True)  # Referencia opcional
     usuario_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'), nullable=False)
-    cliente_id = db.Column(db.Integer, db.ForeignKey('cliente.id'), nullable=True)  # 👈 agregado correctamente
+    cliente_id = db.Column(db.Integer, db.ForeignKey('cliente.id'), nullable=True)
     fecha_creacion = db.Column(db.DateTime, default=datetime.utcnow)
     correo_encargado = db.Column(db.String(255), nullable=True)
 
     # Relaciones
     orden = db.relationship('Orden', backref='cotizaciones', lazy='select')
-    usuario = db.relationship('Usuario', backref='cotizaciones', lazy='select')
+    usuario = db.relationship('Usuario', back_populates='cotizaciones', lazy='select')
     cliente = db.relationship('Cliente', backref='cotizaciones', lazy='select')
 
     def __repr__(self):
