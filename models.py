@@ -190,3 +190,25 @@ class SolicitudCotizacion(db.Model):
 
     def __repr__(self):
         return f"<SolicitudCotizacion de {self.usuario.username}, asunto: {self.asunto}>"
+
+class OrdenEliminada(db.Model):
+    """Modelo para registrar órdenes eliminadas."""
+    __tablename__ = 'ordenes_eliminadas'
+
+    id = db.Column(db.Integer, primary_key=True)
+    orden_id_original = db.Column(db.Integer, nullable=False)
+    cliente_nombre = db.Column(db.String(100))
+    cliente_correo = db.Column(db.String(120))
+    equipo = db.Column(db.String(50))
+    marca = db.Column(db.String(50))
+    modelo = db.Column(db.String(50))
+    descripcion = db.Column(db.Text)
+    estado = db.Column(db.String(20))
+    fecha_creacion_original = db.Column(db.DateTime, nullable=False)
+    fecha_eliminacion = db.Column(db.DateTime, nullable=False, default=datetime.now)
+    eliminado_por = db.Column(db.String(100), nullable=False)  # Username del admin
+    motivo_eliminacion = db.Column(db.Text)
+    datos_adicionales = db.Column(db.JSON)  # Para almacenar cualquier otro dato relevante
+
+    def __repr__(self):
+        return f'<OrdenEliminada {self.orden_id_original}>'

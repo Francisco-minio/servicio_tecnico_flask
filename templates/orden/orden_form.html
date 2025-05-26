@@ -7,6 +7,7 @@
         <div class="card-body">
             <form id="ordenForm" action="{{ url_for('orden.nueva_orden') }}" method="POST" enctype="multipart/form-data" onsubmit="return validarFormulario()">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                <input type="hidden" name="cliente_id" id="cliente_id" value="" />
 
                 <!-- Datos del cliente -->
                 <fieldset class="border p-3 mb-4">
@@ -14,18 +15,20 @@
 
                     <div class="form-group">
                         <label for="cliente">Nombre del Cliente <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="cliente" name="cliente" required list="clientes_list">
-                        <datalist id="clientes_list">
+                        <select class="form-control" id="cliente" name="cliente" required>
+                            <option value="">-- Seleccionar Cliente --</option>
                             {% for cliente in clientes %}
-                                <option value="{{ cliente.nombre }}" data-correo="{{ cliente.correo }}">
+                                <option value="{{ cliente.nombre }}" data-id="{{ cliente.id }}" data-correo="{{ cliente.correo }}">
+                                    {{ cliente.nombre }}
+                                </option>
                             {% endfor %}
-                        </datalist>
-                        <small class="form-text text-muted">Si el cliente no existe, será creado automáticamente.</small>
+                        </select>
+                        <small class="form-text text-muted">Seleccione un cliente existente o contacte a un administrador para crear uno nuevo.</small>
                     </div>
 
                     <div class="form-group">
                         <label for="correo">Correo Electrónico <span class="text-danger">*</span></label>
-                        <input type="email" class="form-control" id="correo" name="correo" required>
+                        <input type="email" class="form-control" id="correo" name="correo" required readonly>
                     </div>
                 </fieldset>
 
@@ -142,9 +145,18 @@
 <script>
     // Autocompletado de cliente y correo
     document.getElementById('cliente').addEventListener('change', function() {
-        const clienteSeleccionado = document.querySelector(`#clientes_list option[value="${this.value}"]`);
-        if (clienteSeleccionado) {
-            document.getElementById('correo').value = clienteSeleccionado.dataset.correo;
+        const selectedOption = this.options[this.selectedIndex];
+        const correoInput = document.getElementById('correo');
+        const clienteIdInput = document.getElementById('cliente_id');
+
+        if (selectedOption.value) {
+            correoInput.value = selectedOption.dataset.correo;
+            clienteIdInput.value = selectedOption.dataset.id;
+            correoInput.readOnly = true;
+        } else {
+            correoInput.value = '';
+            clienteIdInput.value = '';
+            correoInput.readOnly = true;
         }
     });
 

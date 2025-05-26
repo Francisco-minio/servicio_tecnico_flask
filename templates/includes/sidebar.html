@@ -1,0 +1,23 @@
+<!-- Nav Item - Admin Menu -->
+{% if current_user.rol == 'admin' %}
+<li class="nav-item">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseAdmin" aria-expanded="true" aria-controls="collapseAdmin">
+        <i class="fas fa-fw fa-cog"></i>
+        <span>Administración</span>
+    </a>
+    <div id="collapseAdmin" class="collapse" aria-labelledby="headingAdmin" data-parent="#accordionSidebar">
+        <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Gestión:</h6>
+            <a class="collapse-item" href="{{ url_for('admin.usuarios') }}">
+                <i class="fas fa-fw fa-users"></i> Usuarios
+            </a>
+            <a class="collapse-item" href="{{ url_for('admin.logs') }}">
+                <i class="fas fa-fw fa-clipboard-list"></i> Logs del Sistema
+            </a>
+            <a class="collapse-item" href="{{ url_for('admin.ordenes_eliminadas') }}">
+                <i class="fas fa-fw fa-trash-alt"></i> Órdenes Eliminadas
+            </a>
+        </div>
+    </div>
+</li>
+{% endif %}

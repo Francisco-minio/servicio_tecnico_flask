@@ -1,0 +1,10 @@
+2025-05-25 22:23:16,211 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/css/sb-admin-2.min.css - 304
+2025-05-25 22:23:16,212 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/js/datatables-es.js - 304
+2025-05-25 22:23:16,213 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/js/sb-admin-2.min.js - 304
+2025-05-25 22:23:20,622 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/admin/logs - 200
+2025-05-25 22:23:20,668 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-05-25 22:23:20,668 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/css/sb-admin-2.min.css - 304
+2025-05-25 22:23:20,669 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/js/datatables-es.js - 304
+2025-05-25 22:23:20,670 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/img/undraw_profile.svg - 304
+2025-05-25 22:23:20,670 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/js/sb-admin-2.min.js - 304
+2025-05-25 22:23:20,706 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/js/datatables-es.json - 304

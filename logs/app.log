@@ -1,37 +1,74 @@
-2025-05-25 22:13:12,342 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/vendor/jquery/jquery.min.js - 304
-2025-05-25 22:13:12,343 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/js/sb-admin-2.min.js - 304
-2025-05-25 22:13:12,343 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/vendor/bootstrap/js/bootstrap.bundle.min.js - 304
-2025-05-25 22:13:12,344 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/vendor/jquery-easing/jquery.easing.min.js - 304
-2025-05-25 22:13:17,957 - INFO - logger - 127.0.0.1 - POST http://localhost:8080/auth/login - 302
-2025-05-25 22:13:17,965 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/ - 302
-2025-05-25 22:13:17,974 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/admin/dashboard - 200
-2025-05-25 22:13:18,016 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/vendor/fontawesome-free/css/all.min.css - 304
-2025-05-25 22:13:18,017 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/css/sb-admin-2.min.css - 304
-2025-05-25 22:13:18,017 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/img/undraw_profile.svg - 304
-2025-05-25 22:13:18,018 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/js/datatables-es.js - 304
-2025-05-25 22:13:18,018 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/js/sb-admin-2.min.js - 304
-2025-05-25 22:13:19,604 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/admin/usuarios - 200
-2025-05-25 22:13:19,618 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/vendor/fontawesome-free/css/all.min.css - 304
-2025-05-25 22:13:19,618 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/img/undraw_profile.svg - 304
-2025-05-25 22:13:19,618 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/css/sb-admin-2.min.css - 304
-2025-05-25 22:13:19,620 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/js/datatables-es.js - 304
-2025-05-25 22:13:19,621 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/js/sb-admin-2.min.js - 304
-2025-05-25 22:13:20,410 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/ - 302
-2025-05-25 22:13:20,421 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/admin/dashboard - 200
-2025-05-25 22:13:20,438 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/css/sb-admin-2.min.css - 304
-2025-05-25 22:13:20,438 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/vendor/fontawesome-free/css/all.min.css - 304
-2025-05-25 22:13:20,438 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/js/datatables-es.js - 304
-2025-05-25 22:13:20,438 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/img/undraw_profile.svg - 304
-2025-05-25 22:13:20,438 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/js/sb-admin-2.min.js - 304
-2025-05-25 22:13:21,676 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/admin/correos - 200
-2025-05-25 22:13:21,704 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/js/datatables-es.js - 304
-2025-05-25 22:13:21,704 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/js/sb-admin-2.min.js - 304
-2025-05-25 22:13:21,704 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/vendor/fontawesome-free/css/all.min.css - 304
-2025-05-25 22:13:21,705 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/img/undraw_profile.svg - 304
-2025-05-25 22:13:21,705 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/css/sb-admin-2.min.css - 304
-2025-05-25 22:14:12,666 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/admin/logs - 200
-2025-05-25 22:14:12,719 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/css/sb-admin-2.min.css - 304
-2025-05-25 22:14:12,719 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/vendor/fontawesome-free/css/all.min.css - 304
-2025-05-25 22:14:12,720 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/js/datatables-es.js - 304
-2025-05-25 22:14:12,720 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/img/undraw_profile.svg - 304
-2025-05-25 22:14:12,720 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/js/sb-admin-2.min.js - 304
+2025-05-25 23:12:26,273 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/img/undraw_profile.svg - 304
+2025-05-25 23:12:26,273 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/css/sb-admin-2.min.css - 304
+2025-05-25 23:12:26,274 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/js/sb-admin-2.min.js - 304
+2025-05-25 23:12:26,305 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/js/datatables-es.json - 304
+2025-05-25 23:12:36,251 - ERROR - logger - Error no manejado: 400 Bad Request: The CSRF token is missing.
+Traceback (most recent call last):
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/env/lib/python3.12/site-packages/flask_wtf/csrf.py", line 261, in protect
+    validate_csrf(self._get_csrf_token())
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/env/lib/python3.12/site-packages/flask_wtf/csrf.py", line 100, in validate_csrf
+    raise ValidationError("The CSRF token is missing.")
+wtforms.validators.ValidationError: The CSRF token is missing.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/env/lib/python3.12/site-packages/flask/app.py", line 915, in full_dispatch_request
+    rv = self.preprocess_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/env/lib/python3.12/site-packages/flask/app.py", line 1291, in preprocess_request
+    rv = self.ensure_sync(before_func)()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/env/lib/python3.12/site-packages/flask_wtf/csrf.py", line 229, in csrf_protect
+    self.protect()
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/env/lib/python3.12/site-packages/flask_wtf/csrf.py", line 264, in protect
+    self._error_response(e.args[0])
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/env/lib/python3.12/site-packages/flask_wtf/csrf.py", line 307, in _error_response
+    raise CSRFError(reason)
+flask_wtf.csrf.CSRFError: 400 Bad Request: The CSRF token is missing.
+2025-05-25 23:12:44,969 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/admin/correos - 200
+2025-05-25 23:12:44,998 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-05-25 23:12:44,999 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/css/sb-admin-2.min.css - 304
+2025-05-25 23:12:45,000 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/img/undraw_profile.svg - 304
+2025-05-25 23:12:45,001 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/js/datatables-es.js - 304
+2025-05-25 23:12:45,002 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/js/sb-admin-2.min.js - 304
+2025-05-25 23:12:45,026 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/js/datatables-es.json - 304
+2025-05-25 23:12:45,774 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/admin/logs - 200
+2025-05-25 23:12:45,802 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-05-25 23:12:45,804 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/css/sb-admin-2.min.css - 304
+2025-05-25 23:12:45,804 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/js/datatables-es.js - 304
+2025-05-25 23:12:45,805 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/img/undraw_profile.svg - 304
+2025-05-25 23:12:45,805 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/js/sb-admin-2.min.js - 304
+2025-05-25 23:12:45,832 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/js/datatables-es.json - 304
+2025-05-25 23:12:48,490 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/admin/logs - 200
+2025-05-25 23:12:48,518 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-05-25 23:12:48,518 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/js/sb-admin-2.min.js - 304
+2025-05-25 23:12:48,518 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/img/undraw_profile.svg - 304
+2025-05-25 23:12:48,518 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/css/sb-admin-2.min.css - 304
+2025-05-25 23:12:48,519 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/js/datatables-es.js - 304
+2025-05-25 23:12:48,542 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/js/datatables-es.json - 304
+2025-05-25 23:12:49,206 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/admin/logs - 200
+2025-05-25 23:12:49,233 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/css/sb-admin-2.min.css - 304
+2025-05-25 23:12:49,235 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/img/undraw_profile.svg - 304
+2025-05-25 23:12:49,235 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-05-25 23:12:49,235 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/js/datatables-es.js - 304
+2025-05-25 23:12:49,236 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/js/sb-admin-2.min.js - 304
+2025-05-25 23:12:49,258 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/js/datatables-es.json - 304
+2025-05-25 23:12:49,878 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/orden/ - 200
+2025-05-25 23:12:49,903 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/js/sb-admin-2.min.js - 304
+2025-05-25 23:12:49,904 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/js/datatables-es.js - 304
+2025-05-25 23:12:49,904 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-05-25 23:12:49,904 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/css/sb-admin-2.min.css - 304
+2025-05-25 23:12:49,905 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/img/undraw_profile.svg - 304
+2025-05-25 23:12:53,926 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/orden/nueva - 200
+2025-05-25 23:12:53,957 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/css/sb-admin-2.min.css - 304
+2025-05-25 23:12:53,959 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/img/undraw_profile.svg - 304
+2025-05-25 23:12:53,959 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-05-25 23:12:53,960 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/js/sb-admin-2.min.js - 304
+2025-05-25 23:12:53,961 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/js/datatables-es.js - 304
+2025-05-25 23:13:08,135 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/cotizacion/listar - 200
+2025-05-25 23:13:08,176 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/css/sb-admin-2.min.css - 304
+2025-05-25 23:13:08,176 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-05-25 23:13:08,176 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/img/undraw_profile.svg - 304
+2025-05-25 23:13:08,177 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/js/datatables-es.js - 304
+2025-05-25 23:13:08,178 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/js/sb-admin-2.min.js - 304

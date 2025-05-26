@@ -1,7 +1,7 @@
 from flask import render_template, redirect, url_for, request, flash, jsonify, send_file
 from flask_login import login_required, current_user
 from werkzeug.security import generate_password_hash
-from models import Usuario, Orden, CorreoLog
+from models import Usuario, Orden, CorreoLog, OrdenEliminada
 from extensions import db
 from . import admin_bp
 from functools import wraps
@@ -13,6 +13,8 @@ import logging
 from forms import UsuarioForm
 from utils.db_context import atomic_transaction
 from utils.mail_sender import enviar_correo
+import shutil
+from utils.decorators import admin_required
 
 logger = logging.getLogger(__name__)
 
@@ -244,18 +246,84 @@ def descargar_logs():
 @login_required
 @admin_required
 def limpiar_logs():
+    """Limpia el archivo de logs manteniendo un backup."""
     try:
+        log_file = 'logs/app.log'
+        backup_dir = 'logs/backups'
+        
+        # Crear directorio de backups si no existe
+        if not os.path.exists(backup_dir):
+            os.makedirs(backup_dir)
+        
+        # Verificar si existe el archivo de logs
+        if not os.path.exists(log_file):
+            return jsonify({
+                'status': 'error',
+                'message': 'No se encontró el archivo de logs'
+            }), 404
+        
+        # Crear nombre para el backup
+        backup_name = f'app_{datetime.now().strftime("%Y%m%d_%H%M%S")}.log'
+        backup_path = os.path.join(backup_dir, backup_name)
+        
         # Hacer backup del archivo actual
-        if os.path.exists('logs/app.log'):
-            backup_name = f'logs/app_{datetime.now().strftime("%Y%m%d_%H%M%S")}.log.bak'
-            os.rename('logs/app.log', backup_name)
+        shutil.copy2(log_file, backup_path)
         
-        # Crear nuevo archivo de log
-        open('logs/app.log', 'w').close()
+        # Limpiar el archivo de logs
+        with open(log_file, 'w') as f:
+            f.write(f'[{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}] INFO: Log limpiado y respaldado como {backup_name}\n')
         
-        # Registrar la acción de limpieza
-        logging.info(f'Logs limpiados por {current_user.username} [User:{current_user.username}] [IP:{request.remote_addr}]')
+        logger.info(f'Archivo de logs limpiado y respaldado como {backup_name}')
         
-        return jsonify({'success': True})
+        return jsonify({
+            'status': 'success',
+            'message': 'Logs limpiados correctamente',
+            'backup': backup_name
+        })
+        
     except Exception as e:
-        return jsonify({'success': False, 'error': str(e)}) 
+        logger.error(f'Error al limpiar logs: {str(e)}')
+        return jsonify({
+            'status': 'error',
+            'message': f'Error al limpiar logs: {str(e)}'
+        }), 500
+
+@admin_bp.route('/ordenes_eliminadas')
+@login_required
+@admin_required
+def ordenes_eliminadas():
+    """Vista para mostrar el historial de órdenes eliminadas."""
+    try:
+        ordenes = OrdenEliminada.query.order_by(OrdenEliminada.fecha_eliminacion.desc()).all()
+        return render_template('admin/ordenes_eliminadas.html', ordenes=ordenes)
+    except Exception as e:
+        logger.error(f"Error al cargar órdenes eliminadas: {str(e)}")
+        flash('Error al cargar el historial de órdenes eliminadas', 'error')
+        return redirect(url_for('admin.index'))
+
+@admin_bp.route('/ordenes_eliminadas/<int:id>/detalles')
+@login_required
+@admin_required
+def detalles_orden_eliminada(id):
+    """Obtener detalles de una orden eliminada en formato JSON."""
+    try:
+        orden = OrdenEliminada.query.get_or_404(id)
+        return jsonify({
+            'id': orden.id,
+            'orden_id_original': orden.orden_id_original,
+            'cliente_nombre': orden.cliente_nombre,
+            'cliente_correo': orden.cliente_correo,
+            'equipo': orden.equipo,
+            'marca': orden.marca,
+            'modelo': orden.modelo,
+            'descripcion': orden.descripcion,
+            'estado': orden.estado,
+            'fecha_creacion_original': orden.fecha_creacion_original.isoformat(),
+            'fecha_eliminacion': orden.fecha_eliminacion.isoformat(),
+            'eliminado_por': orden.eliminado_por,
+            'motivo_eliminacion': orden.motivo_eliminacion,
+            'datos_adicionales': orden.datos_adicionales
+        })
+    except Exception as e:
+        logger.error(f"Error al obtener detalles de orden eliminada {id}: {str(e)}")
+        return jsonify({'error': 'Error al obtener detalles'}), 500 

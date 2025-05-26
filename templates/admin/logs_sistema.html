@@ -100,7 +100,7 @@
             ],
             "pageLength": 50,
             "language": {
-                "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
+                "url": "{{ url_for('static', filename='js/datatables-es.json') }}"
             }
         });
 
@@ -127,13 +127,24 @@
         });
 
         $('#btnConfirmarLimpiar').on('click', function() {
-            $.post("{{ url_for('admin.limpiar_logs') }}", function(response) {
-                if (response.success) {
-                    location.reload();
-                } else {
-                    alert('Error al limpiar los logs: ' + response.error);
+            $.ajax({
+                url: "{{ url_for('admin.limpiar_logs') }}",
+                type: 'POST',
+                headers: {
+                    'X-CSRFToken': "{{ csrf_token() }}"
+                },
+                success: function(response) {
+                    if (response.status === 'success') {
+                        location.reload();
+                    } else {
+                        alert('Error: ' + response.message);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    alert('Error al limpiar los logs: ' + error);
                 }
             });
+            $('#confirmModal').modal('hide');
         });
     });
 </script>

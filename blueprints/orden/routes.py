@@ -3,18 +3,29 @@ from flask_login import login_required, current_user
 from werkzeug.utils import secure_filename
 from datetime import datetime
 import os
-from models import Orden, Cliente, Imagen, Usuario, Historial, Solicitud, CorreoLog
+import json
+from models import Orden, Cliente, Imagen, Usuario, Historial, Solicitud, CorreoLog, OrdenEliminada
 from extensions import db
 from utils.mail_sender import enviar_correo, enviar_notificacion_admin
 from utils.db_context import db_session, atomic_transaction
 from . import orden_bp
 import logging
+from functools import wraps
 
 logger = logging.getLogger(__name__)
 
 def allowed_file(filename):
     ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+def admin_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if not current_user.rol == 'admin':
+            flash('No tienes permisos para realizar esta acción.', 'error')
+            return redirect(url_for('orden.listar_ordenes'))
+        return f(*args, **kwargs)
+    return decorated_function
 
 @orden_bp.route('/')
 @login_required
@@ -29,7 +40,7 @@ def nueva_orden():
         try:
             # Validar datos básicos
             if not all([
-                request.form.get('cliente'),
+                request.form.get('cliente_id'),
                 request.form.get('correo'),
                 request.form.get('equipo'),
                 request.form.get('marca'),
@@ -39,8 +50,7 @@ def nueva_orden():
                 flash('Por favor complete todos los campos obligatorios.', 'error')
                 return redirect(url_for('orden.nueva_orden'))
 
-            cliente_nombre = request.form['cliente']
-            cliente_correo = request.form['correo']
+            cliente_id = request.form.get('cliente_id')
 
             # Procesar tecnico_id
             tecnico_id = request.form.get('tecnico_id')
@@ -49,25 +59,18 @@ def nueva_orden():
             else:
                 tecnico_id = int(tecnico_id)
 
-            # Buscar o crear cliente
+            # Crear nueva orden
             with atomic_transaction() as session:
-                cliente_existente = session.query(Cliente).filter_by(
-                    nombre=cliente_nombre, 
-                    correo=cliente_correo
-                ).first()
-                
-                if cliente_existente:
-                    cliente_id = cliente_existente.id
-                else:
-                    nuevo_cliente = Cliente(nombre=cliente_nombre, correo=cliente_correo)
-                    session.add(nuevo_cliente)
-                    session.flush()
-                    cliente_id = nuevo_cliente.id
+                # Verificar que el cliente existe
+                cliente = session.query(Cliente).get(cliente_id)
+                if not cliente:
+                    flash('El cliente seleccionado no existe.', 'error')
+                    return redirect(url_for('orden.nueva_orden'))
 
                 # Crear nueva orden
                 nueva = Orden(
                     cliente_id=cliente_id,
-                    correo=cliente_correo,
+                    correo=cliente.correo,  # Usar el correo del cliente
                     equipo=request.form['equipo'],
                     marca=request.form['marca'],
                     modelo=request.form['modelo'],
@@ -459,4 +462,96 @@ def solicitar_repuesto_presupuesto(orden_id):
     else:
         flash('Por favor complete todos los campos requeridos', 'error')
     
-    return redirect(url_for('orden.ver_orden', orden_id=orden_id)) 
+    return redirect(url_for('orden.ver_orden', orden_id=orden_id))
+
+@orden_bp.route('/<int:orden_id>/eliminar', methods=['POST'])
+@login_required
+@admin_required
+def eliminar_orden(orden_id):
+    """Eliminar una orden y todos sus datos asociados."""
+    try:
+        with atomic_transaction() as session:
+            orden = session.query(Orden).get(orden_id)
+            if not orden:
+                flash('Orden no encontrada', 'error')
+                return redirect(url_for('orden.listar_ordenes'))
+            
+            motivo = request.form.get('motivo_eliminacion')
+            if not motivo:
+                flash('Debe especificar un motivo para eliminar la orden', 'error')
+                return redirect(url_for('orden.listar_ordenes'))
+
+            # Crear registro histórico antes de eliminar
+            datos_adicionales = {
+                'procesador': orden.procesador,
+                'ram': orden.ram,
+                'disco': orden.disco,
+                'pantalla': orden.pantalla,
+                'tecnico': orden.tecnico.username if orden.tecnico else None,
+                'historial': [
+                    {
+                        'fecha': h.fecha.isoformat(),
+                        'usuario': h.usuario.username if h.usuario else None,
+                        'descripcion': h.descripcion
+                    } for h in orden.historial
+                ],
+                'solicitudes': [
+                    {
+                        'tipo': s.tipo,
+                        'descripcion': s.descripcion,
+                        'fecha': s.fecha.isoformat(),
+                        'usuario': s.usuario.username if s.usuario else None
+                    } for s in orden.solicitudes
+                ],
+                'correos': [
+                    {
+                        'destinatario': c.destinatario,
+                        'asunto': c.asunto,
+                        'fecha': c.fecha_envio.isoformat(),
+                        'estado': c.estado
+                    } for c in orden.correos
+                ] if hasattr(orden, 'correos') else []
+            }
+
+            orden_eliminada = OrdenEliminada(
+                orden_id_original=orden.id,
+                cliente_nombre=orden.cliente.nombre if orden.cliente else None,
+                cliente_correo=orden.cliente.correo if orden.cliente else None,
+                equipo=orden.equipo,
+                marca=orden.marca,
+                modelo=orden.modelo,
+                descripcion=orden.descripcion,
+                estado=orden.estado,
+                fecha_creacion_original=orden.fecha_creacion,
+                eliminado_por=current_user.username,
+                motivo_eliminacion=motivo,
+                datos_adicionales=datos_adicionales
+            )
+            session.add(orden_eliminada)
+            
+            # Registrar en el log antes de eliminar
+            logger.info(f"Eliminando orden #{orden_id} por el usuario {current_user.username}. Motivo: {motivo}")
+            
+            # Eliminar imágenes físicas
+            for imagen in orden.imagenes:
+                try:
+                    ruta_imagen = os.path.join('static/uploads/images', imagen.filename)
+                    if os.path.exists(ruta_imagen):
+                        os.remove(ruta_imagen)
+                except Exception as e:
+                    logger.error(f"Error al eliminar imagen {imagen.filename}: {str(e)}")
+            
+            # La eliminación en cascada se encargará de eliminar:
+            # - Imágenes (registros en BD)
+            # - Historial
+            # - Solicitudes
+            # - Correos
+            session.delete(orden)
+            
+            flash('Orden eliminada exitosamente', 'success')
+            return redirect(url_for('orden.listar_ordenes'))
+            
+    except Exception as e:
+        logger.error(f"Error al eliminar orden {orden_id}: {str(e)}")
+        flash('Error al eliminar la orden', 'error')
+        return redirect(url_for('orden.listar_ordenes')) 

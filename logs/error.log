@@ -301,3 +301,75 @@ Traceback (most recent call last):
     total_ordenes = len(current_user.ordenes_creadas) + len(current_user.ordenes_asignadas)
                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 AttributeError: 'Usuario' object has no attribute 'ordenes_creadas'. Did you mean: 'ordenes_asignadas'?
+2025-05-25 22:14:43,f - ERROR - logger - Error no manejado: 400 Bad Request: The CSRF token is missing.
+Traceback (most recent call last):
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/env/lib/python3.12/site-packages/flask_wtf/csrf.py", line 261, in protect
+    validate_csrf(self._get_csrf_token())
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/env/lib/python3.12/site-packages/flask_wtf/csrf.py", line 100, in validate_csrf
+    raise ValidationError("The CSRF token is missing.")
+wtforms.validators.ValidationError: The CSRF token is missing.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/env/lib/python3.12/site-packages/flask/app.py", line 915, in full_dispatch_request
+    rv = self.preprocess_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/env/lib/python3.12/site-packages/flask/app.py", line 1291, in preprocess_request
+    rv = self.ensure_sync(before_func)()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/env/lib/python3.12/site-packages/flask_wtf/csrf.py", line 229, in csrf_protect
+    self.protect()
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/env/lib/python3.12/site-packages/flask_wtf/csrf.py", line 264, in protect
+    self._error_response(e.args[0])
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/env/lib/python3.12/site-packages/flask_wtf/csrf.py", line 307, in _error_response
+    raise CSRFError(reason)
+flask_wtf.csrf.CSRFError: 400 Bad Request: The CSRF token is missing.
+2025-05-25 22:21:31,f - ERROR - logger - Error no manejado: 400 Bad Request: The CSRF token is missing.
+Traceback (most recent call last):
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/env/lib/python3.12/site-packages/flask_wtf/csrf.py", line 261, in protect
+    validate_csrf(self._get_csrf_token())
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/env/lib/python3.12/site-packages/flask_wtf/csrf.py", line 100, in validate_csrf
+    raise ValidationError("The CSRF token is missing.")
+wtforms.validators.ValidationError: The CSRF token is missing.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/env/lib/python3.12/site-packages/flask/app.py", line 915, in full_dispatch_request
+    rv = self.preprocess_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/env/lib/python3.12/site-packages/flask/app.py", line 1291, in preprocess_request
+    rv = self.ensure_sync(before_func)()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/env/lib/python3.12/site-packages/flask_wtf/csrf.py", line 229, in csrf_protect
+    self.protect()
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/env/lib/python3.12/site-packages/flask_wtf/csrf.py", line 264, in protect
+    self._error_response(e.args[0])
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/env/lib/python3.12/site-packages/flask_wtf/csrf.py", line 307, in _error_response
+    raise CSRFError(reason)
+flask_wtf.csrf.CSRFError: 400 Bad Request: The CSRF token is missing.
+2025-05-25 23:12:36,f - ERROR - logger - Error no manejado: 400 Bad Request: The CSRF token is missing.
+Traceback (most recent call last):
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/env/lib/python3.12/site-packages/flask_wtf/csrf.py", line 261, in protect
+    validate_csrf(self._get_csrf_token())
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/env/lib/python3.12/site-packages/flask_wtf/csrf.py", line 100, in validate_csrf
+    raise ValidationError("The CSRF token is missing.")
+wtforms.validators.ValidationError: The CSRF token is missing.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/env/lib/python3.12/site-packages/flask/app.py", line 915, in full_dispatch_request
+    rv = self.preprocess_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/env/lib/python3.12/site-packages/flask/app.py", line 1291, in preprocess_request
+    rv = self.ensure_sync(before_func)()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/env/lib/python3.12/site-packages/flask_wtf/csrf.py", line 229, in csrf_protect
+    self.protect()
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/env/lib/python3.12/site-packages/flask_wtf/csrf.py", line 264, in protect
+    self._error_response(e.args[0])
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/env/lib/python3.12/site-packages/flask_wtf/csrf.py", line 307, in _error_response
+    raise CSRFError(reason)
+flask_wtf.csrf.CSRFError: 400 Bad Request: The CSRF token is missing.
