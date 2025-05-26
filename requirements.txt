@@ -1,10 +1,10 @@
 alembic==1.15.2
 blinker==1.9.0
 Brotli==1.1.0
-celery==5.3.6  # Añadido desde sec-scale-foundations
 cffi==1.17.1
 click==8.1.8
 cssselect2==0.8.0
+email_validator==2.1.1  # Añadido para validación de correos
 Flask==3.1.0
 Flask-Login==0.6.3
 Flask-Migrate==4.1.0
@@ -24,7 +24,7 @@ pycparser==2.22
 pydyf==0.11.0
 PyMySQL==1.1.1
 pyphen==0.17.2
-redis==5.0.1  # Añadido desde sec-scale-foundations
+python-dotenv==1.0.1  # Añadido para variables de entorno
 SQLAlchemy==2.0.40
 tinycss2==1.4.0
 tinyhtml5==2.0.0

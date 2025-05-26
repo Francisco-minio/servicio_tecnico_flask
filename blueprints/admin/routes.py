@@ -11,13 +11,17 @@ import csv
 from io import StringIO
 import logging
 from forms import UsuarioForm
+from utils.db_context import atomic_transaction
+from utils.mail_sender import enviar_correo
+
+logger = logging.getLogger(__name__)
 
 def admin_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if not current_user.is_authenticated or current_user.rol != 'admin':
             flash('Acceso no autorizado', 'danger')
-            return redirect(url_for('index'))
+            return redirect(url_for('auth.login'))
         return f(*args, **kwargs)
     return decorated_function
 
@@ -43,7 +47,7 @@ def crear_usuario():
     if form.validate_on_submit():
         usuario = Usuario(
             username=form.username.data,
-            correo=form.correo.data,
+            email=form.email.data,
             password=generate_password_hash(form.password.data),
             rol=form.rol.data
         )
@@ -73,50 +77,114 @@ def editar_usuario(usuario_id):
 @admin_bp.route('/correos')
 @login_required
 @admin_required
-def ver_logs_correos():
-    logs = CorreoLog.query.order_by(CorreoLog.fecha_envio.desc()).all()
-    return render_template('admin/correos.html', logs=logs)
+def ver_correos():
+    """Vista para ver el historial de correos enviados."""
+    try:
+        # Obtener los correos ordenados por fecha de envío descendente
+        correos = CorreoLog.query\
+            .order_by(CorreoLog.fecha_envio.desc())\
+            .all()
+        
+        return render_template(
+            'admin/correos.html',
+            correos=correos,
+            title='Historial de Correos'
+        )
+        
+    except Exception as e:
+        logger.error(f"Error al cargar historial de correos: {str(e)}")
+        flash('Error al cargar el historial de correos', 'error')
+        return redirect(url_for('admin.dashboard'))
 
-@admin_bp.route('/correos/<int:log_id>')
+@admin_bp.route('/correos/<int:correo_id>')
 @login_required
 @admin_required
-def ver_detalle_correo(log_id):
-    log = CorreoLog.query.get_or_404(log_id)
-    return jsonify({
-        'asunto': log.asunto,
-        'cuerpo': log.cuerpo,
-        'error': log.error
-    })
+def ver_correo(correo_id):
+    """Vista para ver el detalle de un correo específico."""
+    try:
+        with atomic_transaction() as session:
+            # Obtener el correo específico
+            correo = session.query(CorreoLog).get(correo_id)
+            if not correo:
+                flash('Correo no encontrado', 'error')
+                return redirect(url_for('admin.ver_correos'))
+            
+            return render_template(
+                'admin/ver_correo.html',
+                correo=correo,
+                title='Detalle de Correo'
+            )
+            
+    except Exception as e:
+        logger.error(f"Error al cargar detalle de correo {correo_id}: {str(e)}")
+        flash('Error al cargar el detalle del correo', 'error')
+        return redirect(url_for('admin.ver_correos'))
+
+@admin_bp.route('/correos/reenviar/<int:correo_id>', methods=['POST'])
+@login_required
+@admin_required
+def reenviar_correo(correo_id):
+    """Reenviar un correo específico."""
+    try:
+        with atomic_transaction() as session:
+            # Obtener el correo a reenviar
+            correo = session.query(CorreoLog).get(correo_id)
+            if not correo:
+                flash('Correo no encontrado', 'error')
+                return redirect(url_for('admin.ver_correos'))
+            
+            # Reenviar el correo
+            if correo.orden_id:
+                enviar_correo(correo.orden_id, tipo='reenvio')
+                flash('Correo reenviado correctamente', 'success')
+            else:
+                flash('No se puede reenviar este correo', 'error')
+            
+            return redirect(url_for('admin.ver_correo', correo_id=correo_id))
+            
+    except Exception as e:
+        logger.error(f"Error al reenviar correo {correo_id}: {str(e)}")
+        flash('Error al reenviar el correo', 'error')
+        return redirect(url_for('admin.ver_correos'))
 
 @admin_bp.route('/correos/exportar')
 @login_required
 @admin_required
-def exportar_logs_correos():
-    logs = CorreoLog.query.order_by(CorreoLog.fecha_envio.desc()).all()
-    
-    si = StringIO()
-    cw = csv.writer(si)
-    cw.writerow(['Fecha', 'Orden ID', 'Destinatario', 'Asunto', 'Estado', 'Error'])
-    
-    for log in logs:
-        cw.writerow([
-            log.fecha_envio.strftime('%d/%m/%Y %H:%M:%S'),
-            log.orden_id or '',
-            log.destinatario,
-            log.asunto,
-            log.estado,
-            log.error or ''
-        ])
-    
-    output = si.getvalue()
-    si.close()
-    
-    return send_file(
-        StringIO(output),
-        mimetype='text/csv',
-        as_attachment=True,
-        download_name=f'logs_correos_{datetime.now().strftime("%Y%m%d_%H%M%S")}.csv'
-    )
+def exportar_correos():
+    """Exportar historial de correos a CSV."""
+    try:
+        with atomic_transaction() as session:
+            correos = session.query(CorreoLog)\
+                .order_by(CorreoLog.fecha_envio.desc())\
+                .all()
+            
+            si = StringIO()
+            cw = csv.writer(si)
+            cw.writerow(['Fecha', 'Orden ID', 'Destinatario', 'Asunto', 'Estado', 'Error'])
+            
+            for correo in correos:
+                cw.writerow([
+                    correo.fecha_envio.strftime('%d/%m/%Y %H:%M:%S'),
+                    correo.orden_id or '',
+                    correo.destinatario,
+                    correo.asunto,
+                    correo.estado,
+                    correo.error or ''
+                ])
+            
+            output = si.getvalue()
+            si.close()
+            
+            return send_file(
+                StringIO(output),
+                mimetype='text/csv',
+                as_attachment=True,
+                download_name=f'correos_{datetime.now().strftime("%Y%m%d_%H%M%S")}.csv'
+            )
+    except Exception as e:
+        logger.error(f"Error al exportar correos: {str(e)}")
+        flash('Error al exportar los correos', 'error')
+        return redirect(url_for('admin.ver_correos'))
 
 @admin_bp.route('/logs')
 @login_required

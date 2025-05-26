@@ -1,5 +1,6 @@
 from flask import Blueprint
 
-orden_bp = Blueprint('orden', __name__)
+# Crear el blueprint con el prefijo de URL correcto
+orden_bp = Blueprint('orden', __name__, url_prefix='/orden')
 
 from . import routes 

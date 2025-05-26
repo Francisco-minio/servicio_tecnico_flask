@@ -9,7 +9,7 @@ class LoginForm(FlaskForm):
 
 class UsuarioForm(FlaskForm):
     username = StringField('Usuario', validators=[DataRequired(), Length(min=4)])
-    correo = StringField('Correo electrónico', validators=[DataRequired(), Email()])
+    email = StringField('Correo electrónico', validators=[DataRequired(), Email()])
     password = PasswordField('Contraseña', validators=[Optional(), Length(min=6)])
     rol = SelectField('Rol', choices=[('admin', 'Administrador'), ('tecnico', 'Técnico'), ('cliente', 'Cliente')])
     
@@ -18,9 +18,9 @@ class UsuarioForm(FlaskForm):
         if user and user.username != field.data:
             raise ValidationError('Este nombre de usuario ya está en uso.')
             
-    def validate_correo(self, field):
-        user = Usuario.query.filter_by(correo=field.data).first()
-        if user and user.correo != field.data:
+    def validate_email(self, field):
+        user = Usuario.query.filter_by(email=field.data).first()
+        if user and user.email != field.data:
             raise ValidationError('Este correo electrónico ya está registrado.')
 
 class ClienteForm(FlaskForm):

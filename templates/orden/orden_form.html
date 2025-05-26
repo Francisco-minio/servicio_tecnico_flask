@@ -1,10 +1,11 @@
-{% extends 'base.html' %} {% block title %}Ingreso de Orden{% endblock %} {% block content %}
+{% extends 'base.html' %} {% block title %}Ingreso de Orden{% endblock %} {% block styles %}
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"> {% endblock %} {% block content %}
 <div class="container-fluid">
     <h1 class="h3 mb-4 text-gray-800">Ingreso de Orden de Trabajo</h1>
 
     <div class="card">
         <div class="card-body">
-            <form action="{{ url_for('orden.nueva_orden') }}" method="POST" enctype="multipart/form-data">
+            <form id="ordenForm" action="{{ url_for('orden.nueva_orden') }}" method="POST" enctype="multipart/form-data" onsubmit="return validarFormulario()">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
 
                 <!-- Datos del cliente -->
@@ -12,20 +13,25 @@
                     <legend class="w-auto px-2">Datos del Cliente</legend>
 
                     <div class="form-group">
-                        <label for="cliente">Nombre del Cliente</label>
-                        <input type="text" class="form-control" id="cliente" name="cliente" required>
+                        <label for="cliente">Nombre del Cliente <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="cliente" name="cliente" required list="clientes_list">
+                        <datalist id="clientes_list">
+                            {% for cliente in clientes %}
+                                <option value="{{ cliente.nombre }}" data-correo="{{ cliente.correo }}">
+                            {% endfor %}
+                        </datalist>
                         <small class="form-text text-muted">Si el cliente no existe, será creado automáticamente.</small>
                     </div>
 
                     <div class="form-group">
-                        <label for="correo">Correo Electrónico</label>
+                        <label for="correo">Correo Electrónico <span class="text-danger">*</span></label>
                         <input type="email" class="form-control" id="correo" name="correo" required>
                     </div>
                 </fieldset>
 
                 <!-- Tipo de equipo -->
                 <div class="form-group">
-                    <label for="equipo">Tipo de Equipo</label>
+                    <label for="equipo">Tipo de Equipo <span class="text-danger">*</span></label>
                     <select class="form-control" id="equipo" name="equipo" required onchange="mostrarCaracteristicas()">
                         <option value="">-- Seleccionar tipo --</option>
                         <option value="Notebook">Notebook</option>
@@ -39,17 +45,17 @@
                 <!-- Marca y modelo -->
                 <div class="form-row">
                     <div class="form-group col-md-6">
-                        <label for="marca">Marca</label>
+                        <label for="marca">Marca <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" id="marca" name="marca" required>
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="modelo">Modelo</label>
+                        <label for="modelo">Modelo <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" id="modelo" name="modelo" required>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="descripcion">Diagnóstico/Problema</label>
+                    <label for="descripcion">Diagnóstico/Problema <span class="text-danger">*</span></label>
                     <textarea class="form-control" id="descripcion" name="descripcion" rows="4" required></textarea>
                 </div>
 
@@ -100,7 +106,7 @@
                     <select class="form-control" id="tecnico_id" name="tecnico_id">
                         <option value="">-- No asignado --</option>
                         {% for tecnico in tecnicos %}
-                            <option value="{{ tecnico.id }}">{{ tecnico.username }} ({{ tecnico.correo }})</option>
+                            <option value="{{ tecnico.id }}">{{ tecnico.username }} ({{ tecnico.email }})</option>
                         {% endfor %}
                     </select>
                 </div>
@@ -108,8 +114,9 @@
                 <!-- Imágenes -->
                 <div class="form-group">
                     <label for="imagenes">Imágenes del equipo (Máx. 5)</label>
-                    <input type="file" name="imagenes" multiple class="form-control-file" accept="image/*">
-                    <small class="form-text text-muted">Puedes seleccionar múltiples imágenes (JPEG, PNG)</small>
+                    <input type="file" name="imagenes" multiple class="form-control-file" accept="image/*" onchange="validarImagenes(this)">
+                    <small class="form-text text-muted">Formatos permitidos: PNG, JPG, JPEG, GIF. Máximo 5 imágenes.</small>
+                    <div id="preview" class="mt-2 d-flex flex-wrap"></div>
                 </div>
 
                 <div class="form-group">
@@ -130,8 +137,17 @@
     </div>
 </div>
 
-<!-- Script para mostrar campos dinámicos -->
+{% block scripts %}
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
+    // Autocompletado de cliente y correo
+    document.getElementById('cliente').addEventListener('change', function() {
+        const clienteSeleccionado = document.querySelector(`#clientes_list option[value="${this.value}"]`);
+        if (clienteSeleccionado) {
+            document.getElementById('correo').value = clienteSeleccionado.dataset.correo;
+        }
+    });
+
     function mostrarCaracteristicas() {
         const equipo = document.getElementById('equipo').value;
         const comunes = document.getElementById('campos_comunes');
@@ -151,9 +167,64 @@
         }
     }
 
+    function validarImagenes(input) {
+        const files = input.files;
+        const preview = document.getElementById('preview');
+        preview.innerHTML = '';
+
+        if (files.length > 5) {
+            alert('Solo se permiten hasta 5 imágenes.');
+            input.value = '';
+            return;
+        }
+
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+            if (!file.type.startsWith('image/')) {
+                alert(`El archivo ${file.name} no es una imagen válida.`);
+                input.value = '';
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const div = document.createElement('div');
+                div.className = 'm-2';
+                div.innerHTML = `
+                    <img src="${e.target.result}" style="max-width: 100px; max-height: 100px;" class="img-thumbnail">
+                    <p class="small text-muted mb-0">${file.name}</p>
+                `;
+                preview.appendChild(div);
+            }
+            reader.readAsDataURL(file);
+        }
+    }
+
+    function validarFormulario() {
+        const campos = ['cliente', 'correo', 'equipo', 'marca', 'modelo', 'descripcion'];
+        let valido = true;
+
+        campos.forEach(campo => {
+            const elemento = document.getElementById(campo);
+            if (!elemento.value.trim()) {
+                elemento.classList.add('is-invalid');
+                valido = false;
+            } else {
+                elemento.classList.remove('is-invalid');
+            }
+        });
+
+        if (!valido) {
+            alert('Por favor complete todos los campos obligatorios.');
+            return false;
+        }
+
+        return true;
+    }
+
     // Inicializar al cargar la página
     document.addEventListener("DOMContentLoaded", function() {
         mostrarCaracteristicas();
     });
 </script>
-{% endblock %}
+{% endblock %} {% endblock %}

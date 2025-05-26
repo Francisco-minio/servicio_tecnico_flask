@@ -3,7 +3,9 @@ from datetime import timedelta
 
 class Config:
     # Configuración básica
-    SECRET_KEY = os.environ.get('SECRET_KEY') or 'dev_key_very_secret'
+    SECRET_KEY = os.environ.get('SECRET_KEY') or 'dev'
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
+        'mysql+pymysql://root@localhost/ordenes_db'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     
     # Configuración de sesión
@@ -24,52 +26,61 @@ class Config:
     CSRF_COOKIE_SAMESITE = 'Lax'
     
     # Configuración de correo
-    MAIL_SERVER = os.environ.get('MAIL_SERVER', 'mail.smtp2go.com')
-    MAIL_PORT = int(os.environ.get('MAIL_PORT', 2525))
-    MAIL_USE_TLS = os.environ.get('MAIL_USE_TLS', True)
-    MAIL_USERNAME = os.environ.get('SMTP_USER')
-    MAIL_PASSWORD = os.environ.get('SMTP_PASS')
-    MAIL_DEFAULT_SENDER = os.environ.get('MAIL_DEFAULT_SENDER')
+    MAIL_SERVER = 'smtp.smtp2go.com'
+    MAIL_PORT = 587
+    MAIL_USE_TLS = True
+    MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
+    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
+    MAIL_DEFAULT_SENDER = 'no-reply@backupcode.cl'
     
     # Configuración de archivos
-    MAX_CONTENT_LENGTH = 16 * 1024 * 1024  # 16MB max-limit
-    UPLOAD_FOLDER = 'static/uploads'
+    MAX_CONTENT_LENGTH = 16 * 1024 * 1024  # 16MB max file size
+    UPLOAD_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static/uploads')
     ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'pdf', 'doc', 'docx'}
     
     # Configuración de logging
     LOG_TYPE = os.environ.get('LOG_TYPE', 'stream')
     LOG_LEVEL = os.environ.get('LOG_LEVEL', 'INFO')
 
-    # Configuración de la base de datos
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
-        'mysql+pymysql://root:@localhost/ordenes_db'
-    
     # Configuración de seguridad adicionales
     REMEMBER_COOKIE_SECURE = True
     REMEMBER_COOKIE_HTTPONLY = True
     REMEMBER_COOKIE_SAMESITE = 'Lax'
 
-    CORREO_ADMIN = os.environ.get('CORREO_ADMIN') or 'franciscominio@backupcode.cl'
+    CORREO_ADMIN = 'admin@backupcode.cl'
     CORREO_REPUESTOS = os.environ.get('CORREO_REPUESTOS') or 'franciscominio@backupcode.cl'
     CORREO_PRESUPUESTOS = os.environ.get('CORREO_PRESUPUESTOS') or 'franciscominio@backupcode.cl'
 
 class DevelopmentConfig(Config):
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
-        'mysql+pymysql://root:@localhost/ordenes_db'
+    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root@localhost/ordenes_db'
     SQLALCHEMY_ECHO = True
-    # Desactivar configuraciones de seguridad estrictas en desarrollo
+    
+    # Desactivar configuraciones de seguridad SSL en desarrollo
     SESSION_COOKIE_SECURE = False
+    CSRF_COOKIE_SECURE = False
     REMEMBER_COOKIE_SECURE = False
+    
+    # Desactivar restricciones de cookies para desarrollo
+    SESSION_COOKIE_SAMESITE = None
+    CSRF_COOKIE_SAMESITE = None
+    REMEMBER_COOKIE_SAMESITE = None
+    
+    # Configuraciones adicionales para desarrollo
+    WTF_CSRF_SSL_STRICT = False
+    SESSION_COOKIE_HTTPONLY = False
+    CSRF_COOKIE_HTTPONLY = False
+    REMEMBER_COOKIE_HTTPONLY = False
 
 class ProductionConfig(Config):
     DEBUG = False
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
+        'mysql+pymysql://root@localhost/ordenes_db'
     SQLALCHEMY_ECHO = False
 
 class TestingConfig(Config):
     TESTING = True
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///test.db'
+    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root@localhost/ordenes_test_db'
     WTF_CSRF_ENABLED = False
     SESSION_COOKIE_SECURE = False
     REMEMBER_COOKIE_SECURE = False

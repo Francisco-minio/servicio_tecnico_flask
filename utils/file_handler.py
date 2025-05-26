@@ -4,15 +4,27 @@ from datetime import datetime
 import uuid
 
 class FileHandler:
-    def __init__(self, app):
-        self.app = app
-        self.allowed_extensions = app.config['ALLOWED_EXTENSIONS']
-        self.upload_folder = app.config['UPLOAD_FOLDER']
-        self._ensure_upload_folders()
+    _instance = None
+
+    def __init__(self):
+        self.app = None
+        self.allowed_extensions = None
+        self.upload_folder = None
+
+    @classmethod
+    def init_app(cls, app):
+        if cls._instance is None:
+            cls._instance = cls()
+        
+        cls._instance.app = app
+        cls._instance.allowed_extensions = app.config.get('ALLOWED_EXTENSIONS', {'png', 'jpg', 'jpeg', 'gif', 'pdf'})
+        cls._instance.upload_folder = app.config.get('UPLOAD_FOLDER', 'static/uploads')
+        cls._instance._ensure_upload_folders()
+        return cls._instance
 
     def _ensure_upload_folders(self):
         """Asegura que existan los directorios necesarios para uploads."""
-        folders = ['images', 'documents', 'temp']
+        folders = ['images', 'documents', 'temp', 'pdfs']
         for folder in folders:
             path = os.path.join(self.upload_folder, folder)
             if not os.path.exists(path):

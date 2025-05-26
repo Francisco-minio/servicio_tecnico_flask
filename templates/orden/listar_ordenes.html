@@ -17,7 +17,7 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <table class="table table-bordered" id="tablaOrdenes" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
                                     <th>ID</th>
@@ -56,12 +56,15 @@
     </div>
 </div>
 {% endblock %} {% block extra_js %}
-<script>
+<script type="text/javascript">
     $(document).ready(function() {
-        $('#dataTable').DataTable({
-            "language": {
-                "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
-            }
+        $('#tablaOrdenes').DataTable({
+            language: dataTablesEspanol,
+            order: [
+                [0, "desc"]
+            ],
+            pageLength: 10,
+            responsive: true
         });
     });
 </script>

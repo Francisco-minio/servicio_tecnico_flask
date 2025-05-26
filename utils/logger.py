@@ -2,6 +2,7 @@ import logging
 import os
 from logging.handlers import RotatingFileHandler
 from datetime import datetime
+from flask import request
 
 def setup_logger(app):
     # Crear directorio de logs si no existe
@@ -11,48 +12,67 @@ def setup_logger(app):
 
     # Configurar el formato del log
     formatter = logging.Formatter(
-        '[%(asctime)s] %(levelname)s in %(module)s: %(message)s'
+        '%(asctime)s - %(levelname)s - %(module)s - %(message)s',
+        '%Y-%m-%d %H:%M:%S,%f'
     )
 
-    # Log para errores
-    error_log = os.path.join(log_dir, 'error.log')
-    error_file_handler = RotatingFileHandler(
-        error_log, maxBytes=10485760, backupCount=10
+    # Log principal de la aplicación
+    app_log = os.path.join(log_dir, 'app.log')
+    file_handler = RotatingFileHandler(
+        app_log, maxBytes=10485760, backupCount=10
     )
-    error_file_handler.setLevel(logging.ERROR)
-    error_file_handler.setFormatter(formatter)
-
-    # Log para accesos
-    access_log = os.path.join(log_dir, 'access.log')
-    access_file_handler = RotatingFileHandler(
-        access_log, maxBytes=10485760, backupCount=10
-    )
-    access_file_handler.setLevel(logging.INFO)
-    access_file_handler.setFormatter(formatter)
+    file_handler.setFormatter(formatter)
+    file_handler.setLevel(logging.INFO)
 
     # Configurar logger de la aplicación
     app.logger.setLevel(logging.INFO)
-    app.logger.addHandler(error_file_handler)
-    app.logger.addHandler(access_file_handler)
+    app.logger.addHandler(file_handler)
 
-    # Log para debugging en desarrollo
+    # Configurar logger para debugging en desarrollo
     if app.debug:
         debug_log = os.path.join(log_dir, 'debug.log')
-        debug_file_handler = RotatingFileHandler(
+        debug_handler = RotatingFileHandler(
             debug_log, maxBytes=10485760, backupCount=10
         )
-        debug_file_handler.setLevel(logging.DEBUG)
-        debug_file_handler.setFormatter(formatter)
-        app.logger.addHandler(debug_file_handler)
+        debug_handler.setFormatter(formatter)
+        debug_handler.setLevel(logging.DEBUG)
+        app.logger.addHandler(debug_handler)
 
-def log_info(app, message):
-    app.logger.info(message)
+    # Configurar logger para errores
+    error_log = os.path.join(log_dir, 'error.log')
+    error_handler = RotatingFileHandler(
+        error_log, maxBytes=10485760, backupCount=10
+    )
+    error_handler.setFormatter(formatter)
+    error_handler.setLevel(logging.ERROR)
+    app.logger.addHandler(error_handler)
 
-def log_error(app, message, exc_info=None):
-    app.logger.error(message, exc_info=exc_info)
+    # Logging después de cada request
+    @app.after_request
+    def after_request(response):
+        if response.status_code != 500:
+            app.logger.info(
+                f'{request.remote_addr} - {request.method} {request.url} - {response.status_code}'
+            )
+        return response
 
-def log_access(app, endpoint, user=None):
-    message = f"Acceso a {endpoint}"
+    # Logging de errores no manejados
+    @app.errorhandler(Exception)
+    def handle_exception(e):
+        app.logger.error(f'Error no manejado: {str(e)}', exc_info=True)
+        return 'Error interno del servidor', 500
+
+def log_info(app, message, **kwargs):
+    extra = ' '.join(f'[{k}:{v}]' for k, v in kwargs.items())
+    app.logger.info(f'{message} {extra}')
+
+def log_error(app, message, exc_info=None, **kwargs):
+    extra = ' '.join(f'[{k}:{v}]' for k, v in kwargs.items())
+    app.logger.error(f'{message} {extra}', exc_info=exc_info)
+
+def log_access(app, endpoint, user=None, **kwargs):
+    extra = ' '.join(f'[{k}:{v}]' for k, v in kwargs.items())
+    message = f'Acceso a {endpoint}'
     if user:
-        message += f" por usuario {user}"
-    app.logger.info(message) 
+        message += f' por usuario {user}'
+    app.logger.info(f'{message} {extra}') 
