@@ -29,3 +29,9 @@
 2025-05-25 22:13:21,704 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/vendor/fontawesome-free/css/all.min.css - 304
 2025-05-25 22:13:21,705 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/img/undraw_profile.svg - 304
 2025-05-25 22:13:21,705 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/css/sb-admin-2.min.css - 304
+2025-05-25 22:14:12,666 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/admin/logs - 200
+2025-05-25 22:14:12,719 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/css/sb-admin-2.min.css - 304
+2025-05-25 22:14:12,719 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-05-25 22:14:12,720 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/js/datatables-es.js - 304
+2025-05-25 22:14:12,720 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/img/undraw_profile.svg - 304
+2025-05-25 22:14:12,720 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/js/sb-admin-2.min.js - 304
