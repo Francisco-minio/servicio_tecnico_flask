@@ -1,10 +1,14 @@
+import os
 from app import create_app
 
-application = create_app('production')
-app = application
+# Configurar el entorno como producción
+os.environ['FLASK_ENV'] = 'production'
 
-if __name__ == '__main__':
-    app.run()
+# Crear la aplicación usando la factory
+app = create_app()
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=8000, ssl_context=None)
 
 # Si tu archivo principal se llama distinto, cambia 'app' por el nombre correcto:
 # from main import app as application

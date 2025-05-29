@@ -41,7 +41,7 @@ def login():
                 
         except Exception as e:
             logger.error(f'Error durante el inicio de sesión: {str(e)}')
-            flash('Error al procesar el inicio de sesión', 'danger')
+            flash('Error al procesar el inicio de sesión. Por favor, inténtelo de nuevo.', 'danger')
             
     return render_template('auth/login.html')
 

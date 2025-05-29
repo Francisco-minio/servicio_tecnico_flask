@@ -1,96 +1,93 @@
-2025-05-25 22:36:34,596 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/js/datatables-es.js - 304
-2025-05-25 22:36:34,596 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/js/sb-admin-2.min.js - 304
-2025-05-25 22:36:36,204 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/cotizacion/nueva - 200
-2025-05-25 22:36:36,234 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/vendor/fontawesome-free/css/all.min.css - 304
-2025-05-25 22:36:36,235 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/css/sb-admin-2.min.css - 304
-2025-05-25 22:36:36,235 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/img/undraw_profile.svg - 304
-2025-05-25 22:36:36,236 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/js/datatables-es.js - 304
-2025-05-25 22:36:36,237 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/js/sb-admin-2.min.js - 304
-2025-05-25 23:04:20,041 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/ - 302
-2025-05-25 23:04:20,121 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/admin/dashboard - 200
-2025-05-25 23:04:20,193 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/img/undraw_profile.svg - 304
-2025-05-25 23:04:20,193 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/js/datatables-es.js - 304
-2025-05-25 23:04:20,194 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/css/sb-admin-2.min.css - 304
-2025-05-25 23:04:20,194 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/vendor/fontawesome-free/css/all.min.css - 304
-2025-05-25 23:04:20,194 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/js/sb-admin-2.min.js - 304
-2025-05-25 23:04:20,259 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/vendor/fontawesome-free/webfonts/fa-solid-900.woff2 - 304
-2025-05-25 23:04:21,525 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/cotizacion/listar - 200
-2025-05-25 23:04:21,585 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/vendor/fontawesome-free/css/all.min.css - 304
-2025-05-25 23:04:21,587 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/css/sb-admin-2.min.css - 304
-2025-05-25 23:04:21,587 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/img/undraw_profile.svg - 304
-2025-05-25 23:04:21,588 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/js/sb-admin-2.min.js - 304
-2025-05-25 23:04:21,588 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/js/datatables-es.js - 304
-2025-05-25 23:04:21,610 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/vendor/fontawesome-free/webfonts/fa-solid-900.woff2 - 304
-2025-05-25 23:04:24,193 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/cliente/ - 200
-2025-05-25 23:04:24,244 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/img/undraw_profile.svg - 304
-2025-05-25 23:04:24,248 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/vendor/fontawesome-free/css/all.min.css - 304
-2025-05-25 23:04:24,249 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/css/sb-admin-2.min.css - 304
-2025-05-25 23:04:24,253 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/js/datatables-es.js - 304
-2025-05-25 23:04:24,255 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/js/sb-admin-2.min.js - 304
-2025-05-25 23:04:24,278 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/vendor/fontawesome-free/webfonts/fa-solid-900.woff2 - 304
-2025-05-25 23:04:24,866 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/orden/ - 200
-2025-05-25 23:04:24,900 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/css/sb-admin-2.min.css - 304
-2025-05-25 23:04:24,900 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/vendor/fontawesome-free/css/all.min.css - 304
-2025-05-25 23:04:24,900 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/img/undraw_profile.svg - 304
-2025-05-25 23:04:24,900 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/js/datatables-es.js - 304
-2025-05-25 23:04:24,901 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/js/sb-admin-2.min.js - 304
-2025-05-25 23:05:42,f - INFO - factory - Aplicación iniciada
-2025-05-25 23:05:42,218 - INFO - factory - Aplicación iniciada
-2025-05-25 23:05:57,f - INFO - logger - 127.0.0.1 - GET http://localhost:8080/orden/ - 200
-2025-05-25 23:05:57,428 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/orden/ - 200
-2025-05-25 23:05:57,f - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/css/sb-admin-2.min.css - 304
-2025-05-25 23:05:57,f - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/img/undraw_profile.svg - 304
-2025-05-25 23:05:57,508 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/css/sb-admin-2.min.css - 304
-2025-05-25 23:05:57,f - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/vendor/fontawesome-free/css/all.min.css - 304
-2025-05-25 23:05:57,508 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/img/undraw_profile.svg - 304
-2025-05-25 23:05:57,508 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/vendor/fontawesome-free/css/all.min.css - 304
-2025-05-25 23:05:57,f - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/js/sb-admin-2.min.js - 304
-2025-05-25 23:05:57,f - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/js/datatables-es.js - 304
-2025-05-25 23:05:57,508 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/js/sb-admin-2.min.js - 304
-2025-05-25 23:05:57,510 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/js/datatables-es.js - 304
-2025-05-25 23:05:57,f - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/vendor/fontawesome-free/webfonts/fa-solid-900.woff2 - 304
-2025-05-25 23:05:57,584 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/vendor/fontawesome-free/webfonts/fa-solid-900.woff2 - 304
-2025-05-25 23:06:03,f - INFO - logger - 127.0.0.1 - POST http://localhost:8080/orden/38/eliminar - 302
-2025-05-25 23:06:03,024 - INFO - logger - 127.0.0.1 - POST http://localhost:8080/orden/38/eliminar - 302
-2025-05-25 23:06:03,f - INFO - logger - 127.0.0.1 - GET http://localhost:8080/orden/ - 200
-2025-05-25 23:06:03,048 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/orden/ - 200
-2025-05-25 23:06:03,f - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/vendor/fontawesome-free/css/all.min.css - 304
-2025-05-25 23:06:03,f - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/css/sb-admin-2.min.css - 304
-2025-05-25 23:06:03,090 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/vendor/fontawesome-free/css/all.min.css - 304
-2025-05-25 23:06:03,f - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/img/undraw_profile.svg - 304
-2025-05-25 23:06:03,090 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/css/sb-admin-2.min.css - 304
-2025-05-25 23:06:03,f - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/js/datatables-es.js - 304
-2025-05-25 23:06:03,f - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/js/sb-admin-2.min.js - 304
-2025-05-25 23:06:03,091 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/img/undraw_profile.svg - 304
-2025-05-25 23:06:03,091 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/js/datatables-es.js - 304
-2025-05-25 23:06:03,092 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/js/sb-admin-2.min.js - 304
-2025-05-25 23:06:03,f - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/vendor/fontawesome-free/webfonts/fa-solid-900.woff2 - 304
-2025-05-25 23:06:03,105 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/vendor/fontawesome-free/webfonts/fa-solid-900.woff2 - 304
-2025-05-25 23:06:12,f - INFO - logger - 127.0.0.1 - GET http://localhost:8080/admin/logs - 200
-2025-05-25 23:06:12,547 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/admin/logs - 200
-2025-05-25 23:06:12,f - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/css/sb-admin-2.min.css - 304
-2025-05-25 23:06:12,617 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/css/sb-admin-2.min.css - 304
-2025-05-25 23:06:12,f - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/vendor/fontawesome-free/css/all.min.css - 304
-2025-05-25 23:06:12,f - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/img/undraw_profile.svg - 304
-2025-05-25 23:06:12,f - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/js/datatables-es.js - 304
-2025-05-25 23:06:12,619 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/vendor/fontawesome-free/css/all.min.css - 304
-2025-05-25 23:06:12,f - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/js/sb-admin-2.min.js - 304
-2025-05-25 23:06:12,619 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/img/undraw_profile.svg - 304
-2025-05-25 23:06:12,620 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/js/datatables-es.js - 304
-2025-05-25 23:06:12,621 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/js/sb-admin-2.min.js - 304
-2025-05-25 23:06:12,f - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/js/datatables-es.json - 304
-2025-05-25 23:06:12,665 - INFO - logger - 127.0.0.1 - GET http://localhost:8080/static/js/datatables-es.json - 304
-2025-05-25 23:06:48,f - INFO - factory - Aplicación iniciada
-2025-05-25 23:06:48,183 - INFO - factory - Aplicación iniciada
-2025-05-25 23:07:29,f - INFO - factory - Aplicación iniciada
-2025-05-25 23:07:29,401 - INFO - factory - Aplicación iniciada
-2025-05-25 23:07:36,f - INFO - factory - Aplicación iniciada
-2025-05-25 23:07:36,498 - INFO - factory - Aplicación iniciada
-2025-05-25 23:07:36,f - INFO - factory - Aplicación iniciada
-2025-05-25 23:07:36,509 - INFO - factory - Aplicación iniciada
-2025-05-25 23:07:36,f - INFO - factory - Aplicación iniciada
-2025-05-25 23:07:36,509 - INFO - factory - Aplicación iniciada
-2025-05-25 23:07:41,f - INFO - factory - Aplicación iniciada
-2025-05-25 23:07:41,561 - INFO - factory - Aplicación iniciada
-2025-05-25 23:07:41,f - INFO - factory - Aplicación iniciada
-2025-05-25 23:07:41,f - INFO - factory - Aplicación iniciada
+2025-05-28 17:45:19,910 - INFO - logger - 192.168.65.1 - GET https://0.0.0.0:8000/static/vendor/bootstrap/js/bootstrap.bundle.min.js - 200
+2025-05-28 17:45:23,964 - INFO - logger - 192.168.65.1 - GET https://0.0.0.0:8000/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-05-28 17:45:23,998 - INFO - logger - 192.168.65.1 - GET https://0.0.0.0:8000/static/js/sb-admin-2.min.js - 304
+2025-05-28 17:49:39,453 - INFO - logger - 192.168.65.1 - GET https://localhost:8000/static/js/sb-admin-2.min.js - 304
+2025-05-28 17:49:46,074 - INFO - logger - 192.168.65.1 - POST https://localhost:8000/auth/login - 200
+2025-05-28 17:49:46,294 - INFO - logger - 192.168.65.1 - GET https://localhost:8000/static/vendor/bootstrap/js/bootstrap.bundle.min.js - 304
+2025-05-28 17:49:46,334 - INFO - logger - 192.168.65.1 - GET https://localhost:8000/static/vendor/jquery-easing/jquery.easing.min.js - 304
+2025-05-28 17:49:51,043 - INFO - logger - 192.168.65.1 - GET https://localhost:8000/static/vendor/jquery/jquery.min.js - 304
+2025-05-28 17:49:51,067 - INFO - logger - 192.168.65.1 - GET https://localhost:8000/static/vendor/jquery-easing/jquery.easing.min.js - 304
+2025-05-28 17:50:10,212 - INFO - logger - 192.168.65.1 - POST https://localhost:8000/auth/login - 200
+2025-05-28 17:50:11,161 - INFO - logger - 192.168.65.1 - GET https://localhost:8000/static/css/sb-admin-2.min.css - 200
+2025-05-28 17:50:11,237 - INFO - logger - 192.168.65.1 - GET https://localhost:8000/static/vendor/jquery/jquery.min.js - 304
+2025-05-28 17:50:11,315 - INFO - logger - 192.168.65.1 - GET https://localhost:8000/static/js/sb-admin-2.min.js - 304
+2025-05-28 17:52:08,808 - INFO - logger - 192.168.65.1 - GET https://localhost:8000/static/vendor/jquery-easing/jquery.easing.min.js - 304
+2025-05-28 17:52:14,293 - INFO - logger - 192.168.65.1 - GET https://localhost:8000/static/vendor/bootstrap/js/bootstrap.bundle.min.js - 304
+2025-05-28 17:52:36,939 - INFO - logger - 192.168.65.1 - GET https://localhost:8000/static/js/sb-admin-2.min.js - 304
+2025-05-28 17:52:43,161 - INFO - logger - 192.168.65.1 - POST https://localhost:8000/auth/login - 200
+2025-05-28 17:52:43,246 - INFO - logger - 192.168.65.1 - GET https://localhost:8000/static/css/sb-admin-2.min.css - 304
+2025-05-28 17:52:43,292 - INFO - logger - 192.168.65.1 - GET https://localhost:8000/static/vendor/jquery-easing/jquery.easing.min.js - 304
+2025-05-28 17:55:22,211 - INFO - logger - 192.168.65.1 - GET https://localhost:8000/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-05-28 17:55:37,786 - INFO - logger - 192.168.65.1 - POST https://localhost:8000/auth/login - 200
+2025-05-28 17:55:38,357 - INFO - logger - 192.168.65.1 - GET https://localhost:8000/static/css/sb-admin-2.min.css - 304
+2025-05-28 17:55:38,426 - INFO - logger - 192.168.65.1 - GET https://localhost:8000/static/js/sb-admin-2.min.js - 304
+2025-05-28 17:55:58,508 - INFO - logger - 192.168.65.1 - POST https://localhost:8000/auth/login - 200
+2025-05-28 17:55:58,750 - INFO - logger - 192.168.65.1 - GET https://localhost:8000/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-05-28 17:55:58,768 - INFO - logger - 192.168.65.1 - GET https://localhost:8000/static/vendor/jquery-easing/jquery.easing.min.js - 304
+2025-05-28 17:55:58,810 - INFO - logger - 192.168.65.1 - GET https://localhost:8000/static/vendor/bootstrap/js/bootstrap.bundle.min.js - 304
+2025-05-28 17:56:10,956 - INFO - logger - 192.168.65.1 - POST https://localhost:8000/auth/login - 200
+2025-05-28 17:56:11,072 - INFO - logger - 192.168.65.1 - GET https://localhost:8000/static/vendor/bootstrap/js/bootstrap.bundle.min.js - 304
+2025-05-28 17:56:11,110 - INFO - logger - 192.168.65.1 - GET https://localhost:8000/static/vendor/jquery-easing/jquery.easing.min.js - 304
+2025-05-28 17:56:14,491 - INFO - logger - 192.168.65.1 - POST https://localhost:8000/auth/login - 200
+2025-05-28 17:56:14,587 - INFO - logger - 192.168.65.1 - GET https://localhost:8000/static/vendor/jquery/jquery.min.js - 304
+2025-05-28 17:56:14,628 - INFO - logger - 192.168.65.1 - GET https://localhost:8000/static/vendor/jquery-easing/jquery.easing.min.js - 304
+2025-05-28 17:56:29,169 - INFO - logger - 192.168.65.1 - GET https://localhost:8000/static/vendor/jquery/jquery.min.js - 304
+2025-05-28 17:56:34,707 - INFO - logger - 192.168.65.1 - POST https://localhost:8000/auth/login - 200
+2025-05-28 17:56:34,813 - INFO - logger - 192.168.65.1 - GET https://localhost:8000/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-05-28 17:56:34,861 - INFO - logger - 192.168.65.1 - GET https://localhost:8000/static/js/sb-admin-2.min.js - 304
+2025-05-28 17:58:11,066 - INFO - logger - 192.168.65.1 - GET https://localhost:8000/static/vendor/jquery-easing/jquery.easing.min.js - 200
+2025-05-28 17:58:39,646 - ERROR - logger - Error no manejado: 400 Bad Request: The CSRF session token is missing.
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/flask_wtf/csrf.py", line 261, in protect
+    validate_csrf(self._get_csrf_token())
+  File "/usr/local/lib/python3.11/site-packages/flask_wtf/csrf.py", line 103, in validate_csrf
+    raise ValidationError("The CSRF session token is missing.")
+wtforms.validators.ValidationError: The CSRF session token is missing.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/flask/app.py", line 915, in full_dispatch_request
+    rv = self.preprocess_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/flask/app.py", line 1291, in preprocess_request
+    rv = self.ensure_sync(before_func)()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/flask_wtf/csrf.py", line 229, in csrf_protect
+    self.protect()
+  File "/usr/local/lib/python3.11/site-packages/flask_wtf/csrf.py", line 264, in protect
+    self._error_response(e.args[0])
+  File "/usr/local/lib/python3.11/site-packages/flask_wtf/csrf.py", line 307, in _error_response
+    raise CSRFError(reason)
+flask_wtf.csrf.CSRFError: 400 Bad Request: The CSRF session token is missing.
+2025-05-28 17:59:01,326 - INFO - logger - 192.168.65.1 - GET https://localhost:8000/static/vendor/jquery/jquery.min.js - 200
+2025-05-28 17:59:05,274 - INFO - logger - 192.168.65.1 - GET https://localhost:8000/static/css/sb-admin-2.min.css - 304
+2025-05-28 17:59:05,305 - INFO - logger - 192.168.65.1 - GET https://localhost:8000/static/js/sb-admin-2.min.js - 304
+2025-05-28 17:59:25,074 - INFO - logger - 192.168.65.1 - GET https://localhost:8000/.well-known/appspecific/com.chrome.devtools.json - 404
+2025-05-28 17:59:48,598 - INFO - logger - 192.168.65.1 - POST https://localhost:8000/auth/login - 200
+2025-05-28 17:59:49,007 - INFO - logger - 192.168.65.1 - GET https://localhost:8000/static/vendor/jquery-easing/jquery.easing.min.js - 200
+2025-05-28 17:59:49,080 - INFO - logger - 192.168.65.1 - GET https://localhost:8000/static/vendor/jquery/jquery.min.js - 200
+2025-05-28 17:59:51,599 - INFO - logger - 192.168.65.1 - POST https://localhost:8000/auth/login - 200
+2025-05-28 17:59:51,762 - INFO - logger - 192.168.65.1 - GET https://localhost:8000/static/vendor/jquery-easing/jquery.easing.min.js - 304
+2025-05-28 17:59:51,802 - INFO - logger - 192.168.65.1 - GET https://localhost:8000/static/vendor/bootstrap/js/bootstrap.bundle.min.js - 304
+2025-05-28 17:59:51,896 - INFO - logger - 192.168.65.1 - GET https://localhost:8000/static/vendor/bootstrap/js/bootstrap.bundle.min.js.map - 200
+2025-05-28 17:59:53,451 - INFO - logger - 192.168.65.1 - GET https://localhost:8000/static/vendor/jquery-easing/jquery.easing.min.js - 304
+2025-05-28 17:59:53,491 - INFO - logger - 192.168.65.1 - GET https://localhost:8000/static/js/sb-admin-2.min.js - 304
+2025-05-28 17:59:53,579 - INFO - logger - 192.168.65.1 - GET https://localhost:8000/static/vendor/bootstrap/js/bootstrap.bundle.min.js.map - 200
+2025-05-28 17:59:56,393 - INFO - logger - 192.168.65.1 - GET https://localhost:8000/static/vendor/jquery/jquery.min.js - 304
+2025-05-28 17:59:56,464 - INFO - logger - 192.168.65.1 - GET https://localhost:8000/static/vendor/bootstrap/js/bootstrap.bundle.min.js.map - 200
+2025-05-28 17:59:58,656 - INFO - logger - 192.168.65.1 - GET https://localhost:8000/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-05-28 17:59:58,688 - INFO - logger - 192.168.65.1 - GET https://localhost:8000/static/vendor/jquery-easing/jquery.easing.min.js - 304
+2025-05-28 17:59:58,723 - INFO - logger - 192.168.65.1 - GET https://localhost:8000/static/js/sb-admin-2.min.js - 304
+2025-05-28 18:00:02,289 - INFO - logger - 192.168.65.1 - GET https://localhost:8000/static/vendor/jquery/jquery.min.js - 304
+2025-05-28 18:00:02,370 - INFO - logger - 192.168.65.1 - GET https://localhost:8000/.well-known/appspecific/com.chrome.devtools.json - 404
+2025-05-28 18:00:06,196 - INFO - logger - 192.168.65.1 - GET https://localhost:8000/static/vendor/bootstrap/js/bootstrap.bundle.min.js - 304
+2025-05-28 18:00:06,289 - INFO - logger - 192.168.65.1 - GET https://localhost:8000/static/vendor/bootstrap/js/bootstrap.bundle.min.js.map - 200
+2025-05-28 18:00:07,117 - INFO - logger - 192.168.65.1 - GET https://localhost:8000/static/vendor/bootstrap/js/bootstrap.bundle.min.js - 304
+2025-05-28 18:00:07,160 - INFO - logger - 192.168.65.1 - GET https://localhost:8000/.well-known/appspecific/com.chrome.devtools.json - 404
+2025-05-28 18:00:07,876 - INFO - logger - 192.168.65.1 - GET https://localhost:8000/static/vendor/bootstrap/js/bootstrap.bundle.min.js - 304
+2025-05-28 18:00:16,990 - INFO - logger - 192.168.65.1 - GET https://localhost:8000/static/css/sb-admin-2.min.css - 304
+2025-05-28 18:00:17,025 - INFO - logger - 192.168.65.1 - GET https://localhost:8000/static/vendor/jquery-easing/jquery.easing.min.js - 304
+2025-05-28 18:00:31,068 - INFO - logger - 192.168.65.1 - GET https://localhost:8000/static/vendor/fontawesome-free/css/all.min.css - 200
+2025-05-28 18:00:31,096 - INFO - logger - 192.168.65.1 - GET https://localhost:8000/static/vendor/jquery-easing/jquery.easing.min.js - 200
+2025-05-28 18:00:34,800 - INFO - logger - 192.168.65.1 - POST https://localhost:8000/auth/login - 200

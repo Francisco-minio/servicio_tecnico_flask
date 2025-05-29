@@ -46,11 +46,14 @@ def register_blueprints(app):
         else:
             app.register_blueprint(blueprint)
 
-def create_app(config_name='default'):
+def create_app(config_name='development'):
     app = Flask(__name__)
     
-    # Cargar configuración
-    app.config.from_object(config[config_name])
+    # Configuración básica
+    if config_name == 'development':
+        app.config.from_object('config.DevelopmentConfig')
+    else:
+        app.config.from_object('config.ProductionConfig')
     
     # Agregar filtro nl2br
     @app.template_filter('nl2br')
@@ -120,21 +123,11 @@ def create_app(config_name='default'):
         'xr-spatial-tracking': '()'
     }
 
-    if config_name == 'production':
-        Talisman(
-            app,
-            content_security_policy=csp,
-            permissions_policy=permissions_policy,
-            feature_policy=None
-        )
+    # Configurar Talisman (desactivado en desarrollo)
+    if config_name == 'development':
+        Talisman(app, force_https=False, content_security_policy=None)
     else:
-        Talisman(
-            app,
-            force_https=False,
-            content_security_policy=csp,
-            permissions_policy=permissions_policy,
-            feature_policy=None
-        )
+        Talisman(app)
     
     # Asegurarse de que las variables de entorno de correo estén configuradas
     app.config['MAIL_SERVER'] = os.environ.get('MAIL_SERVER', 'smtp.smtp2go.com')
@@ -156,8 +149,8 @@ def create_app(config_name='default'):
     login_manager = LoginManager()
     login_manager.init_app(app)
     login_manager.login_view = 'auth.login'
-    login_manager.login_message = 'Por favor inicia sesión para acceder a esta página.'
-    login_manager.login_message_category = 'info'
+    login_manager.login_message = 'Por favor inicie sesión para acceder a esta página.'
+    login_manager.login_message_category = 'warning'
     
     @login_manager.user_loader
     def load_user(user_id):
@@ -185,7 +178,7 @@ def create_app(config_name='default'):
     
     file_handler = RotatingFileHandler('logs/app.log', maxBytes=10240, backupCount=10)
     file_handler.setFormatter(logging.Formatter(
-        '%(asctime)s - %(levelname)s - %(module)s - %(message)s'
+        '%(asctime)s - %(levelname)s - %(name)s - %(message)s'
     ))
     file_handler.setLevel(logging.INFO)
     app.logger.addHandler(file_handler)

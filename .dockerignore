@@ -1,0 +1,35 @@
+# Entornos virtuales
+env/
+venv/
+ENV/
+
+# Archivos de Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Archivos de desarrollo
+.git
+.gitignore
+.env
+.env.*
+*.log
+
+# Directorios de sesión y caché
+flask_session/
+instance/
+logs/
+
+# Archivos del sistema
+.DS_Store
+*.swp
+*.swo
+
+# Archivos de IDE
+.vscode/
+.idea/
+*.code-workspace
+
+# Archivos de Docker
+Dockerfile
+.dockerignore 
