@@ -1,0 +1,68 @@
+version: '3.8'
+
+services:
+  web:
+    image: ${REGISTRY:-ghcr.io}/${REPOSITORY:-usuario/servicio_tecnico_flask}:${TAG:-latest}
+    ports:
+      - "${PORT:-5001}:5000"
+    volumes:
+      - app_instance:/app/instance
+      - app_logs:/app/logs
+      - app_session:/app/flask_session
+      - app_static:/app/static
+    environment:
+      - FLASK_APP=app.py
+      - FLASK_ENV=${FLASK_ENV:-production}
+      - MYSQL_HOST=db
+      - MYSQL_USER=${MYSQL_USER:-servicio_tecnico}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD:-servicio_tecnico_password}
+      - MYSQL_DATABASE=${MYSQL_DATABASE:-ordenes_db}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:-root_password}
+      - DATABASE_URL=mysql+pymysql://${MYSQL_USER:-servicio_tecnico}:${MYSQL_PASSWORD:-servicio_tecnico_password}@db/${MYSQL_DATABASE:-ordenes_db}
+    depends_on:
+      - db
+    deploy:
+      replicas: ${WEB_REPLICAS:-1}
+      restart_policy:
+        condition: on-failure
+      update_config:
+        parallelism: 1
+        delay: 10s
+    command: >
+      sh -c "python init_db.py &&
+             python create_admin.py &&
+             gunicorn --bind 0.0.0.0:5000 wsgi:app"
+
+  db:
+    image: mysql:8.0
+    ports:
+      - "${MYSQL_PORT:-3306}:3306"
+    environment:
+      - MYSQL_DATABASE=${MYSQL_DATABASE:-ordenes_db}
+      - MYSQL_USER=${MYSQL_USER:-servicio_tecnico}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD:-servicio_tecnico_password}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:-root_password}
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - mysql_init:/docker-entrypoint-initdb.d
+    deploy:
+      replicas: 1
+      placement:
+        constraints: [node.role == manager]
+      restart_policy:
+        condition: on-failure
+    command: --default-authentication-plugin=mysql_native_password
+
+volumes:
+  mysql_data:
+    driver: local
+  mysql_init:
+    driver: local
+  app_instance:
+    driver: local
+  app_logs:
+    driver: local
+  app_session:
+    driver: local
+  app_static:
+    driver: local 

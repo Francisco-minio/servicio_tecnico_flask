@@ -1,0 +1,26 @@
+{% extends "base.html" %} {% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">{% block form_title %}{% endblock %}</h6>
+                </div>
+                <div class="card-body">
+                    <form method="POST" enctype="multipart/form-data">
+                        {{ form.csrf_token if form else csrf_token() }} {% block form_content %}{% endblock %}
+                        <div class="form-group text-right">
+                            <a href="{% block cancel_url %}{{ url_for('index') }}{% endblock %}" class="btn btn-secondary">
+                                <i class="fas fa-times"></i> Cancelar
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> {% block submit_text %}Guardar{% endblock %}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

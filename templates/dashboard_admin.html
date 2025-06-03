@@ -1,0 +1,46 @@
+{% extends 'base.html' %} {% block title %}Dashboard Admin{% endblock %} {% block content %}
+<div class="container-fluid">
+    <h1 class="h3 mb-4 text-gray-800">Órdenes Pendientes</h1>
+    <a href="{{ url_for('orden.nueva_orden') }}" class="btn btn-success mb-3">Nueva Orden</a>
+
+    <!-- Contenedor responsive para la tabla -->
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered table-hover">
+            <thead class="thead-light">
+                <tr>
+                    <th>ID</th>
+                    <th>Cliente</th>
+                    <th>Equipo</th>
+                    <th>Estado</th>
+                    <th>Técnico asignado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for orden in ordenes %}
+                <tr>
+                    <td>{{ orden.id }}</td>
+                    <td>{{ orden.cliente.nombre }}</td>
+                    <td>{{ orden.equipo }}</td>
+                    <td>{{ orden.estado }}</td>
+                    <td>
+                        {% if orden.tecnico %} {{ orden.tecnico.username }} {% else %}
+                        <span class="text-muted">No asignado</span> {% endif %}
+                    </td>
+                    <td>
+                        <a href="{{ url_for('orden.ver_orden', orden_id=orden.id) }}" class="btn btn-sm btn-info mb-1">Ver detalle</a>
+                        <a href="{{ url_for('orden.asignar_tecnico', orden_id=orden.id) }}" class="btn btn-sm btn-outline-primary">
+                            {% if orden.tecnico_id %}
+                                Editar asignación
+                            {% else %}
+                                Asignar técnico
+                            {% endif %}
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

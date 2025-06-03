@@ -1,0 +1,151 @@
+{% extends "base.html" %} {% block content %}
+<div class="container-fluid">
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Logs del Sistema</h1>
+        <div>
+            <button class="btn btn-secondary" id="btnLimpiarLogs">
+                <i class="fas fa-broom"></i> Limpiar Logs
+            </button>
+            <button class="btn btn-primary" id="btnDescargarLogs">
+                <i class="fas fa-download"></i> Descargar Logs
+            </button>
+        </div>
+    </div>
+
+    <!-- Content Row -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                    <h6 class="m-0 font-weight-bold text-primary">Registros del Sistema</h6>
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-outline-secondary btn-sm" data-level="all">Todos</button>
+                        <button type="button" class="btn btn-outline-danger btn-sm" data-level="ERROR">Errores</button>
+                        <button type="button" class="btn btn-outline-warning btn-sm" data-level="WARNING">Advertencias</button>
+                        <button type="button" class="btn btn-outline-info btn-sm" data-level="INFO">Info</button>
+                        <button type="button" class="btn btn-outline-success btn-sm" data-level="DEBUG">Debug</button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>Timestamp</th>
+                                    <th>Nivel</th>
+                                    <th>Módulo</th>
+                                    <th>Mensaje</th>
+                                    <th>Usuario</th>
+                                    <th>IP</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for log in logs %}
+                                <tr class="log-entry {{ log.level.lower() }}">
+                                    <td>{{ log.timestamp.strftime('%d/%m/%Y %H:%M:%S') }}</td>
+                                    <td>
+                                        <span class="badge badge-{{ 
+                                            'danger' if log.level == 'ERROR' 
+                                            else 'warning' if log.level == 'WARNING'
+                                            else 'info' if log.level == 'INFO'
+                                            else 'success' if log.level == 'DEBUG'
+                                            else 'secondary' 
+                                        }}">
+                                            {{ log.level }}
+                                        </span>
+                                    </td>
+                                    <td>{{ log.module }}</td>
+                                    <td>{{ log.message }}</td>
+                                    <td>{{ log.user or '-' }}</td>
+                                    <td>{{ log.ip_address or '-' }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de Confirmación -->
+<div class="modal fade" id="confirmModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirmar Acción</h5>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>¿Está seguro que desea limpiar los logs del sistema?</p>
+                <p class="text-danger">Esta acción no se puede deshacer.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-danger" id="btnConfirmarLimpiar">Confirmar</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} {% block extra_js %}
+<script>
+    $(document).ready(function() {
+        let table = $('#dataTable').DataTable({
+            "order": [
+                [0, "desc"]
+            ],
+            "pageLength": 50,
+            "language": {
+                "url": "{{ url_for('static', filename='js/datatables-es.json') }}"
+            }
+        });
+
+        // Filtros por nivel de log
+        $('.btn-group button').on('click', function() {
+            let level = $(this).data('level');
+            if (level === 'all') {
+                table.column(1).search('').draw();
+            } else {
+                table.column(1).search(level).draw();
+            }
+            $('.btn-group button').removeClass('active');
+            $(this).addClass('active');
+        });
+
+        // Descargar logs
+        $('#btnDescargarLogs').on('click', function() {
+            window.location.href = "{{ url_for('admin.descargar_logs') }}";
+        });
+
+        // Limpiar logs
+        $('#btnLimpiarLogs').on('click', function() {
+            $('#confirmModal').modal('show');
+        });
+
+        $('#btnConfirmarLimpiar').on('click', function() {
+            $.ajax({
+                url: "{{ url_for('admin.limpiar_logs') }}",
+                type: 'POST',
+                headers: {
+                    'X-CSRFToken': "{{ csrf_token() }}"
+                },
+                success: function(response) {
+                    if (response.status === 'success') {
+                        location.reload();
+                    } else {
+                        alert('Error: ' + response.message);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    alert('Error al limpiar los logs: ' + error);
+                }
+            });
+            $('#confirmModal').modal('hide');
+        });
+    });
+</script>
+{% endblock %}

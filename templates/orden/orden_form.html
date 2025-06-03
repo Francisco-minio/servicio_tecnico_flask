@@ -1,0 +1,242 @@
+{% extends 'base.html' %} {% block title %}Ingreso de Orden{% endblock %} {% block styles %}
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"> {% endblock %} {% block content %}
+<div class="container-fluid">
+    <h1 class="h3 mb-4 text-gray-800">Ingreso de Orden de Trabajo</h1>
+
+    <div class="card">
+        <div class="card-body">
+            <form id="ordenForm" action="{{ url_for('orden.nueva_orden') }}" method="POST" enctype="multipart/form-data" onsubmit="return validarFormulario()">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                <input type="hidden" name="cliente_id" id="cliente_id" value="" />
+
+                <!-- Datos del cliente -->
+                <fieldset class="border p-3 mb-4">
+                    <legend class="w-auto px-2">Datos del Cliente</legend>
+
+                    <div class="form-group">
+                        <label for="cliente">Nombre del Cliente <span class="text-danger">*</span></label>
+                        <select class="form-control" id="cliente" name="cliente" required>
+                            <option value="">-- Seleccionar Cliente --</option>
+                            {% for cliente in clientes %}
+                                <option value="{{ cliente.nombre }}" data-id="{{ cliente.id }}" data-correo="{{ cliente.correo }}">
+                                    {{ cliente.nombre }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                        <small class="form-text text-muted">Seleccione un cliente existente o contacte a un administrador para crear uno nuevo.</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="correo">Correo Electrónico <span class="text-danger">*</span></label>
+                        <input type="email" class="form-control" id="correo" name="correo" required readonly>
+                    </div>
+                </fieldset>
+
+                <!-- Tipo de equipo -->
+                <div class="form-group">
+                    <label for="equipo">Tipo de Equipo <span class="text-danger">*</span></label>
+                    <select class="form-control" id="equipo" name="equipo" required onchange="mostrarCaracteristicas()">
+                        <option value="">-- Seleccionar tipo --</option>
+                        <option value="Notebook">Notebook</option>
+                        <option value="Pc de Escritorio">PC de Escritorio</option>
+                        <option value="Tablet">Tablet</option>
+                        <option value="Celular">Celular</option>
+                        <option value="Otro">Otro</option>
+                    </select>
+                </div>
+
+                <!-- Marca y modelo -->
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="marca">Marca <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="marca" name="marca" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="modelo">Modelo <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="modelo" name="modelo" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="descripcion">Diagnóstico/Problema <span class="text-danger">*</span></label>
+                    <textarea class="form-control" id="descripcion" name="descripcion" rows="4" required></textarea>
+                </div>
+
+                <!-- Campos comunes para Notebook y PC -->
+                <div id="campos_comunes" style="display: none;">
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="procesador">Procesador</label>
+                            <input type="text" class="form-control" id="procesador" name="procesador">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="ram">Memoria RAM</label>
+                            <input type="text" class="form-control" id="ram" name="ram">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="disco">Disco</label>
+                            <select class="form-control" id="disco" name="disco">
+                                <option value="">-- Seleccionar --</option>
+                                <option value="SSD">SSD</option>
+                                <option value="HDD">HDD</option>
+                                <option value="SSD+HDD">SSD+HDD</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Campo exclusivo para pantalla -->
+                <div id="campo_pantalla" style="display: none;">
+                    <div class="form-group">
+                        <label for="pantalla">Pantalla (Tamaño)</label>
+                        <select class="form-control" id="pantalla" name="pantalla">
+                            <option value="">-- Seleccionar --</option>
+                            <option value="14">14"</option>
+                            <option value="15.6">15.6"</option>
+                            <option value="17">17"</option>
+                            <option value="7">7"</option>
+                            <option value="8">8"</option>
+                            <option value="10">10"</option>
+                            <option value="6">6"</option>
+                            <option value="6.5">6.5"</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Técnico -->
+                <div class="form-group">
+                    <label for="tecnico_id">Asignar Técnico</label>
+                    <select class="form-control" id="tecnico_id" name="tecnico_id">
+                        <option value="">-- No asignado --</option>
+                        {% for tecnico in tecnicos %}
+                            <option value="{{ tecnico.id }}">{{ tecnico.username }} ({{ tecnico.email }})</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Imágenes -->
+                <div class="form-group">
+                    <label for="imagenes">Imágenes del equipo (Máx. 5)</label>
+                    <input type="file" name="imagenes" multiple class="form-control-file" accept="image/*" onchange="validarImagenes(this)">
+                    <small class="form-text text-muted">Formatos permitidos: PNG, JPG, JPEG, GIF. Máximo 5 imágenes.</small>
+                    <div id="preview" class="mt-2 d-flex flex-wrap"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="observaciones">Observaciones adicionales</label>
+                    <textarea class="form-control" id="observaciones" name="observaciones" rows="2"></textarea>
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Guardar Orden
+                    </button>
+                    <a href="{{ url_for('admin.dashboard') }}" class="btn btn-secondary">
+                        <i class="fas fa-times"></i> Cancelar
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% block scripts %}
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+    // Autocompletado de cliente y correo
+    document.getElementById('cliente').addEventListener('change', function() {
+        const selectedOption = this.options[this.selectedIndex];
+        const correoInput = document.getElementById('correo');
+        const clienteIdInput = document.getElementById('cliente_id');
+
+        if (selectedOption.value) {
+            correoInput.value = selectedOption.dataset.correo;
+            clienteIdInput.value = selectedOption.dataset.id;
+            correoInput.readOnly = true;
+        } else {
+            correoInput.value = '';
+            clienteIdInput.value = '';
+            correoInput.readOnly = true;
+        }
+    });
+
+    function mostrarCaracteristicas() {
+        const equipo = document.getElementById('equipo').value;
+        const comunes = document.getElementById('campos_comunes');
+        const pantalla = document.getElementById('campo_pantalla');
+
+        // Resetear todos los campos
+        comunes.style.display = 'none';
+        pantalla.style.display = 'none';
+
+        // Mostrar campos según tipo de equipo
+        if (equipo === 'Notebook' || equipo === 'Pc de Escritorio') {
+            comunes.style.display = 'block';
+        }
+
+        if (equipo === 'Notebook' || equipo === 'Tablet' || equipo === 'Celular') {
+            pantalla.style.display = 'block';
+        }
+    }
+
+    function validarImagenes(input) {
+        const files = input.files;
+        const preview = document.getElementById('preview');
+        preview.innerHTML = '';
+
+        if (files.length > 5) {
+            alert('Solo se permiten hasta 5 imágenes.');
+            input.value = '';
+            return;
+        }
+
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+            if (!file.type.startsWith('image/')) {
+                alert(`El archivo ${file.name} no es una imagen válida.`);
+                input.value = '';
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const div = document.createElement('div');
+                div.className = 'm-2';
+                div.innerHTML = `
+                    <img src="${e.target.result}" style="max-width: 100px; max-height: 100px;" class="img-thumbnail">
+                    <p class="small text-muted mb-0">${file.name}</p>
+                `;
+                preview.appendChild(div);
+            }
+            reader.readAsDataURL(file);
+        }
+    }
+
+    function validarFormulario() {
+        const campos = ['cliente', 'correo', 'equipo', 'marca', 'modelo', 'descripcion'];
+        let valido = true;
+
+        campos.forEach(campo => {
+            const elemento = document.getElementById(campo);
+            if (!elemento.value.trim()) {
+                elemento.classList.add('is-invalid');
+                valido = false;
+            } else {
+                elemento.classList.remove('is-invalid');
+            }
+        });
+
+        if (!valido) {
+            alert('Por favor complete todos los campos obligatorios.');
+            return false;
+        }
+
+        return true;
+    }
+
+    // Inicializar al cargar la página
+    document.addEventListener("DOMContentLoaded", function() {
+        mostrarCaracteristicas();
+    });
+</script>
+{% endblock %} {% endblock %}

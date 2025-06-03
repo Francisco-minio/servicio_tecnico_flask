@@ -1,0 +1,69 @@
+2025-05-30 14:03:27,500 - INFO - factory - Aplicación iniciada
+ - INFO - factory - Aplicación iniciada
+2025-05-31 12:21:03,802 - INFO - factory - Aplicación iniciada
+ - INFO - factory - Aplicación iniciada
+2025-05-31 12:21:05,193 - INFO - factory - Aplicación iniciada
+ - INFO - factory - Aplicación iniciada
+2025-05-31 12:21:06,793 - INFO - factory - Aplicación iniciada
+ - INFO - factory - Aplicación iniciada
+2025-05-31 12:21:09,077 - INFO - factory - Aplicación iniciada
+ - INFO - factory - Aplicación iniciada
+2025-05-31 12:24:05,480 - INFO - factory - Aplicación iniciada
+ - INFO - factory - Aplicación iniciada
+2025-05-31 12:24:06,202 - INFO - factory - Aplicación iniciada
+ - INFO - factory - Aplicación iniciada
+2025-05-31 12:24:06,998 - INFO - factory - Aplicación iniciada
+ - INFO - factory - Aplicación iniciada
+2025-05-31 12:24:07,817 - INFO - factory - Aplicación iniciada
+2025-06-02 23:21:55,f - INFO - factory - Aplicación iniciada
+2025-06-02 23:21:55,076 - INFO - factory - Aplicación iniciada
+2025-06-02 23:21:58,f - INFO - factory - Aplicación iniciada
+2025-06-02 23:21:58,908 - INFO - factory - Aplicación iniciada
+2025-06-02 23:21:59,f - INFO - factory - Aplicación iniciada
+2025-06-02 23:21:59,232 - INFO - factory - Aplicación iniciada
+2025-06-02 23:23:24,f - INFO - logger - 10.69.0.10 - GET http://10.69.0.10:5001/ - 302
+2025-06-02 23:23:24,877 - INFO - factory - 10.69.0.10 - GET http://10.69.0.10:5001/ - 302
+2025-06-02 23:23:25,f - INFO - logger - 10.69.0.10 - GET http://10.69.0.10:5001/auth/login - 200
+2025-06-02 23:23:25,070 - INFO - factory - 10.69.0.10 - GET http://10.69.0.10:5001/auth/login - 200
+2025-06-02 23:23:25,f - INFO - logger - 10.69.0.10 - GET http://10.69.0.10:5001/static/vendor/fontawesome-free/css/all.min.css - 200
+2025-06-02 23:23:25,370 - INFO - factory - 10.69.0.10 - GET http://10.69.0.10:5001/static/vendor/fontawesome-free/css/all.min.css - 200
+2025-06-02 23:23:25,f - INFO - logger - 10.69.0.10 - GET http://10.69.0.10:5001/static/css/sb-admin-2.min.css - 200
+2025-06-02 23:23:25,373 - INFO - factory - 10.69.0.10 - GET http://10.69.0.10:5001/static/css/sb-admin-2.min.css - 200
+2025-06-02 23:23:25,f - INFO - logger - 10.69.0.10 - GET http://10.69.0.10:5001/static/js/sb-admin-2.min.js - 200
+2025-06-02 23:23:25,f - INFO - logger - 10.69.0.10 - GET http://10.69.0.10:5001/static/js/datatables-es.js - 200
+2025-06-02 23:23:25,373 - INFO - factory - 10.69.0.10 - GET http://10.69.0.10:5001/static/js/sb-admin-2.min.js - 200
+2025-06-02 23:23:25,373 - INFO - factory - 10.69.0.10 - GET http://10.69.0.10:5001/static/js/datatables-es.js - 200
+2025-06-02 23:23:26,f - INFO - logger - 10.69.0.10 - GET http://10.69.0.10:5001/favicon.ico - 404
+2025-06-02 23:23:26,881 - INFO - factory - 10.69.0.10 - GET http://10.69.0.10:5001/favicon.ico - 404
+2025-06-02 23:23:29,f - INFO - logger - 10.69.0.10 - POST http://10.69.0.10:5001/auth/login - 200
+2025-06-02 23:23:29,750 - INFO - factory - 10.69.0.10 - POST http://10.69.0.10:5001/auth/login - 200
+2025-06-02 23:23:30,f - INFO - logger - 10.69.0.10 - GET http://10.69.0.10:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-02 23:23:30,429 - INFO - factory - 10.69.0.10 - GET http://10.69.0.10:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-02 23:23:30,f - INFO - logger - 10.69.0.10 - GET http://10.69.0.10:5001/static/css/sb-admin-2.min.css - 304
+2025-06-02 23:23:30,f - INFO - logger - 10.69.0.10 - GET http://10.69.0.10:5001/static/js/datatables-es.js - 304
+2025-06-02 23:23:30,f - INFO - logger - 10.69.0.10 - GET http://10.69.0.10:5001/static/js/sb-admin-2.min.js - 304
+2025-06-02 23:23:30,430 - INFO - factory - 10.69.0.10 - GET http://10.69.0.10:5001/static/css/sb-admin-2.min.css - 304
+2025-06-02 23:23:30,431 - INFO - factory - 10.69.0.10 - GET http://10.69.0.10:5001/static/js/datatables-es.js - 304
+2025-06-02 23:23:30,431 - INFO - factory - 10.69.0.10 - GET http://10.69.0.10:5001/static/js/sb-admin-2.min.js - 304
+2025-06-02 23:23:34,f - INFO - logger - 10.69.0.10 - POST http://10.69.0.10:5001/auth/login - 200
+2025-06-02 23:23:34,976 - INFO - factory - 10.69.0.10 - POST http://10.69.0.10:5001/auth/login - 200
+2025-06-02 23:23:35,f - INFO - logger - 10.69.0.10 - GET http://10.69.0.10:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-02 23:23:35,f - INFO - logger - 10.69.0.10 - GET http://10.69.0.10:5001/static/js/datatables-es.js - 304
+2025-06-02 23:23:35,f - INFO - logger - 10.69.0.10 - GET http://10.69.0.10:5001/static/css/sb-admin-2.min.css - 304
+2025-06-02 23:23:35,191 - INFO - factory - 10.69.0.10 - GET http://10.69.0.10:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-02 23:23:35,f - INFO - logger - 10.69.0.10 - GET http://10.69.0.10:5001/static/js/sb-admin-2.min.js - 304
+2025-06-02 23:23:35,192 - INFO - factory - 10.69.0.10 - GET http://10.69.0.10:5001/static/js/datatables-es.js - 304
+2025-06-02 23:23:35,193 - INFO - factory - 10.69.0.10 - GET http://10.69.0.10:5001/static/css/sb-admin-2.min.css - 304
+2025-06-02 23:23:35,193 - INFO - factory - 10.69.0.10 - GET http://10.69.0.10:5001/static/js/sb-admin-2.min.js - 304
+2025-06-02 23:24:29,f - INFO - factory - Aplicación iniciada
+2025-06-02 23:24:29,193 - INFO - factory - Aplicación iniciada
+2025-06-02 23:24:32,f - INFO - factory - Aplicación iniciada
+2025-06-02 23:24:32,564 - INFO - factory - Aplicación iniciada
+ - INFO - factory - Aplicación iniciada
+2025-06-03 03:27:04,233 - INFO - factory - Aplicación iniciada
+ - INFO - factory - Aplicación iniciada
+2025-06-03 03:27:05,911 - INFO - factory - Aplicación iniciada
+ - INFO - factory - Aplicación iniciada
+2025-06-03 03:27:07,386 - INFO - factory - Aplicación iniciada
+ - INFO - factory - Aplicación iniciada
+2025-06-03 03:27:11,124 - INFO - factory - Aplicación iniciada

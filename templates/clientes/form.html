@@ -1,0 +1,21 @@
+{% extends "form_base.html" %} {% block title %}{{ 'Editar' if cliente else 'Nuevo' }} Cliente{% endblock %} {% block form_title %}{{ 'Editar' if cliente else 'Nuevo' }} Cliente{% endblock %} {% block form_content %}
+<div class="form-group">
+    {{ form.nombre.label(class="form-label") }} {{ form.nombre(class="form-control") }} {% if form.nombre.errors %} {% for error in form.nombre.errors %}
+    <span class="text-danger">{{ error }}</span> {% endfor %} {% endif %}
+</div>
+
+<div class="form-group">
+    {{ form.correo.label(class="form-label") }} {{ form.correo(class="form-control") }} {% if form.correo.errors %} {% for error in form.correo.errors %}
+    <span class="text-danger">{{ error }}</span> {% endfor %} {% endif %}
+</div>
+
+<div class="form-group">
+    {{ form.telefono.label(class="form-label") }} {{ form.telefono(class="form-control") }} {% if form.telefono.errors %} {% for error in form.telefono.errors %}
+    <span class="text-danger">{{ error }}</span> {% endfor %} {% endif %}
+</div>
+
+<div class="form-group">
+    {{ form.direccion.label(class="form-label") }} {{ form.direccion(class="form-control", rows="3") }} {% if form.direccion.errors %} {% for error in form.direccion.errors %}
+    <span class="text-danger">{{ error }}</span> {% endfor %} {% endif %}
+</div>
+{% endblock %} {% block submit_text %}{{ 'Actualizar' if cliente else 'Crear' }}{% endblock %} {% block cancel_url %}{{ url_for('cliente.listar_clientes') }}{% endblock %}

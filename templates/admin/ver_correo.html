@@ -1,0 +1,77 @@
+{% extends "admin/base.html" %} {% block content %}
+<div class="container-fluid">
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Detalle de Correo</h1>
+        <div>
+            {% if correo.orden_id %}
+            <form action="{{ url_for('admin.reenviar_correo', correo_id=correo.id) }}" method="POST" class="d-inline">
+                <button type="submit" class="btn btn-warning" onclick="return confirm('¿Está seguro de reenviar este correo?');">
+                    <i class="fas fa-redo fa-sm"></i> Reenviar
+                </button>
+            </form>
+            {% endif %}
+            <a href="{{ url_for('admin.ver_correos') }}" class="btn btn-secondary">
+                <i class="fas fa-arrow-left fa-sm"></i> Volver
+            </a>
+        </div>
+    </div>
+
+    <!-- Content Row -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Información del Correo</h6>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <tr>
+                                <th style="width: 150px;">Fecha de Envío:</th>
+                                <td>{{ correo.fecha_envio.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                            </tr>
+                            <tr>
+                                <th>Orden:</th>
+                                <td>
+                                    {% if correo.orden_id %}
+                                    <a href="{{ url_for('orden.ver_orden', orden_id=correo.orden_id) }}">#{{ correo.orden_id }}</a> {% else %} N/A {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Destinatario:</th>
+                                <td>{{ correo.destinatario }}</td>
+                            </tr>
+                            <tr>
+                                <th>Asunto:</th>
+                                <td>{{ correo.asunto }}</td>
+                            </tr>
+                            <tr>
+                                <th>Estado:</th>
+                                <td>
+                                    {% if correo.estado == 'enviado' %}
+                                    <span class="badge badge-success">Enviado</span> {% elif correo.estado == 'error' %}
+                                    <span class="badge badge-danger">Error</span> {% else %}
+                                    <span class="badge badge-warning">Pendiente</span> {% endif %}
+                                </td>
+                            </tr>
+                            {% if correo.error %}
+                            <tr>
+                                <th>Error:</th>
+                                <td class="text-danger">{{ correo.error }}</td>
+                            </tr>
+                            {% endif %}
+                        </table>
+                    </div>
+                    <div class="mt-4">
+                        <h6 class="font-weight-bold">Contenido del Correo:</h6>
+                        <div class="border p-3 mt-2 bg-light">
+                            {{ correo.cuerpo|safe }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

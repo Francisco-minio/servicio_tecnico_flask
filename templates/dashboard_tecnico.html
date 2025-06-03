@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard Técnico{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1 class="h3 mb-4 text-gray-800">Órdenes Pendientes</h1>
+
+    <!-- Tabla responsive -->
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover table-striped">
+            <thead class="thead-light">
+                <tr>
+                    <th>Cliente</th>
+                    <th>Equipo</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for orden in ordenes %}
+                <tr>
+                    <td>{{ orden.cliente.nombre }}</td>
+                    <td>{{ orden.equipo }}</td>
+                    <td>{{ orden.estado }}</td>
+                    <td>
+                        <div class="d-flex flex-column flex-sm-row gap-1">
+                            <a href="{{ url_for('ver_orden', orden_id=orden.id) }}" class="btn btn-info btn-sm mb-1 mb-sm-0">Ver</a>
+                            <a href="{{ url_for('descargar_pdf', orden_id=orden.id) }}" class="btn btn-warning btn-sm">PDF</a>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

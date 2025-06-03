@@ -1,0 +1,21 @@
+{% extends "form_base.html" %} {% block title %}{{ 'Editar' if usuario else 'Nuevo' }} Usuario{% endblock %} {% block form_title %}{{ 'Editar' if usuario else 'Nuevo' }} Usuario{% endblock %} {% block form_content %}
+<div class="form-group">
+    {{ form.username.label(class="form-label") }} {{ form.username(class="form-control") }} {% if form.username.errors %} {% for error in form.username.errors %}
+    <span class="text-danger">{{ error }}</span> {% endfor %} {% endif %}
+</div>
+
+<div class="form-group">
+    {{ form.email.label(class="form-label") }} {{ form.email(class="form-control") }} {% if form.email.errors %} {% for error in form.email.errors %}
+    <span class="text-danger">{{ error }}</span> {% endfor %} {% endif %}
+</div>
+
+<div class="form-group">
+    {{ form.password.label(class="form-label") }} {{ form.password(class="form-control", placeholder="Dejar en blanco para mantener la actual" if usuario else "") }} {% if form.password.errors %} {% for error in form.password.errors %}
+    <span class="text-danger">{{ error }}</span> {% endfor %} {% endif %}
+</div>
+
+<div class="form-group">
+    {{ form.rol.label(class="form-label") }} {{ form.rol(class="form-control") }} {% if form.rol.errors %} {% for error in form.rol.errors %}
+    <span class="text-danger">{{ error }}</span> {% endfor %} {% endif %}
+</div>
+{% endblock %} {% block submit_text %}{{ 'Actualizar' if usuario else 'Crear' }}{% endblock %} {% block cancel_url %}{{ url_for('admin.ver_usuarios') }}{% endblock %}

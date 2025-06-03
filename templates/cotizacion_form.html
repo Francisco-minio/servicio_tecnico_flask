@@ -1,0 +1,111 @@
+{% extends 'base.html' %} {% block content %}
+<h1 class="h3 mb-4 text-gray-800">Nueva Solicitud de Cotización</h1>
+
+<div class="row">
+    <div class="col-lg-10">
+        <form method="POST" action="{% if orden_preseleccionada %}{{ url_for('cotizacion.nueva', orden_id=orden_preseleccionada.id) }}{% else %}{{ url_for('cotizacion.nueva') }}{% endif %}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Formulario de Cotización</h6>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="asunto">Asunto</label>
+                                <input type="text" class="form-control" id="asunto" name="asunto" placeholder="Ej: Cotización de piezas..." value="{% if orden_preseleccionada %}Cotización para orden #{{ orden_preseleccionada.id }}{% endif %}" required>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="urgencia">Nivel de urgencia</label>
+                                <select class="form-control" id="urgencia" name="urgencia" required>
+                                    <option value="">-- Seleccionar --</option>
+                                    <option value="Baja">Baja</option>
+                                    <option value="Media">Media</option>
+                                    <option value="Alta">Alta</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="descripcion">Descripción</label>
+                        <textarea class="form-control" id="descripcion" name="descripcion" rows="4" placeholder="Detalles de la solicitud..." required>{% if orden_preseleccionada %}Solicitud de cotización para: {{ orden_preseleccionada.equipo }} {{ orden_preseleccionada.marca }} {{ orden_preseleccionada.modelo }}{% endif %}</textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="enlace_compra">Enlace sugerido de compra (opcional)</label>
+                        <input type="url" class="form-control" id="enlace_compra" name="enlace_compra" placeholder="https://...">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cliente_id">Seleccionar Cliente</label>
+                        <select class="form-control" id="cliente_id" name="cliente_id" required>
+                            <option value="">-- Seleccionar cliente --</option>
+                            {% for cliente in clientes %}
+                                <option value="{{ cliente.id }}" 
+                                        data-email="{{ cliente.correo }}"
+                                        {% if orden_preseleccionada and cliente.id == orden_preseleccionada.cliente_id %}selected{% endif %}>
+                                    {{ cliente.nombre }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="correo_cliente">Correo del Cliente</label>
+                        <input type="email" class="form-control" id="correo_cliente" name="correo_cliente" readonly value="{% if orden_preseleccionada %}{{ orden_preseleccionada.cliente.correo }}{% endif %}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="orden_id">Orden asociada</label>
+                        <select class="form-control" id="orden_id" name="orden_id" {% if orden_preseleccionada %}readonly{% endif %}>
+                            <option value="">-- Sin orden --</option>
+                            {% for orden in ordenes %}
+                                <option value="{{ orden.id }}" 
+                                        data-cliente="{{ orden.cliente.nombre }}"
+                                        {% if orden_preseleccionada and orden.id == orden_preseleccionada.id %}selected{% endif %}>
+                                    {{ "#" + orden.id|string }} - {{ orden.cliente.nombre }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="card-footer text-right">
+                    <a href="{{ url_for('admin.dashboard') }}" class="btn btn-secondary">Cancelar</a>
+                    <button type="submit" class="btn btn-primary">Enviar Solicitud</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Script para completar automáticamente el correo del cliente -->
+<script>
+    document.getElementById('cliente_id').addEventListener('change', function() {
+        const selected = this.options[this.selectedIndex];
+        const email = selected.getAttribute('data-email');
+        document.getElementById('correo_cliente').value = email || '';
+    });
+
+    // También puedes completar automáticamente el cliente desde orden si se desea
+    document.getElementById('orden_id').addEventListener('change', function() {
+        const selected = this.options[this.selectedIndex];
+        const clienteNombre = selected.getAttribute('data-cliente');
+        // Opcional: buscar el cliente por nombre y seleccionar en el combo si coincide
+        if (clienteNombre) {
+            const clienteSelect = document.getElementById('cliente_id');
+            Array.from(clienteSelect.options).forEach(option => {
+                if (option.text === clienteNombre) {
+                    option.selected = true;
+                    // Disparar el evento change para actualizar el correo
+                    clienteSelect.dispatchEvent(new Event('change'));
+                }
+            });
+        }
+    });
+</script>
+{% endblock %}

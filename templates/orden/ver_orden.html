@@ -1,0 +1,304 @@
+{% extends 'base.html' %} {% block title %}Detalle de la Orden{% endblock %} {% block content %}
+<div class="container-fluid">
+    <h1 class="h3 mb-4 text-gray-800">Detalle de la Orden #{{ orden.id }}</h1>
+
+    <!-- Botón para volver -->
+    <a href="{{ url_for('orden.listar_ordenes') }}" class="btn btn-secondary mb-3">
+        <i class="fas fa-arrow-left"></i> Volver a Órdenes
+    </a>
+
+    <div class="row">
+        <!-- Columna Izquierda: Detalles -->
+        <div class="col-md-8">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h6 class="m-0 font-weight-bold text-primary">Información General</h6>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>Cliente:</strong> {{ orden.cliente.nombre }}</p>
+                            <p><strong>Correo:</strong> {{ orden.correo }}</p>
+                            <p><strong>Estado:</strong>
+                                <span class="badge badge-{{ 'success' if orden.estado == 'Completado' 
+                                    else 'warning' if orden.estado == 'En Proceso' 
+                                    else 'danger' if orden.estado == 'Pendiente' 
+                                    else 'info' }}">
+                                    {{ orden.estado }}
+                                </span>
+                            </p>
+                            <p><strong>Fecha de Ingreso:</strong> {{ orden.fecha_creacion.strftime('%d/%m/%Y %H:%M') }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Técnico Asignado:</strong> {{ orden.tecnico.nombre if orden.tecnico else 'No asignado' }}</p>
+                            <p><strong>Última Actualización:</strong> {{ orden.fecha_actualizacion.strftime('%d/%m/%Y %H:%M') if orden.fecha_actualizacion else 'Sin actualizaciones' }}</p>
+                        </div>
+                    </div>
+
+                    <hr>
+                    <h6 class="font-weight-bold">Detalles del Equipo</h6>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>Equipo:</strong> {{ orden.equipo }}</p>
+                            <p><strong>Marca:</strong> {{ orden.marca }}</p>
+                            <p><strong>Modelo:</strong> {{ orden.modelo }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Procesador:</strong> {{ orden.procesador or 'No especificado' }}</p>
+                            <p><strong>RAM:</strong> {{ orden.ram or 'No especificado' }}</p>
+                            <p><strong>Disco:</strong> {{ orden.disco or 'No especificado' }}</p>
+                            <p><strong>Pantalla:</strong> {{ orden.pantalla or 'No especificado' }}</p>
+                        </div>
+                    </div>
+
+                    <hr>
+                    <h6 class="font-weight-bold">Diagnóstico</h6>
+                    <p>{{ orden.descripcion | nl2br | safe }}</p>
+
+                    {% if orden.imagenes %}
+                    <hr>
+                    <h6 class="font-weight-bold">Imágenes</h6>
+                    <div class="row">
+                        {% for img in orden.imagenes %}
+                        <div class="col-md-4 mb-3">
+                            <a href="{{ url_for('static', filename='uploads/' + img.filename) }}" target="_blank">
+                                <img src="{{ url_for('static', filename='uploads/' + img.filename) }}" class="img-fluid rounded shadow-sm" alt="Imagen {{ loop.index }}">
+                            </a>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Log de Correos -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h6 class="m-0 font-weight-bold text-primary">Registro de Comunicaciones</h6>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Destinatario</th>
+                                    <th>Asunto</th>
+                                    <th>Estado</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for correo in correos %}
+                                <tr>
+                                    <td>{{ correo.fecha_envio.strftime('%d/%m/%Y %H:%M') }}</td>
+                                    <td>{{ correo.destinatario }}</td>
+                                    <td>{{ correo.asunto }}</td>
+                                    <td>
+                                        <span class="badge badge-{{ 'success' if correo.estado == 'enviado' 
+                                            else 'danger' if correo.estado == 'error' 
+                                            else 'warning' }}">
+                                            {{ correo.estado }}
+                                        </span> {% if correo.error %}
+                                        <i class="fas fa-info-circle" data-toggle="tooltip" title="{{ correo.error }}"></i> {% endif %}
+                                    </td>
+                                </tr>
+                                {% else %}
+                                <tr>
+                                    <td colspan="4" class="text-center">No hay registros de correos enviados</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección de Solicitudes -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h6 class="m-0 font-weight-bold text-primary">Solicitudes</h6>
+                </div>
+                <div class="card-body">
+                    {% if orden.solicitudes.count() > 0 %}
+                    <div class="list-group">
+                        {% for solicitud in orden.solicitudes %}
+                        <div class="list-group-item">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1">{{ solicitud.tipo }}</h6>
+                                <small>{{ solicitud.fecha.strftime('%d/%m/%Y %H:%M') }}</small>
+                            </div>
+                            <p class="mb-1">{{ solicitud.descripcion }}</p>
+                            <small>Por: {{ solicitud.usuario.username }}</small>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <p class="text-center">No hay solicitudes registradas</p>
+                    {% endif %}
+
+                    <button type="button" class="btn btn-warning mt-3" data-toggle="modal" data-target="#solicitudModal">
+                        <i class="fas fa-plus"></i> Nueva Solicitud
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Columna Derecha -->
+        <div class="col-md-4">
+            <!-- Estado de la Orden -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h6 class="m-0 font-weight-bold text-primary">Actualizar Estado</h6>
+                </div>
+                <div class="card-body">
+                    <form action="{{ url_for('orden.actualizar_orden', orden_id=orden.id) }}" method="POST">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <div class="form-group">
+                            <select name="estado" class="form-control">
+                                <option value="Ingresado" {% if orden.estado == 'Ingresado' %}selected{% endif %}>Ingresado</option>
+                                <option value="En Diagnóstico" {% if orden.estado == 'En Diagnóstico' %}selected{% endif %}>En Diagnóstico</option>
+                                <option value="Esperando Repuestos" {% if orden.estado == 'Esperando Repuestos' %}selected{% endif %}>Esperando Repuestos</option>
+                                <option value="En Reparación" {% if orden.estado == 'En Reparación' %}selected{% endif %}>En Reparación</option>
+                                <option value="Terminado" {% if orden.estado == 'Terminado' %}selected{% endif %}>Terminado</option>
+                                <option value="Entregado" {% if orden.estado == 'Entregado' %}selected{% endif %}>Entregado</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">
+                            <i class="fas fa-save"></i> Actualizar Estado
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Historial -->
+            <div class="card">
+                <div class="card-header">
+                    <h6 class="m-0 font-weight-bold text-primary">Historial de Cambios</h6>
+                </div>
+                <div class="card-body">
+                    <div class="timeline">
+                        {% for evento in historial %}
+                        <div class="timeline-item">
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-content">
+                                <h3 class="timeline-title">{{ evento.fecha.strftime('%d/%m/%Y %H:%M') }}</h3>
+                                <p>{{ evento.descripcion }}</p>
+                                <small>Por: {{ evento.usuario.username }}</small>
+                            </div>
+                        </div>
+                        {% else %}
+                        <p class="text-center">No hay registros en el historial</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de Solicitud -->
+<div class="modal fade" id="solicitudModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Nueva Solicitud</h5>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <form action="{{ url_for('orden.crear_solicitud', orden_id=orden.id) }}" method="POST">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Tipo de Solicitud</label>
+                        <select name="tipo" class="form-control" required>
+                            <option value="">Seleccione un tipo</option>
+                            <option value="Repuesto">Repuesto</option>
+                            <option value="Presupuesto">Presupuesto</option>
+                            <option value="Autorización">Autorización</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Descripción</label>
+                        <textarea name="descripcion" class="form-control" rows="3" required></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Crear Solicitud</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %} {% block extra_css %}
+<style>
+    .timeline {
+        position: relative;
+        padding: 20px 0;
+    }
+    
+    .timeline-item {
+        position: relative;
+        padding-left: 40px;
+        margin-bottom: 20px;
+    }
+    
+    .timeline-marker {
+        position: absolute;
+        left: 0;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: #4e73df;
+        border: 2px solid #fff;
+    }
+    
+    .timeline-marker::before {
+        content: '';
+        position: absolute;
+        left: 5px;
+        height: calc(100% + 20px);
+        border-left: 2px solid #e3e6f0;
+    }
+    
+    .timeline-content {
+        padding-bottom: 20px;
+    }
+    
+    .timeline-title {
+        font-size: 0.9rem;
+        margin-bottom: 5px;
+        color: #4e73df;
+    }
+</style>
+{% endblock %} {% block extra_js %}
+<script type="text/javascript">
+    // Esperar a que jQuery esté disponible
+    window.addEventListener('load', function() {
+        if (typeof jQuery !== 'undefined') {
+            // Inicializar tooltips usando jQuery
+            $('[data-toggle="tooltip"]').tooltip();
+
+            // Inicializar DataTables
+            var table = $('.table');
+            if (table.length) {
+                table.DataTable({
+                    language: dataTablesEspanol,
+                    order: [
+                        [0, "desc"]
+                    ], // Ordenar por fecha descendente
+                    pageLength: 5,
+                    lengthMenu: [
+                        [5, 10, 25, -1],
+                        [5, 10, 25, "Todos"]
+                    ],
+                    responsive: true
+                });
+            }
+        } else {
+            console.error('jQuery no está disponible');
+        }
+    });
+</script>
+{% endblock %}

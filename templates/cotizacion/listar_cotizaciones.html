@@ -1,0 +1,77 @@
+{% extends 'base.html' %} {% block content %}
+<div class="container-fluid">
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Solicitudes de Cotización</h1>
+        <a href="{{ url_for('cotizacion.nueva') }}" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Nueva Cotización
+        </a>
+    </div>
+
+    <!-- Content Row -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Lista de Cotizaciones</h6>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Asunto</th>
+                                    <th>Cliente</th>
+                                    <th>Orden</th>
+                                    <th>Solicitante</th>
+                                    <th>Fecha</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for cotizacion in cotizaciones %}
+                                <tr>
+                                    <td>{{ cotizacion.id }}</td>
+                                    <td>{{ cotizacion.asunto }}</td>
+                                    <td>{{ cotizacion.cliente.nombre if cotizacion.cliente else 'N/A' }}</td>
+                                    <td>
+                                        {% if cotizacion.orden %}
+                                        <a href="{{ url_for('orden.ver_orden', orden_id=cotizacion.orden.id) }}">#{{ cotizacion.orden.id }}</a> {% else %} Sin orden {% endif %}
+                                    </td>
+                                    <td>{{ cotizacion.usuario.username }}</td>
+                                    <td>{{ cotizacion.fecha_creacion.strftime('%d/%m/%Y %H:%M') }}</td>
+                                    <td>
+                                        <a href="{{ url_for('cotizacion.ver', cotizacion_id=cotizacion.id) }}" class="btn btn-info btn-sm">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        {% if current_user.rol == 'admin' %}
+                                        <a href="{{ url_for('cotizacion.editar', cotizacion_id=cotizacion.id) }}" class="btn btn-warning btn-sm">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} {% block extra_js %}
+<script>
+    $(document).ready(function() {
+        $('#dataTable').DataTable({
+            "order": [
+                [5, "desc"]
+            ], // Ordenar por fecha descendente
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
+            }
+        });
+    });
+</script>
+{% endblock %}
