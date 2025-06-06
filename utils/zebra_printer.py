@@ -10,22 +10,34 @@ import tempfile
 from reportlab.graphics.barcode import code128
 
 class ZebraPrinter:
-    def __init__(self, config):
+    def __init__(self):
         """
-        Inicializa la impresora Zebra con la configuración proporcionada
-        :param config: Objeto de configuración con los parámetros necesarios
+        Inicializa la clase ZebraPrinter.
+        Configurado para usar CUPS en macOS.
         """
-        self.test_mode = config.get('ZEBRA_TEST_MODE', True)
-        self.connection_type = config.get('ZEBRA_CONNECTION_TYPE', 'pdf')
-        self.printer_name = config.get('ZEBRA_PRINTER_NAME', 'Zebra')
-        self.printer_ip = config.get('ZEBRA_PRINTER_IP', 'localhost')
-        self.printer_port = config.get('ZEBRA_PRINTER_PORT', 9100)
-        self.usb_device = config.get('ZEBRA_USB_DEVICE', '/dev/usb/lp0')
-        self.label_dir = config.get('ZEBRA_LABEL_DIR', os.path.join('static', 'labels'))
-        self.system = platform.system()
+        self.test_mode = os.getenv('ZEBRA_TEST_MODE', 'false').lower() == 'true'
+        self.printer_name = "Zebra_Technologies_ZTC_ZD220_203dpi_ZPL"  # Nombre exacto de la impresora en CUPS
+        self.label_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'static', 'labels')
         
-        # Crear directorio para etiquetas si no existe
+        # Asegurarse de que el directorio de etiquetas existe
         os.makedirs(self.label_dir, exist_ok=True)
+        
+        if not self.test_mode:
+            try:
+                # Verificar si la impresora está disponible en CUPS
+                result = subprocess.run(['lpstat', '-p'], capture_output=True, text=True)
+                print("Impresoras disponibles en CUPS:")
+                print(result.stdout)
+                
+                if self.printer_name not in result.stdout:
+                    print(f"ADVERTENCIA: La impresora {self.printer_name} no se encontró en la lista")
+                    self.test_mode = True
+                else:
+                    print(f"Impresora {self.printer_name} encontrada en CUPS")
+                    
+            except Exception as e:
+                print(f"Error al verificar la impresora: {str(e)}")
+                self.test_mode = True
 
     def generate_zpl(self, orden):
         """
@@ -151,52 +163,63 @@ class ZebraPrinter:
                 temp.write(zpl_code)
                 temp_path = temp.name
 
-            # Imprimir usando lp
-            result = subprocess.run(['lp', '-d', self.printer_name, temp_path], 
-                                 capture_output=True, text=True)
+            print(f"Enviando ZPL a la impresora: {zpl_code}")
+            
+            # Imprimir usando lp con opciones específicas para ZPL
+            result = subprocess.run(
+                ['lp', '-d', self.printer_name, '-o', 'raw', temp_path],
+                capture_output=True,
+                text=True,
+                check=True  # Esto lanzará una excepción si hay error
+            )
+            
+            print(f"Resultado del comando lp: {result.stdout}")
+            if result.stderr:
+                print(f"Errores del comando lp: {result.stderr}")
             
             # Eliminar archivo temporal
             os.unlink(temp_path)
             
-            if result.returncode != 0:
-                print(f"Error CUPS: {result.stderr}")
-                return False
             return True
+        except subprocess.CalledProcessError as e:
+            print(f"Error al ejecutar el comando lp: {e.stderr}")
+            return False
         except Exception as e:
             print(f"Error de impresión CUPS: {str(e)}")
             return False
 
-    def print_label(self, orden):
+    def print_label(self, zpl_code):
         """
-        Imprime una etiqueta para una orden
-        :param orden: Objeto orden con la información a imprimir
+        Imprime una etiqueta usando el código ZPL proporcionado
+        :param zpl_code: Código ZPL a imprimir
         :return: True si la impresión fue exitosa, False en caso contrario
         """
+        if self.test_mode:
+            print("Modo de prueba activado, generando PDF...")
+            return self.generate_pdf(zpl_code)
+        
         try:
-            # Generar el código ZPL
-            zpl_code = self.generate_zpl(orden)
+            print("Intentando imprimir usando CUPS...")
             
-            # En modo de prueba, siempre generar PDF
-            if self.test_mode:
-                pdf_path = self.generate_pdf(zpl_code, orden.id)
-                return pdf_path
-
-            # En modo normal, usar el método de conexión configurado
-            if self.connection_type == 'network':
-                return self.print_network(zpl_code)
-            elif self.connection_type == 'usb':
-                return self.print_usb(zpl_code)
-            elif self.connection_type == 'cups':
-                return self.print_cups(zpl_code)
-            elif self.connection_type == 'pdf':
-                pdf_path = self.generate_pdf(zpl_code, orden.id)
-                return pdf_path
+            # Asegurarse de que el código ZPL termine con un salto de línea
+            if not zpl_code.endswith('\n'):
+                zpl_code += '\n'
+            
+            print(f"Código ZPL a enviar:\n{zpl_code}")
+            
+            # Intentar imprimir usando CUPS
+            result = self.print_cups(zpl_code)
+            
+            if result:
+                print("Trabajo de impresión enviado correctamente")
+                return True
             else:
-                raise ValueError(f"Tipo de conexión no soportado: {self.connection_type}")
-            
+                print("Error al imprimir, generando PDF como respaldo...")
+                return self.generate_pdf(zpl_code)
+                
         except Exception as e:
             print(f"Error al imprimir: {str(e)}")
-            return False
+            return self.generate_pdf(zpl_code)
 
     def print_test(self):
         """
@@ -230,4 +253,5 @@ class ZebraPrinter:
             
         except Exception as e:
             print(f"Error al imprimir prueba: {str(e)}")
+            return False 
             return False 

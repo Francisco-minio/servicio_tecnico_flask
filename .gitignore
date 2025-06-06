@@ -27,28 +27,42 @@ wheels/
 .installed.cfg
 *.egg
 
-# Flask
-instance/
-.webassets-cache
-flask_session/
-
-# Logs y bases de datos
-*.log
-*.sqlite
-*.db
-
-# Entorno virtual
+# Virtual environment
 venv/
 ENV/
-env/
 
 # IDE
 .idea/
 .vscode/
 *.swp
 *.swo
+
+# Logs
+logs/
+*.log
+
+# Local development
+.env
+.env.local
+.env.*.local
+
+# Generated files
+static/labels/
+test.zpl
+
+# Flask
+instance/
+.webassets-cache
+flask_session/
+
+# macOS
 .DS_Store
-*.code-workspace
+.AppleDouble
+.LSOverride
+
+# Logs y bases de datos
+*.sqlite
+*.db
 
 # Docker
 .docker/
