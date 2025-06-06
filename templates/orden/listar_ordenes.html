@@ -12,10 +12,28 @@
     <div class="row">
         <div class="col-12">
             <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Listado de Órdenes</h6>
+                <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                    <h6 class="m-0 font-weight-bold text-primary">Órdenes de Servicio</h6>
+                    <a href="{{ url_for('orden.nueva_orden') }}" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Nueva Orden
+                    </a>
                 </div>
                 <div class="card-body">
+                    <!-- Búsqueda por Código de Barras -->
+                    <div class="row mb-4">
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-barcode"></i>
+                                    </span>
+                                </div>
+                                <input type="text" id="busquedaCodigoBarras" class="form-control" placeholder="Escanear código de barras...">
+                            </div>
+                            <small class="form-text text-muted">Escanee o ingrese el número de orden para búsqueda rápida</small>
+                        </div>
+                    </div>
+
                     <div class="table-responsive">
                         <table class="table table-bordered" id="tablaOrdenes" width="100%" cellspacing="0">
                             <thead>
@@ -95,7 +113,8 @@
 {% endblock %} {% block extra_js %}
 <script type="text/javascript">
     $(document).ready(function() {
-        $('#tablaOrdenes').DataTable({
+        // Inicializar DataTable
+        const tabla = $('#tablaOrdenes').DataTable({
             language: dataTablesEspanol,
             order: [
                 [0, "desc"]
@@ -103,6 +122,17 @@
             pageLength: 10,
             responsive: true
         });
+
+        // Búsqueda por código de barras
+        $('#busquedaCodigoBarras').on('input', function() {
+            let codigo = $(this).val().trim();
+            // Eliminar ceros a la izquierda para hacer coincidir con el ID
+            codigo = parseInt(codigo, 10) || '';
+            tabla.search(codigo).draw();
+        });
+
+        // Enfocar automáticamente el campo de búsqueda
+        $('#busquedaCodigoBarras').focus();
 
         // Validación del formulario de eliminación
         $('#formEliminar').on('submit', function(e) {

@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for, request, flash, send_file
+from flask import render_template, redirect, url_for, request, flash, send_file, current_app
 from flask_login import login_required, current_user
 from werkzeug.utils import secure_filename
 from datetime import datetime
@@ -8,6 +8,7 @@ from models import Orden, Cliente, Imagen, Usuario, Historial, Solicitud, Correo
 from extensions import db
 from utils.mail_sender import enviar_correo, enviar_notificacion_admin
 from utils.db_context import db_session, atomic_transaction
+from utils.zebra_printer import ZebraPrinter
 from . import orden_bp
 import logging
 from functools import wraps
@@ -554,4 +555,91 @@ def eliminar_orden(orden_id):
     except Exception as e:
         logger.error(f"Error al eliminar orden {orden_id}: {str(e)}")
         flash('Error al eliminar la orden', 'error')
-        return redirect(url_for('orden.listar_ordenes')) 
+        return redirect(url_for('orden.listar_ordenes'))
+
+@orden_bp.route('/<int:orden_id>/imprimir_etiqueta')
+@login_required
+def imprimir_etiqueta(orden_id):
+    try:
+        orden = Orden.query.get_or_404(orden_id)
+        printer = ZebraPrinter()
+        
+        # Generar el código ZPL
+        zpl_code = printer.generate_zpl(orden)
+        
+        # Imprimir la etiqueta
+        result = printer.print_label(zpl_code)
+        
+        if result:
+            flash('Etiqueta enviada a la impresora correctamente.', 'success')
+        else:
+            flash('Error al imprimir la etiqueta. Verifique la conexión con la impresora.', 'error')
+            
+        return redirect(url_for('orden.ver_orden', orden_id=orden_id))
+        
+    except Exception as e:
+        current_app.logger.error(f"Error al imprimir etiqueta: {str(e)}")
+        flash('Error al imprimir la etiqueta.', 'error')
+        return redirect(url_for('orden.ver_orden', orden_id=orden_id))
+
+@orden_bp.route('/<int:orden_id>/generar_etiqueta_pdf')
+@login_required
+def generar_etiqueta_pdf(orden_id):
+    """Genera un PDF con la etiqueta para una orden"""
+    orden = Orden.query.get_or_404(orden_id)
+    
+    # Crear instancia de la impresora con la configuración actual
+    printer = ZebraPrinter(current_app.config)
+    
+    # Generar el PDF
+    result = printer.print_label(orden)  # En modo de prueba, siempre genera PDF
+    
+    if isinstance(result, str) and result.endswith('.pdf'):
+        # Registrar en el historial
+        historial = Historial(
+            orden_id=orden.id,
+            usuario_id=current_user.id,
+            descripcion=f"Se generó un PDF con la etiqueta para la orden #{orden.id}",
+            fecha=datetime.now()
+        )
+        db.session.add(historial)
+        db.session.commit()
+        
+        # Devolver el archivo PDF
+        return send_file(
+            result,
+            mimetype='application/pdf',
+            as_attachment=True,
+            download_name=f'etiqueta_orden_{orden.id}.pdf'
+        )
+    else:
+        flash('Error al generar el PDF de la etiqueta.', 'error')
+        return redirect(url_for('orden.ver_orden', orden_id=orden_id))
+
+@orden_bp.route('/imprimir_test')
+@login_required
+@admin_required
+def imprimir_test():
+    """Imprime una etiqueta de prueba"""
+    # Crear instancia de la impresora con la configuración actual
+    printer = ZebraPrinter(current_app.config)
+    
+    # Intentar imprimir la etiqueta de prueba
+    result = printer.print_test()
+    
+    # Si estamos en modo de prueba o PDF, el resultado es la ruta del archivo
+    if isinstance(result, str) and result.endswith('.pdf'):
+        return send_file(
+            result,
+            mimetype='application/pdf',
+            as_attachment=True,
+            download_name='etiqueta_test.pdf'
+        )
+    
+    # Si no es PDF, verificar si la impresión fue exitosa
+    if result:
+        flash('Etiqueta de prueba enviada correctamente.', 'success')
+    else:
+        flash('Error al enviar la etiqueta de prueba.', 'error')
+    
+    return redirect(url_for('orden.listar_ordenes')) 

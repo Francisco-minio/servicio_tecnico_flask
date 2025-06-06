@@ -1,3 +1,15 @@
+"""
+Factory de la aplicación Flask para el sistema de gestión de servicio técnico.
+Este módulo implementa el patrón Factory para crear y configurar la aplicación Flask.
+
+Características principales:
+- Configuración de seguridad con Talisman
+- Sistema de logging con rotación
+- Manejo de errores personalizado
+- Registro de blueprints
+- Configuración de extensiones
+"""
+
 import os
 from flask import Flask, redirect, url_for, render_template
 from flask_migrate import Migrate
@@ -19,7 +31,17 @@ from utils.logger import setup_logger
 from utils.file_handler import FileHandler
 
 def register_blueprints(app):
-    """Registra todos los blueprints de la aplicación."""
+    """
+    Registra todos los blueprints de la aplicación.
+    
+    Args:
+        app (Flask): Instancia de la aplicación Flask
+        
+    Esta función:
+    1. Importa los blueprints necesarios
+    2. Define la configuración de cada blueprint (URL prefix)
+    3. Registra cada blueprint en la aplicación
+    """
     # Importar blueprints
     from blueprints.auth import auth_bp
     from blueprints.orden import orden_bp
@@ -30,12 +52,12 @@ def register_blueprints(app):
 
     # Lista de blueprints con sus configuraciones
     blueprints = [
-        auth_bp,
-        (orden_bp, {'url_prefix': '/orden'}),
-        (cliente_bp, {'url_prefix': '/cliente'}),
-        (admin_bp, {'url_prefix': '/admin'}),
-        (cotizacion_bp, {'url_prefix': '/cotizacion'}),
-        (perfil_bp, {'url_prefix': '/perfil'})
+        auth_bp,  # Autenticación (sin prefijo)
+        (orden_bp, {'url_prefix': '/orden'}),  # Gestión de órdenes
+        (cliente_bp, {'url_prefix': '/cliente'}),  # Gestión de clientes
+        (admin_bp, {'url_prefix': '/admin'}),  # Panel de administración
+        (cotizacion_bp, {'url_prefix': '/cotizacion'}),  # Gestión de cotizaciones
+        (perfil_bp, {'url_prefix': '/perfil'})  # Perfil de usuario
     ]
 
     # Registrar cada blueprint
@@ -47,22 +69,40 @@ def register_blueprints(app):
             app.register_blueprint(blueprint)
 
 def create_app(config_name='development'):
+    """
+    Crea y configura una instancia de la aplicación Flask.
+    
+    Args:
+        config_name (str): Nombre de la configuración a usar ('development' o 'production')
+        
+    Returns:
+        Flask: Instancia configurada de la aplicación Flask
+        
+    Esta función:
+    1. Crea la aplicación Flask
+    2. Carga la configuración según el entorno
+    3. Configura la seguridad y el logging
+    4. Inicializa las extensiones
+    5. Registra los blueprints y rutas
+    """
     app = Flask(__name__)
     
-    # Configuración básica
+    # Configuración básica según el entorno
     if config_name == 'development':
         app.config.from_object('config.DevelopmentConfig')
     else:
         app.config.from_object('config.ProductionConfig')
     
-    # Agregar filtro nl2br
+    # Filtro Jinja2 para convertir saltos de línea en <br>
     @app.template_filter('nl2br')
     def nl2br_filter(s):
+        """Convierte \n en <br> para mostrar texto con formato en HTML."""
         if s is None:
             return ""
         return s.replace('\n', '<br>')
     
-    # Configuración de Talisman (HTTPS y CSP)
+    # Configuración de seguridad con Talisman
+    # Define políticas de seguridad de contenido (CSP) y permisos
     csp = {
         'default-src': [
             '\'self\'',
@@ -101,6 +141,8 @@ def create_app(config_name='development'):
         ]
     }
 
+    # Política de permisos del navegador
+    # Restringe acceso a características sensibles
     permissions_policy = {
         'accelerometer': '()',
         'autoplay': '()',
@@ -123,13 +165,13 @@ def create_app(config_name='development'):
         'xr-spatial-tracking': '()'
     }
 
-    # Configurar Talisman (desactivado en desarrollo)
+    # Aplicar configuración de Talisman según el entorno
     if config_name == 'development':
         Talisman(app, force_https=False, content_security_policy=None)
     else:
         Talisman(app)
     
-    # Asegurarse de que las variables de entorno de correo estén configuradas
+    # Configuración del servidor de correo
     app.config['MAIL_SERVER'] = os.environ.get('MAIL_SERVER', 'smtp.smtp2go.com')
     app.config['MAIL_PORT'] = int(os.environ.get('MAIL_PORT', 2525))
     app.config['MAIL_USE_TLS'] = os.environ.get('MAIL_USE_TLS', 'True').lower() == 'true'
@@ -138,14 +180,14 @@ def create_app(config_name='development'):
     app.config['MAIL_DEFAULT_SENDER'] = os.environ.get('MAIL_DEFAULT_SENDER')
     app.config['CORREO_ADMIN'] = os.environ.get('CORREO_ADMIN')
     
-    # Inicializar extensiones
-    db.init_app(app)
-    mail.init_app(app)
-    migrate = Migrate(app, db)
-    csrf = CSRFProtect(app)
-    Session(app)
+    # Inicialización de extensiones Flask
+    db.init_app(app)  # Base de datos
+    mail.init_app(app)  # Sistema de correo
+    migrate = Migrate(app, db)  # Migraciones
+    csrf = CSRFProtect(app)  # Protección CSRF
+    Session(app)  # Manejo de sesiones
     
-    # Configurar Login Manager
+    # Configuración del sistema de autenticación
     login_manager = LoginManager()
     login_manager.init_app(app)
     login_manager.login_view = 'auth.login'
@@ -154,29 +196,37 @@ def create_app(config_name='development'):
     
     @login_manager.user_loader
     def load_user(user_id):
+        """Carga un usuario desde la base de datos por su ID."""
         return Usuario.query.get(int(user_id))
     
-    # Configurar manejo de errores
+    # Manejadores de errores personalizados
     @app.errorhandler(404)
     def not_found_error(error):
+        """Maneja errores 404 (Página no encontrada)."""
         return render_template('errors/404.html'), 404
 
     @app.errorhandler(500)
     def internal_error(error):
+        """
+        Maneja errores 500 (Error interno).
+        Hace rollback de la sesión de base de datos.
+        """
         db.session.rollback()
         return render_template('errors/500.html'), 500
     
-    # Configurar logger
+    # Configuración del sistema de logging
     setup_logger(app)
-    
-    # Configurar manejo de archivos
     FileHandler.init_app(app)
     
-    # Configurar logging
+    # Configurar logging con rotación de archivos
     if not os.path.exists('logs'):
         os.makedirs('logs')
     
-    file_handler = RotatingFileHandler('logs/app.log', maxBytes=10240, backupCount=10)
+    file_handler = RotatingFileHandler(
+        'logs/app.log',
+        maxBytes=10240,  # 10KB por archivo
+        backupCount=10  # Mantener 10 archivos de backup
+    )
     file_handler.setFormatter(logging.Formatter(
         '%(asctime)s - %(levelname)s - %(name)s - %(message)s'
     ))
@@ -185,12 +235,17 @@ def create_app(config_name='development'):
     app.logger.setLevel(logging.INFO)
     app.logger.info('Aplicación iniciada')
     
-    # Registrar blueprints
+    # Registrar blueprints de la aplicación
     register_blueprints(app)
     
-    # Ruta principal
+    # Ruta principal (redirección según rol)
     @app.route('/')
     def index():
+        """
+        Ruta principal que redirige según el estado de autenticación:
+        - Usuarios autenticados: al dashboard o lista de órdenes según rol
+        - Usuarios no autenticados: a la página de login
+        """
         if current_user.is_authenticated:
             if current_user.rol == 'admin':
                 return redirect(url_for('admin.dashboard'))

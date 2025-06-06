@@ -145,6 +145,34 @@
 
         <!-- Columna Derecha -->
         <div class="col-md-4">
+            <!-- Sección de Etiquetas -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h6 class="m-0 font-weight-bold text-primary">Etiquetas</h6>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12 mb-2">
+                            <a href="{{ url_for('orden.imprimir_etiqueta', orden_id=orden.id) }}" class="btn btn-primary btn-block">
+                                <i class="fas fa-print"></i> Imprimir Etiqueta Zebra
+                            </a>
+                        </div>
+                        <div class="col-12 mb-2">
+                            <a href="{{ url_for('orden.generar_etiqueta_pdf', orden_id=orden.id) }}" class="btn btn-secondary btn-block">
+                                <i class="fas fa-file-pdf"></i> Generar PDF
+                            </a>
+                        </div>
+                        {% if current_user.rol == 'admin' %}
+                        <div class="col-12">
+                            <a href="{{ url_for('orden.imprimir_test') }}" class="btn btn-outline-primary btn-block">
+                                <i class="fas fa-vial"></i> Imprimir Etiqueta de Prueba
+                            </a>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
             <!-- Estado de la Orden -->
             <div class="card mb-4">
                 <div class="card-header">

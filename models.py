@@ -1,13 +1,28 @@
+"""
+Modelos de la base de datos para el sistema de gestión de servicio técnico.
+Este módulo define todas las entidades principales del sistema y sus relaciones.
+"""
+
 from extensions import db
 from datetime import datetime
 from flask_login import UserMixin
 
 class Usuario(UserMixin, db.Model):
+    """
+    Modelo que representa a un usuario del sistema.
+    Hereda de UserMixin para integración con Flask-Login.
+    
+    Roles disponibles:
+    - admin: Acceso total al sistema
+    - tecnico: Gestión de órdenes asignadas
+    - recepcionista: Creación y seguimiento de órdenes
+    """
     __tablename__ = 'usuarios'
 
+    # Campos de identificación y acceso
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
-    password = db.Column(db.String(200), nullable=False)
+    password = db.Column(db.String(200), nullable=False)  # Almacenado con hash
     email = db.Column(db.String(120), unique=True, nullable=False)
     nombre = db.Column(db.String(120))
     rol = db.Column(db.String(20), default='tecnico')
@@ -15,12 +30,12 @@ class Usuario(UserMixin, db.Model):
     fecha_registro = db.Column(db.DateTime, default=datetime.utcnow)
     ultimo_acceso = db.Column(db.DateTime)
     
-    # Preferencias
+    # Preferencias de usuario
     notificaciones_email = db.Column(db.Boolean, default=True)
     tema_oscuro = db.Column(db.Boolean, default=False)
     idioma = db.Column(db.String(2), default='es')
 
-    # Relaciones
+    # Relaciones con otras entidades
     ordenes_asignadas = db.relationship('Orden', back_populates='tecnico', lazy='dynamic', 
                                       foreign_keys='Orden.tecnico_id')
     historiales = db.relationship('Historial', back_populates='usuario', lazy='dynamic')
@@ -31,23 +46,33 @@ class Usuario(UserMixin, db.Model):
         return f"<Usuario {self.username}, Rol: {self.rol}>"
 
 class Orden(db.Model):
+    """
+    Modelo que representa una orden de servicio técnico.
+    Contiene toda la información relacionada con un servicio técnico,
+    incluyendo detalles del equipo, cliente, técnico asignado y estado.
+    """
     __tablename__ = 'ordenes'
     
+    # Identificación y relaciones principales
     id = db.Column(db.Integer, primary_key=True)
     cliente_id = db.Column(db.Integer, db.ForeignKey('clientes.id'), nullable=False)
     tecnico_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'), nullable=True)
-    equipo = db.Column(db.String(100), nullable=False)
+    
+    # Especificaciones del equipo
+    equipo = db.Column(db.String(100), nullable=False)  # Tipo de equipo (laptop, desktop, etc.)
     marca = db.Column(db.String(50))
     modelo = db.Column(db.String(50))
     procesador = db.Column(db.String(50))
     ram = db.Column(db.String(20))
     disco = db.Column(db.String(50))
     pantalla = db.Column(db.String(20))
-    descripcion = db.Column(db.Text, nullable=False)
-    estado = db.Column(db.String(20), default='Pendiente')
+    
+    # Detalles del servicio
+    descripcion = db.Column(db.Text, nullable=False)  # Descripción del problema
+    estado = db.Column(db.String(20), default='Pendiente')  # Estado actual del servicio
     fecha_creacion = db.Column(db.DateTime, default=datetime.now)
     fecha_actualizacion = db.Column(db.DateTime, onupdate=datetime.now)
-    correo = db.Column(db.String(120))
+    correo = db.Column(db.String(120))  # Correo alternativo para notificaciones
     
     # Relaciones
     cliente = db.relationship('Cliente', back_populates='ordenes', lazy='joined')
@@ -59,12 +84,25 @@ class Orden(db.Model):
     correos = db.relationship('CorreoLog', back_populates='orden', lazy='dynamic')
 
     def __init__(self, **kwargs):
+        """Inicializa una nueva orden con fechas actuales."""
         super(Orden, self).__init__(**kwargs)
         self.fecha_creacion = datetime.now()
         self.fecha_actualizacion = self.fecha_creacion
     
     def actualizar_estado(self, nuevo_estado, usuario_id):
-        """Actualiza el estado de la orden y registra el cambio en el historial."""
+        """
+        Actualiza el estado de la orden y registra el cambio en el historial.
+        
+        Args:
+            nuevo_estado (str): El nuevo estado de la orden
+            usuario_id (int): ID del usuario que realiza el cambio
+            
+        Returns:
+            bool: True si el cambio fue exitoso
+            
+        Raises:
+            Exception: Si hay un error en la transacción
+        """
         from utils.db_context import atomic_transaction
         
         with atomic_transaction() as session:
@@ -83,7 +121,19 @@ class Orden(db.Model):
             return True
     
     def agregar_imagen(self, ruta, nombre):
-        """Agrega una nueva imagen a la orden."""
+        """
+        Agrega una nueva imagen a la orden.
+        
+        Args:
+            ruta (str): Ruta del archivo de imagen
+            nombre (str): Nombre descriptivo de la imagen
+            
+        Returns:
+            Imagen: Objeto imagen creado
+            
+        Raises:
+            ValueError: Si se excede el límite de imágenes
+        """
         from utils.db_context import atomic_transaction
         
         with atomic_transaction() as session:
@@ -100,12 +150,16 @@ class Orden(db.Model):
             return imagen
 
 class Historial(db.Model):
+    """
+    Modelo para registrar cambios y eventos en las órdenes.
+    Mantiene un registro cronológico de todas las modificaciones.
+    """
     __tablename__ = 'historiales'
 
     id = db.Column(db.Integer, primary_key=True)
     orden_id = db.Column(db.Integer, db.ForeignKey('ordenes.id'), nullable=False)
     usuario_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'), nullable=False)
-    descripcion = db.Column(db.Text, nullable=False)
+    descripcion = db.Column(db.Text, nullable=False)  # Descripción del cambio
     fecha = db.Column(db.DateTime, default=datetime.utcnow)
 
     # Relaciones
@@ -116,16 +170,24 @@ class Historial(db.Model):
         return f"<Historial Orden {self.orden_id}, Usuario {self.usuario_id}>"
 
 class Imagen(db.Model):
+    """
+    Modelo para almacenar imágenes asociadas a las órdenes.
+    Permite adjuntar fotos del equipo o documentos relevantes.
+    """
     __tablename__ = 'imagenes'
     
     id = db.Column(db.Integer, primary_key=True)
     orden_id = db.Column(db.Integer, db.ForeignKey('ordenes.id'), nullable=False)
-    filename = db.Column(db.String(120), nullable=False)
+    filename = db.Column(db.String(120), nullable=False)  # Nombre del archivo en el sistema
 
     # Relaciones
     orden = db.relationship('Orden', back_populates='imagenes')
 
 class Cliente(db.Model):
+    """
+    Modelo que representa a un cliente del servicio técnico.
+    Almacena información de contacto y relación con órdenes.
+    """
     __tablename__ = 'clientes'
     
     id = db.Column(db.Integer, primary_key=True)
@@ -133,13 +195,17 @@ class Cliente(db.Model):
     correo = db.Column(db.String(120), nullable=True)
     telefono = db.Column(db.String(20), nullable=True)
     direccion = db.Column(db.String(200), nullable=True)
-    rut = db.Column(db.String(20), nullable=True, unique=True)
+    rut = db.Column(db.String(20), nullable=True, unique=True)  # RUT chileno único
 
     # Relaciones
     ordenes = db.relationship('Orden', back_populates='cliente', lazy='dynamic')
     cotizaciones = db.relationship('SolicitudCotizacion', back_populates='cliente', lazy='dynamic')
 
 class Solicitud(db.Model):
+    """
+    Modelo para gestionar solicitudes de repuestos o presupuestos.
+    Permite hacer seguimiento a pedidos especiales.
+    """
     __tablename__ = 'solicitudes'
     
     id = db.Column(db.Integer, primary_key=True)
@@ -154,6 +220,10 @@ class Solicitud(db.Model):
     usuario = db.relationship('Usuario', back_populates='solicitudes')
 
 class CorreoLog(db.Model):
+    """
+    Modelo para registrar el historial de correos enviados.
+    Permite hacer seguimiento de las notificaciones y errores.
+    """
     __tablename__ = 'correo_log'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -163,7 +233,7 @@ class CorreoLog(db.Model):
     cuerpo = db.Column(db.Text, nullable=False)
     fecha_envio = db.Column(db.DateTime, default=datetime.utcnow)
     estado = db.Column(db.String(50), nullable=False, default='pendiente')  # "enviado", "error", "pendiente"
-    error = db.Column(db.Text, nullable=True)
+    error = db.Column(db.Text, nullable=True)  # Detalles del error si ocurrió
 
     # Relaciones
     orden = db.relationship('Orden', back_populates='correos')
@@ -172,16 +242,20 @@ class CorreoLog(db.Model):
         return f"<CorreoLog {self.id} - {self.asunto}>"
 
 class SolicitudCotizacion(db.Model):
+    """
+    Modelo para gestionar solicitudes de cotización.
+    Permite manejar presupuestos independientes o asociados a órdenes.
+    """
     __tablename__ = 'solicitud_cotizacion'
     
     id = db.Column(db.Integer, primary_key=True)
     asunto = db.Column(db.String(255), nullable=False)
     descripcion = db.Column(db.Text, nullable=False)
-    orden_id = db.Column(db.Integer, db.ForeignKey('ordenes.id'), nullable=True)
+    orden_id = db.Column(db.Integer, db.ForeignKey('ordenes.id'), nullable=True)  # Opcional
     usuario_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'), nullable=False)
-    cliente_id = db.Column(db.Integer, db.ForeignKey('clientes.id'), nullable=True)
+    cliente_id = db.Column(db.Integer, db.ForeignKey('clientes.id'), nullable=True)  # Opcional
     fecha_creacion = db.Column(db.DateTime, default=datetime.utcnow)
-    correo_encargado = db.Column(db.String(255), nullable=True)
+    correo_encargado = db.Column(db.String(255), nullable=True)  # Correo del encargado de cotizar
 
     # Relaciones
     orden = db.relationship('Orden', back_populates='cotizaciones')
@@ -192,7 +266,10 @@ class SolicitudCotizacion(db.Model):
         return f"<SolicitudCotizacion de {self.usuario.username}, asunto: {self.asunto}>"
 
 class OrdenEliminada(db.Model):
-    """Modelo para registrar órdenes eliminadas."""
+    """
+    Modelo para registrar órdenes eliminadas.
+    Mantiene un registro histórico de órdenes borradas para auditoría.
+    """
     __tablename__ = 'ordenes_eliminadas'
 
     id = db.Column(db.Integer, primary_key=True)

@@ -3627,3 +3627,1191 @@ flask_wtf.csrf.CSRFError: 400 Bad Request: The CSRF token is missing.
  - INFO - factory - Aplicación iniciada
  - INFO - factory - Aplicación iniciada
  - INFO - factory - Aplicación iniciada
+ - INFO - factory - Aplicación iniciada
+ - INFO - factory - Aplicación iniciada
+ - INFO - factory - Aplicación iniciada
+ - INFO - factory - Aplicación iniciada
+ - INFO - logger - 192.168.65.1 - GET http://0.0.0.0:5001/ - 302
+ - INFO - logger - 192.168.65.1 - GET http://0.0.0.0:5001/auth/login - 200
+ - INFO - logger - 192.168.65.1 - GET http://0.0.0.0:5001/static/vendor/fontawesome-free/css/all.min.css - 200
+ - INFO - logger - 192.168.65.1 - GET http://0.0.0.0:5001/static/js/sb-admin-2.min.js - 200
+ - INFO - logger - 192.168.65.1 - GET http://0.0.0.0:5001/static/css/sb-admin-2.min.css - 200
+ - INFO - logger - 192.168.65.1 - GET http://0.0.0.0:5001/static/js/datatables-es.js - 200
+ - INFO - logger - 192.168.65.1 - GET http://0.0.0.0:5001/favicon.ico - 404
+ - ERROR - logger - Error no manejado: 400 Bad Request: The CSRF session token is missing.
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.9/site-packages/flask_wtf/csrf.py", line 261, in protect
+    validate_csrf(self._get_csrf_token())
+  File "/usr/local/lib/python3.9/site-packages/flask_wtf/csrf.py", line 103, in validate_csrf
+    raise ValidationError("The CSRF session token is missing.")
+wtforms.validators.ValidationError: The CSRF session token is missing.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 915, in full_dispatch_request
+    rv = self.preprocess_request()
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 1291, in preprocess_request
+    rv = self.ensure_sync(before_func)()
+  File "/usr/local/lib/python3.9/site-packages/flask_wtf/csrf.py", line 229, in csrf_protect
+    self.protect()
+  File "/usr/local/lib/python3.9/site-packages/flask_wtf/csrf.py", line 264, in protect
+    self._error_response(e.args[0])
+  File "/usr/local/lib/python3.9/site-packages/flask_wtf/csrf.py", line 307, in _error_response
+    raise CSRFError(reason)
+flask_wtf.csrf.CSRFError: 400 Bad Request: The CSRF session token is missing.
+ - INFO - logger - 192.168.65.1 - GET http://0.0.0.0:5001/auth/login - 200
+ - INFO - logger - 192.168.65.1 - GET http://0.0.0.0:5001/static/js/sb-admin-2.min.js - 304
+ - INFO - logger - 192.168.65.1 - GET http://0.0.0.0:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+ - INFO - logger - 192.168.65.1 - GET http://0.0.0.0:5001/static/js/datatables-es.js - 304
+ - INFO - logger - 192.168.65.1 - GET http://0.0.0.0:5001/static/css/sb-admin-2.min.css - 304
+ - INFO - logger - 192.168.65.1 - GET http://0.0.0.0:5001/ - 302
+ - INFO - logger - 192.168.65.1 - GET http://0.0.0.0:5001/auth/login - 200
+ - INFO - logger - 192.168.65.1 - GET http://0.0.0.0:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+ - INFO - logger - 192.168.65.1 - GET http://0.0.0.0:5001/static/js/datatables-es.js - 304
+ - INFO - logger - 192.168.65.1 - GET http://0.0.0.0:5001/static/js/sb-admin-2.min.js - 304
+ - INFO - logger - 192.168.65.1 - GET http://0.0.0.0:5001/static/css/sb-admin-2.min.css - 304
+2025-06-05 15:16:36,f - INFO - factory - Aplicación iniciada
+2025-06-05 15:16:36,f - INFO - factory - Aplicación iniciada
+2025-06-05 15:16:36,f - INFO - factory - Aplicación iniciada
+2025-06-05 15:17:30,f - INFO - factory - Aplicación iniciada
+2025-06-05 15:17:30,f - INFO - factory - Aplicación iniciada
+2025-06-05 15:17:30,f - INFO - factory - Aplicación iniciada
+2025-06-05 15:17:37,f - INFO - factory - Aplicación iniciada
+2025-06-05 15:17:37,f - INFO - factory - Aplicación iniciada
+2025-06-05 15:17:37,f - INFO - factory - Aplicación iniciada
+2025-06-05 17:45:51,f - INFO - factory - Aplicación iniciada
+2025-06-05 17:45:51,f - INFO - factory - Aplicación iniciada
+2025-06-05 17:45:51,f - INFO - factory - Aplicación iniciada
+2025-06-05 17:46:03,f - INFO - factory - Aplicación iniciada
+2025-06-05 17:46:03,f - INFO - factory - Aplicación iniciada
+2025-06-05 17:46:03,f - INFO - factory - Aplicación iniciada
+2025-06-05 17:46:10,f - INFO - factory - Aplicación iniciada
+2025-06-05 17:46:10,f - INFO - factory - Aplicación iniciada
+2025-06-05 17:46:10,f - INFO - factory - Aplicación iniciada
+2025-06-05 17:46:21,f - INFO - factory - Aplicación iniciada
+2025-06-05 17:46:21,f - INFO - factory - Aplicación iniciada
+2025-06-05 17:46:21,f - INFO - factory - Aplicación iniciada
+2025-06-05 17:46:26,f - INFO - factory - Aplicación iniciada
+2025-06-05 17:46:26,f - INFO - factory - Aplicación iniciada
+2025-06-05 17:46:26,f - INFO - factory - Aplicación iniciada
+2025-06-05 18:23:51,f - INFO - factory - Aplicación iniciada
+2025-06-05 18:23:51,f - INFO - factory - Aplicación iniciada
+2025-06-05 18:23:51,f - INFO - factory - Aplicación iniciada
+2025-06-05 18:23:56,f - INFO - factory - Aplicación iniciada
+2025-06-05 18:23:56,f - INFO - factory - Aplicación iniciada
+2025-06-05 18:23:56,f - INFO - factory - Aplicación iniciada
+2025-06-05 18:24:02,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/ - 302
+2025-06-05 18:24:02,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/ - 302
+2025-06-05 18:24:02,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/auth/login - 200
+2025-06-05 18:24:02,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/auth/login - 200
+2025-06-05 18:24:03,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/vendor/fontawesome-free/css/all.min.css - 200
+2025-06-05 18:24:03,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/datatables-es.js - 200
+2025-06-05 18:24:03,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/vendor/fontawesome-free/css/all.min.css - 200
+2025-06-05 18:24:03,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/css/sb-admin-2.min.css - 200
+2025-06-05 18:24:03,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/sb-admin-2.min.js - 304
+2025-06-05 18:24:03,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/datatables-es.js - 200
+2025-06-05 18:24:03,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/css/sb-admin-2.min.css - 200
+2025-06-05 18:24:03,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/sb-admin-2.min.js - 304
+2025-06-05 18:24:04,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/favicon.ico - 404
+2025-06-05 18:24:04,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/favicon.ico - 404
+2025-06-05 18:24:07,f - INFO - logger - 127.0.0.1 - POST http://127.0.0.1:5000/auth/login - 302
+2025-06-05 18:24:07,f - INFO - logger - 127.0.0.1 - POST http://127.0.0.1:5000/auth/login - 302
+2025-06-05 18:24:07,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/ - 302
+2025-06-05 18:24:07,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/ - 302
+2025-06-05 18:24:07,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/admin/dashboard - 200
+2025-06-05 18:24:07,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/admin/dashboard - 200
+2025-06-05 18:24:07,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 18:24:07,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 18:24:07,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/css/sb-admin-2.min.css - 304
+2025-06-05 18:24:07,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/img/undraw_profile.svg - 304
+2025-06-05 18:24:07,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/css/sb-admin-2.min.css - 304
+2025-06-05 18:24:07,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/sb-admin-2.min.js - 304
+2025-06-05 18:24:07,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/datatables-es.js - 304
+2025-06-05 18:24:07,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/img/undraw_profile.svg - 304
+2025-06-05 18:24:07,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/sb-admin-2.min.js - 304
+2025-06-05 18:24:07,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/datatables-es.js - 304
+2025-06-05 18:24:07,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/vendor/fontawesome-free/webfonts/fa-solid-900.woff2 - 200
+2025-06-05 18:24:07,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/vendor/fontawesome-free/webfonts/fa-solid-900.woff2 - 200
+2025-06-05 18:24:11,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/orden/ - 200
+2025-06-05 18:24:11,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/orden/ - 200
+2025-06-05 18:24:11,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/css/sb-admin-2.min.css - 304
+2025-06-05 18:24:11,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 18:24:11,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/datatables-es.js - 304
+2025-06-05 18:24:11,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/img/undraw_profile.svg - 304
+2025-06-05 18:24:11,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/css/sb-admin-2.min.css - 304
+2025-06-05 18:24:11,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/sb-admin-2.min.js - 304
+2025-06-05 18:24:11,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 18:24:11,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/datatables-es.js - 304
+2025-06-05 18:24:11,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/img/undraw_profile.svg - 304
+2025-06-05 18:24:11,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/sb-admin-2.min.js - 304
+2025-06-05 18:24:11,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/cliente/ - 200
+2025-06-05 18:24:11,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/cliente/ - 200
+2025-06-05 18:24:11,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/datatables-es.js - 304
+2025-06-05 18:24:11,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 18:24:11,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/css/sb-admin-2.min.css - 304
+2025-06-05 18:24:11,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/datatables-es.js - 304
+2025-06-05 18:24:11,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 18:24:11,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/css/sb-admin-2.min.css - 304
+2025-06-05 18:24:11,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/sb-admin-2.min.js - 304
+2025-06-05 18:24:11,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/img/undraw_profile.svg - 304
+2025-06-05 18:24:11,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/sb-admin-2.min.js - 304
+2025-06-05 18:24:11,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/img/undraw_profile.svg - 304
+2025-06-05 18:24:12,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/cotizacion/listar - 200
+2025-06-05 18:24:12,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/cotizacion/listar - 200
+2025-06-05 18:24:12,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 18:24:12,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/css/sb-admin-2.min.css - 304
+2025-06-05 18:24:12,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/img/undraw_profile.svg - 304
+2025-06-05 18:24:12,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 18:24:12,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/sb-admin-2.min.js - 304
+2025-06-05 18:24:12,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/datatables-es.js - 304
+2025-06-05 18:24:12,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/css/sb-admin-2.min.css - 304
+2025-06-05 18:24:12,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/img/undraw_profile.svg - 304
+2025-06-05 18:24:12,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/sb-admin-2.min.js - 304
+2025-06-05 18:24:12,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/datatables-es.js - 304
+2025-06-05 18:24:13,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/admin/logs - 200
+2025-06-05 18:24:13,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/admin/logs - 200
+2025-06-05 18:24:13,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/css/sb-admin-2.min.css - 304
+2025-06-05 18:24:13,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/css/sb-admin-2.min.css - 304
+2025-06-05 18:24:13,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 18:24:13,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 18:24:13,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/img/undraw_profile.svg - 304
+2025-06-05 18:24:13,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/img/undraw_profile.svg - 304
+2025-06-05 18:24:13,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/datatables-es.js - 304
+2025-06-05 18:24:13,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/sb-admin-2.min.js - 304
+2025-06-05 18:24:13,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/datatables-es.js - 304
+2025-06-05 18:24:13,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/sb-admin-2.min.js - 304
+2025-06-05 18:24:13,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/datatables-es.json - 200
+2025-06-05 18:24:13,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/datatables-es.json - 200
+2025-06-05 18:24:13,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/admin/correos - 200
+2025-06-05 18:24:13,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/admin/correos - 200
+2025-06-05 18:24:13,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/css/sb-admin-2.min.css - 304
+2025-06-05 18:24:13,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/css/sb-admin-2.min.css - 304
+2025-06-05 18:24:13,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 18:24:13,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/datatables-es.js - 304
+2025-06-05 18:24:13,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 18:24:13,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/img/undraw_profile.svg - 304
+2025-06-05 18:24:13,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/datatables-es.js - 304
+2025-06-05 18:24:13,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/sb-admin-2.min.js - 304
+2025-06-05 18:24:13,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/img/undraw_profile.svg - 304
+2025-06-05 18:24:13,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/sb-admin-2.min.js - 304
+2025-06-05 18:24:13,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/datatables-es.json - 304
+2025-06-05 18:24:13,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/datatables-es.json - 304
+2025-06-05 18:24:14,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/admin/logs - 200
+2025-06-05 18:24:14,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/admin/logs - 200
+2025-06-05 18:24:14,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 18:24:14,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/css/sb-admin-2.min.css - 304
+2025-06-05 18:24:14,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/datatables-es.js - 304
+2025-06-05 18:24:14,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 18:24:14,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/sb-admin-2.min.js - 304
+2025-06-05 18:24:14,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/img/undraw_profile.svg - 304
+2025-06-05 18:24:14,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/css/sb-admin-2.min.css - 304
+2025-06-05 18:24:14,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/datatables-es.js - 304
+2025-06-05 18:24:14,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/sb-admin-2.min.js - 304
+2025-06-05 18:24:14,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/img/undraw_profile.svg - 304
+2025-06-05 18:24:14,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/datatables-es.json - 304
+2025-06-05 18:24:14,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/datatables-es.json - 304
+2025-06-05 18:24:15,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/admin/usuarios - 200
+2025-06-05 18:24:15,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/admin/usuarios - 200
+2025-06-05 18:24:15,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 18:24:15,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/css/sb-admin-2.min.css - 304
+2025-06-05 18:24:15,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/img/undraw_profile.svg - 304
+2025-06-05 18:24:15,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/datatables-es.js - 304
+2025-06-05 18:24:15,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/sb-admin-2.min.js - 304
+2025-06-05 18:24:15,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 18:24:15,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/css/sb-admin-2.min.css - 304
+2025-06-05 18:24:15,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/img/undraw_profile.svg - 304
+2025-06-05 18:24:15,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/datatables-es.js - 304
+2025-06-05 18:24:15,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/sb-admin-2.min.js - 304
+2025-06-05 18:24:17,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/admin/usuario/nuevo - 200
+2025-06-05 18:24:17,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/admin/usuario/nuevo - 200
+2025-06-05 18:24:17,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 18:24:17,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/img/undraw_profile.svg - 304
+2025-06-05 18:24:17,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/datatables-es.js - 304
+2025-06-05 18:24:17,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 18:24:17,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/img/undraw_profile.svg - 304
+2025-06-05 18:24:17,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/css/sb-admin-2.min.css - 304
+2025-06-05 18:24:17,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/datatables-es.js - 304
+2025-06-05 18:24:17,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/sb-admin-2.min.js - 304
+2025-06-05 18:24:17,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/css/sb-admin-2.min.css - 304
+2025-06-05 18:24:17,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/sb-admin-2.min.js - 304
+2025-06-05 18:24:32,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/favicon.ico - 404
+2025-06-05 18:24:32,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/favicon.ico - 404
+2025-06-05 22:08:34,f - INFO - factory - Aplicación iniciada
+2025-06-05 22:08:34,f - INFO - factory - Aplicación iniciada
+2025-06-05 22:08:39,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/ - 302
+2025-06-05 22:08:39,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/admin/dashboard - 200
+2025-06-05 22:08:39,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 22:08:39,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/img/undraw_profile.svg - 304
+2025-06-05 22:08:39,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/sb-admin-2.min.js - 304
+2025-06-05 22:08:39,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/css/sb-admin-2.min.css - 304
+2025-06-05 22:08:39,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/datatables-es.js - 304
+2025-06-05 22:08:39,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/vendor/fontawesome-free/webfonts/fa-solid-900.woff2 - 304
+2025-06-05 22:08:42,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/admin/dashboard - 200
+2025-06-05 22:08:42,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 22:08:42,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/img/undraw_profile.svg - 304
+2025-06-05 22:08:42,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/css/sb-admin-2.min.css - 304
+2025-06-05 22:08:42,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/datatables-es.js - 304
+2025-06-05 22:08:42,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/sb-admin-2.min.js - 304
+2025-06-05 22:08:42,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/vendor/fontawesome-free/webfonts/fa-solid-900.woff2 - 304
+2025-06-05 22:08:42,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/admin/dashboard - 200
+2025-06-05 22:08:42,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 22:08:42,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/css/sb-admin-2.min.css - 304
+2025-06-05 22:08:42,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/datatables-es.js - 304
+2025-06-05 22:08:42,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/img/undraw_profile.svg - 304
+2025-06-05 22:08:42,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/sb-admin-2.min.js - 304
+2025-06-05 22:08:43,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/admin/dashboard - 200
+2025-06-05 22:08:43,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 22:08:43,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/img/undraw_profile.svg - 304
+2025-06-05 22:08:43,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/css/sb-admin-2.min.css - 304
+2025-06-05 22:08:43,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/datatables-es.js - 304
+2025-06-05 22:08:43,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/sb-admin-2.min.js - 304
+2025-06-05 22:08:45,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/orden/nueva - 200
+2025-06-05 22:08:45,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 22:08:45,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/datatables-es.js - 304
+2025-06-05 22:08:45,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/img/undraw_profile.svg - 304
+2025-06-05 22:08:45,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/sb-admin-2.min.js - 304
+2025-06-05 22:08:45,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/css/sb-admin-2.min.css - 304
+2025-06-05 22:08:47,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/cliente/ - 200
+2025-06-05 22:08:47,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 22:08:47,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/img/undraw_profile.svg - 304
+2025-06-05 22:08:47,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/css/sb-admin-2.min.css - 304
+2025-06-05 22:08:47,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/sb-admin-2.min.js - 304
+2025-06-05 22:08:47,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/datatables-es.js - 304
+2025-06-05 22:08:49,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/cliente/nuevo - 200
+2025-06-05 22:08:49,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 22:08:49,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/css/sb-admin-2.min.css - 304
+2025-06-05 22:08:49,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/img/undraw_profile.svg - 304
+2025-06-05 22:08:49,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/datatables-es.js - 304
+2025-06-05 22:08:49,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/sb-admin-2.min.js - 304
+2025-06-05 22:09:03,f - INFO - logger - 127.0.0.1 - POST http://127.0.0.1:5000/cliente/nuevo - 302
+2025-06-05 22:09:03,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/cliente/ - 200
+2025-06-05 22:09:03,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 22:09:03,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/img/undraw_profile.svg - 304
+2025-06-05 22:09:03,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/css/sb-admin-2.min.css - 304
+2025-06-05 22:09:03,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/datatables-es.js - 304
+2025-06-05 22:09:03,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/sb-admin-2.min.js - 304
+2025-06-05 22:09:05,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/ - 302
+2025-06-05 22:09:05,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/admin/dashboard - 200
+2025-06-05 22:09:05,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/css/sb-admin-2.min.css - 304
+2025-06-05 22:09:05,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/img/undraw_profile.svg - 304
+2025-06-05 22:09:05,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 22:09:05,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/datatables-es.js - 304
+2025-06-05 22:09:05,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/sb-admin-2.min.js - 304
+2025-06-05 22:09:06,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/orden/nueva - 200
+2025-06-05 22:09:06,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 22:09:06,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/css/sb-admin-2.min.css - 304
+2025-06-05 22:09:06,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/datatables-es.js - 304
+2025-06-05 22:09:06,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/img/undraw_profile.svg - 304
+2025-06-05 22:09:06,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/sb-admin-2.min.js - 304
+2025-06-05 22:09:26,f - INFO - logger - 127.0.0.1 - POST http://127.0.0.1:5000/orden/nueva - 302
+2025-06-05 22:09:26,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/orden/1 - 200
+2025-06-05 22:09:26,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 22:09:26,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/css/sb-admin-2.min.css - 304
+2025-06-05 22:09:26,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/img/undraw_profile.svg - 304
+2025-06-05 22:09:26,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/datatables-es.js - 304
+2025-06-05 22:09:26,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/sb-admin-2.min.js - 304
+2025-06-05 22:09:30,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/admin/correos - 200
+2025-06-05 22:09:30,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 22:09:30,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/css/sb-admin-2.min.css - 304
+2025-06-05 22:09:30,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/datatables-es.js - 304
+2025-06-05 22:09:30,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/img/undraw_profile.svg - 304
+2025-06-05 22:09:30,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/sb-admin-2.min.js - 304
+2025-06-05 22:09:30,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/datatables-es.json - 304
+2025-06-05 22:09:33,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/admin/correos - 200
+2025-06-05 22:09:33,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 22:09:33,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/css/sb-admin-2.min.css - 304
+2025-06-05 22:09:33,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/img/undraw_profile.svg - 304
+2025-06-05 22:09:33,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/datatables-es.js - 304
+2025-06-05 22:09:33,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/sb-admin-2.min.js - 304
+2025-06-05 22:09:33,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/datatables-es.json - 304
+2025-06-05 22:09:34,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/admin/correos - 200
+2025-06-05 22:09:34,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/css/sb-admin-2.min.css - 304
+2025-06-05 22:09:34,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 22:09:34,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/datatables-es.js - 304
+2025-06-05 22:09:34,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/img/undraw_profile.svg - 304
+2025-06-05 22:09:34,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/sb-admin-2.min.js - 304
+2025-06-05 22:09:34,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/datatables-es.json - 304
+2025-06-05 22:09:40,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/admin/correos/1 - 200
+2025-06-05 22:09:40,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 22:09:40,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/css/sb-admin-2.min.css - 304
+2025-06-05 22:09:40,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/datatables-es.js - 304
+2025-06-05 22:09:40,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/img/undraw_profile.svg - 304
+2025-06-05 22:09:40,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/sb-admin-2.min.js - 304
+2025-06-05 22:09:52,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/orden/ - 200
+2025-06-05 22:09:52,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 22:09:52,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/css/sb-admin-2.min.css - 304
+2025-06-05 22:09:52,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/img/undraw_profile.svg - 304
+2025-06-05 22:09:52,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/sb-admin-2.min.js - 304
+2025-06-05 22:09:52,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5000/static/js/datatables-es.js - 304
+2025-06-05 22:18:31,f - INFO - factory - Aplicación iniciada
+2025-06-05 22:18:40,f - INFO - factory - Aplicación iniciada
+2025-06-05 22:18:58,f - INFO - factory - Aplicación iniciada
+2025-06-05 22:18:58,f - INFO - factory - Aplicación iniciada
+2025-06-05 22:19:04,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/ - 302
+2025-06-05 22:19:04,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/admin/dashboard - 200
+2025-06-05 22:19:04,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 200
+2025-06-05 22:19:04,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 200
+2025-06-05 22:19:04,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 200
+2025-06-05 22:19:04,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-05 22:19:04,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-05 22:19:04,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/webfonts/fa-solid-900.woff2 - 200
+2025-06-05 22:19:04,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/favicon.ico - 404
+2025-06-05 22:19:06,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/1 - 200
+2025-06-05 22:19:06,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 22:19:06,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-05 22:19:06,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-05 22:19:06,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-05 22:19:06,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-05 22:19:14,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/ - 200
+2025-06-05 22:19:14,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-05 22:19:14,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 22:19:14,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-05 22:19:14,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-05 22:19:14,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-05 22:19:16,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/1 - 200
+2025-06-05 22:19:16,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 22:19:16,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-05 22:19:16,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-05 22:19:16,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-05 22:19:16,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-05 22:19:20,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/ - 302
+2025-06-05 22:19:20,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/admin/dashboard - 200
+2025-06-05 22:19:20,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-05 22:19:20,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 22:19:20,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-05 22:19:20,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-05 22:19:20,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-05 22:19:21,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/1/asignar - 200
+2025-06-05 22:19:21,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 22:19:21,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-05 22:19:21,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-05 22:19:21,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-05 22:19:21,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-05 22:19:23,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/ - 302
+2025-06-05 22:19:23,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/admin/dashboard - 200
+2025-06-05 22:19:23,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 22:19:23,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-05 22:19:23,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-05 22:19:23,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-05 22:19:23,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-05 22:19:24,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/1/asignar - 200
+2025-06-05 22:19:24,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 22:19:24,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-05 22:19:24,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-05 22:19:24,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-05 22:19:24,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-05 22:19:28,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/ - 302
+2025-06-05 22:19:28,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/admin/dashboard - 200
+2025-06-05 22:19:28,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 22:19:28,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-05 22:19:28,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-05 22:19:28,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-05 22:19:28,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-05 22:19:29,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/1 - 200
+2025-06-05 22:19:29,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 22:19:29,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-05 22:19:29,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-05 22:19:29,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-05 22:19:29,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-05 22:19:51,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/cotizacion/listar - 200
+2025-06-05 22:19:51,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 22:19:51,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-05 22:19:51,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-05 22:19:51,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-05 22:19:51,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-05 22:19:53,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/cotizacion/nueva - 200
+2025-06-05 22:19:53,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-05 22:19:53,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 22:19:53,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-05 22:19:53,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-05 22:19:53,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-05 22:19:54,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/cotizacion/listar - 200
+2025-06-05 22:19:54,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-05 22:19:54,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 22:19:54,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-05 22:19:54,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-05 22:19:54,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-05 22:19:55,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/ - 200
+2025-06-05 22:19:55,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 22:19:55,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-05 22:19:55,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-05 22:19:55,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-05 22:19:55,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-05 22:19:55,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/cliente/ - 200
+2025-06-05 22:19:55,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-05 22:19:55,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 22:19:55,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-05 22:19:55,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-05 22:19:55,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-05 22:19:57,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/cliente/ - 200
+2025-06-05 22:19:57,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-05 22:19:57,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-05 22:19:57,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 22:19:57,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-05 22:19:57,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-05 22:19:58,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/admin/logs - 200
+2025-06-05 22:19:58,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-05 22:19:58,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-05 22:19:58,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 22:19:58,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-05 22:19:58,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-05 22:19:58,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.json - 200
+2025-06-05 22:20:00,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/admin/correos - 200
+2025-06-05 22:20:00,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 22:20:00,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-05 22:20:00,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-05 22:20:00,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-05 22:20:00,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-05 22:20:00,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.json - 304
+2025-06-05 22:20:04,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/admin/correos/1 - 200
+2025-06-05 22:20:04,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 22:20:04,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-05 22:20:04,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-05 22:20:04,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-05 22:20:04,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-05 22:20:09,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/admin/usuarios - 200
+2025-06-05 22:20:09,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-05 22:20:09,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 22:20:09,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-05 22:20:09,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-05 22:20:09,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-05 22:20:10,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/ - 302
+2025-06-05 22:20:10,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/admin/dashboard - 200
+2025-06-05 22:20:11,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 22:20:11,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-05 22:20:11,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-05 22:20:11,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-05 22:20:11,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-05 22:20:14,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/1 - 200
+2025-06-05 22:20:14,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-05 22:20:14,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 22:20:14,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-05 22:20:14,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-05 22:20:14,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-05 22:23:11,f - INFO - factory - Aplicación iniciada
+2025-06-05 22:23:11,f - INFO - factory - Aplicación iniciada
+2025-06-05 22:23:17,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/ - 302
+2025-06-05 22:23:17,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/admin/dashboard - 200
+2025-06-05 22:23:17,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 22:23:17,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-05 22:23:17,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-05 22:23:17,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-05 22:23:17,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-05 22:23:18,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/webfonts/fa-solid-900.woff2 - 304
+2025-06-05 22:23:19,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/1 - 200
+2025-06-05 22:23:19,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 22:23:19,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-05 22:23:19,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-05 22:23:19,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-05 22:23:19,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-05 22:23:21,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/1/imprimir_etiqueta - 200
+2025-06-05 22:23:34,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/imprimir_test - 200
+2025-06-05 22:23:47,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/1/imprimir_etiqueta - 200
+2025-06-05 22:23:56,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/ - 200
+2025-06-05 22:23:56,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-05 22:23:56,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 22:23:56,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-05 22:23:56,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-05 22:23:56,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-05 22:23:58,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/1 - 200
+2025-06-05 22:23:58,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 22:23:58,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-05 22:23:58,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-05 22:23:58,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-05 22:23:58,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-05 22:27:28,f - INFO - factory - Aplicación iniciada
+2025-06-05 22:27:28,f - INFO - factory - Aplicación iniciada
+2025-06-05 22:27:37,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/ - 302
+2025-06-05 22:27:37,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/admin/dashboard - 200
+2025-06-05 22:27:37,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 22:27:37,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-05 22:27:37,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-05 22:27:37,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-05 22:27:37,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-05 22:27:37,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/webfonts/fa-solid-900.woff2 - 304
+2025-06-05 22:27:39,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/ - 302
+2025-06-05 22:27:39,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/admin/dashboard - 200
+2025-06-05 22:27:39,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-05 22:27:39,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-05 22:27:39,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 22:27:39,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-05 22:27:39,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-05 22:27:40,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/admin/usuarios - 200
+2025-06-05 22:27:40,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 22:27:40,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-05 22:27:40,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-05 22:27:40,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-05 22:27:40,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-05 22:27:41,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/admin/correos - 200
+2025-06-05 22:27:41,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 22:27:41,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-05 22:27:41,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-05 22:27:41,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-05 22:27:41,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-05 22:27:41,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.json - 304
+2025-06-05 22:27:42,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/admin/logs - 200
+2025-06-05 22:27:42,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 22:27:42,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-05 22:27:42,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-05 22:27:42,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-05 22:27:42,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-05 22:27:42,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.json - 304
+2025-06-05 22:27:43,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/ - 200
+2025-06-05 22:27:43,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 22:27:43,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-05 22:27:43,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-05 22:27:43,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-05 22:27:43,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-05 22:27:47,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/1 - 200
+2025-06-05 22:27:47,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-05 22:27:47,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-05 22:27:47,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-05 22:27:47,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 22:27:47,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-05 22:27:52,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/1/imprimir_etiqueta - 200
+2025-06-05 22:28:20,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/imprimir_test - 200
+2025-06-05 23:08:47,f - INFO - factory - Aplicación iniciada
+2025-06-05 23:09:17,f - INFO - factory - Aplicación iniciada
+2025-06-05 23:09:24,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/ - 302
+2025-06-05 23:09:24,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/admin/dashboard - 200
+2025-06-05 23:09:24,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 23:09:24,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-05 23:09:24,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-05 23:09:24,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-05 23:09:24,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-05 23:09:24,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/webfonts/fa-solid-900.woff2 - 304
+2025-06-05 23:09:26,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/ - 302
+2025-06-05 23:09:26,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/admin/dashboard - 200
+2025-06-05 23:09:26,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 23:09:26,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-05 23:09:26,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-05 23:09:26,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-05 23:09:26,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-05 23:09:27,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/ - 302
+2025-06-05 23:09:27,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/admin/dashboard - 200
+2025-06-05 23:09:27,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-05 23:09:27,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 23:09:27,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-05 23:09:27,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-05 23:09:27,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-05 23:09:28,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/ - 302
+2025-06-05 23:09:28,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/admin/dashboard - 200
+2025-06-05 23:09:28,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 23:09:28,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-05 23:09:28,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-05 23:09:28,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-05 23:09:28,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-05 23:09:29,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/1 - 200
+2025-06-05 23:09:29,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-05 23:09:29,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 23:09:29,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-05 23:09:29,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-05 23:09:29,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-05 23:09:31,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/1/imprimir_etiqueta - 200
+2025-06-05 23:10:16,f - INFO - factory - Aplicación iniciada
+2025-06-05 23:11:21,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/ - 302
+2025-06-05 23:11:21,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/admin/dashboard - 200
+2025-06-05 23:11:21,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 23:11:21,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-05 23:11:21,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-05 23:11:21,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-05 23:11:21,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-05 23:11:21,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/webfonts/fa-solid-900.woff2 - 304
+2025-06-05 23:11:23,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/1 - 200
+2025-06-05 23:11:23,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-05 23:11:23,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-05 23:11:23,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 23:11:23,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-05 23:11:23,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-05 23:11:25,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/1/imprimir_etiqueta - 200
+2025-06-05 23:11:40,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/imprimir_test - 200
+2025-06-05 23:12:39,f - INFO - factory - Aplicación iniciada
+2025-06-05 23:12:42,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/1 - 200
+2025-06-05 23:12:42,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 23:12:42,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-05 23:12:42,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-05 23:12:42,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-05 23:12:42,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-05 23:12:42,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/webfonts/fa-solid-900.woff2 - 304
+2025-06-05 23:12:44,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/1/imprimir_etiqueta - 200
+2025-06-05 23:13:52,f - INFO - factory - Aplicación iniciada
+2025-06-05 23:14:01,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/1 - 200
+2025-06-05 23:14:01,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 23:14:01,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-05 23:14:01,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-05 23:14:01,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-05 23:14:01,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-05 23:14:01,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/webfonts/fa-solid-900.woff2 - 304
+2025-06-05 23:14:03,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/1/imprimir_etiqueta - 200
+2025-06-05 23:14:17,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/1/generar_etiqueta_pdf - 200
+2025-06-05 23:14:43,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/ - 200
+2025-06-05 23:14:43,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-05 23:14:43,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-05 23:14:43,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-05 23:14:43,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 23:14:43,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-05 23:14:43,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/webfonts/fa-solid-900.woff2 - 304
+2025-06-05 23:14:45,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/admin/usuarios - 200
+2025-06-05 23:14:45,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 23:14:45,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-05 23:14:45,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-05 23:14:45,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-05 23:14:45,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-05 23:14:45,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/webfonts/fa-solid-900.woff2 - 304
+2025-06-05 23:21:34,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/admin/usuarios/2 - 404
+2025-06-05 23:21:34,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 23:21:34,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-05 23:21:34,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-05 23:21:34,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-05 23:21:34,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-05 23:21:34,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/webfonts/fa-solid-900.woff2 - 304
+2025-06-05 23:21:39,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/ - 302
+2025-06-05 23:21:39,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/admin/dashboard - 200
+2025-06-05 23:21:39,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-05 23:21:39,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 23:21:39,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-05 23:21:39,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-05 23:21:39,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-05 23:21:41,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/ - 302
+2025-06-05 23:21:41,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/admin/dashboard - 200
+2025-06-05 23:21:41,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-05 23:21:41,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 23:21:41,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-05 23:21:41,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-05 23:21:41,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-05 23:21:46,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/perfil/mi-perfil - 200
+2025-06-05 23:21:46,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-05 23:21:46,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-05 23:21:46,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 23:21:46,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-05 23:21:46,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-05 23:21:53,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/perfil/configuracion - 200
+2025-06-05 23:21:53,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 23:21:53,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-05 23:21:53,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-05 23:21:53,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-05 23:21:53,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-05 23:22:07,f - INFO - logger - 127.0.0.1 - POST http://127.0.0.1:5001/perfil/configuracion - 302
+2025-06-05 23:22:07,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/perfil/configuracion - 200
+2025-06-05 23:22:07,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-05 23:22:07,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 23:22:07,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-05 23:22:07,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-05 23:22:07,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-05 23:22:11,f - ERROR - logger - Error no manejado: 'Usuario' object has no attribute 'ordenes_creadas'
+Traceback (most recent call last):
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/venv/lib/python3.12/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/venv/lib/python3.12/site-packages/flask/app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/venv/lib/python3.12/site-packages/flask_login/utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/blueprints/perfil/routes.py", line 55, in actividad
+    total_ordenes = len(current_user.ordenes_creadas) + len(current_user.ordenes_asignadas)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Usuario' object has no attribute 'ordenes_creadas'. Did you mean: 'ordenes_asignadas'?
+2025-06-05 23:22:17,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/auth/logout - 302
+2025-06-05 23:22:17,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/auth/login - 200
+2025-06-05 23:22:17,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 23:22:17,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-05 23:22:17,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-05 23:22:17,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-05 23:22:19,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/auth/login - 200
+2025-06-05 23:22:19,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 23:22:19,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-05 23:22:19,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-05 23:22:19,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-05 23:22:23,f - INFO - logger - 127.0.0.1 - POST http://127.0.0.1:5001/auth/login - 302
+2025-06-05 23:22:23,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/ - 302
+2025-06-05 23:22:23,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/admin/dashboard - 200
+2025-06-05 23:22:23,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-05 23:22:23,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 23:22:23,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-05 23:22:23,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-05 23:22:23,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-05 23:22:26,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/perfil/configuracion - 200
+2025-06-05 23:22:26,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-05 23:22:26,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 23:22:26,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-05 23:22:26,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-05 23:22:26,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-05 23:22:27,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/perfil/mi-perfil - 200
+2025-06-05 23:22:27,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-05 23:22:27,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-05 23:22:27,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-05 23:22:27,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-05 23:22:27,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-06 11:44:24,f - INFO - factory - Aplicación iniciada
+2025-06-06 11:46:37,f - INFO - factory - Aplicación iniciada
+2025-06-06 11:46:37,f - INFO - factory - Aplicación iniciada
+2025-06-06 11:46:37,f - INFO - factory - Aplicación iniciada
+2025-06-06 11:46:45,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/ - 302
+2025-06-06 11:46:45,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/ - 302
+2025-06-06 11:46:45,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/admin/dashboard - 200
+2025-06-06 11:46:45,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/admin/dashboard - 200
+2025-06-06 11:46:45,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-06 11:46:45,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-06 11:46:45,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-06 11:46:45,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-06 11:46:45,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-06 11:46:45,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-06 11:46:45,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-06 11:46:45,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-06 11:46:45,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-06 11:46:45,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-06 11:46:45,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/webfonts/fa-solid-900.woff2 - 304
+2025-06-06 11:46:45,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/webfonts/fa-solid-900.woff2 - 304
+2025-06-06 11:46:47,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/ - 302
+2025-06-06 11:46:47,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/ - 302
+2025-06-06 11:46:47,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/admin/dashboard - 200
+2025-06-06 11:46:47,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/admin/dashboard - 200
+2025-06-06 11:46:47,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-06 11:46:47,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-06 11:46:47,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-06 11:46:47,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-06 11:46:47,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-06 11:46:47,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-06 11:46:47,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-06 11:46:47,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-06 11:46:47,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-06 11:46:47,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-06 11:46:48,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/ - 200
+2025-06-06 11:46:48,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/ - 200
+2025-06-06 11:46:48,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-06 11:46:48,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-06 11:46:48,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-06 11:46:48,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-06 11:46:48,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-06 11:46:48,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-06 11:46:48,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-06 11:46:48,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-06 11:46:48,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-06 11:46:48,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-06 11:46:54,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/1 - 200
+2025-06-06 11:46:54,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/1 - 200
+2025-06-06 11:46:54,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-06 11:46:54,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-06 11:46:54,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-06 11:46:54,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-06 11:46:54,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-06 11:46:54,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-06 11:46:54,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-06 11:46:54,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-06 11:46:54,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-06 11:46:54,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-06 11:46:57,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/1/imprimir_etiqueta - 200
+2025-06-06 11:46:57,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/1/imprimir_etiqueta - 200
+2025-06-06 11:50:22,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/1 - 200
+2025-06-06 11:50:22,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/1 - 200
+2025-06-06 11:50:22,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-06 11:50:22,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-06 11:50:22,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-06 11:50:22,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-06 11:50:22,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-06 11:50:22,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-06 11:50:22,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-06 11:50:22,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-06 11:50:22,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-06 11:50:22,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-06 11:50:22,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/webfonts/fa-solid-900.woff2 - 304
+2025-06-06 11:50:22,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/webfonts/fa-solid-900.woff2 - 304
+2025-06-06 11:51:06,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/ - 200
+2025-06-06 11:51:06,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/ - 200
+2025-06-06 11:51:06,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-06 11:51:06,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-06 11:51:06,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-06 11:51:06,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-06 11:51:06,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-06 11:51:06,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-06 11:51:06,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-06 11:51:06,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-06 11:51:06,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-06 11:51:06,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-06 11:51:09,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/1 - 200
+2025-06-06 11:51:09,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/1 - 200
+2025-06-06 11:51:09,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-06 11:51:09,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-06 11:51:09,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-06 11:51:09,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-06 11:51:09,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-06 11:51:09,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-06 11:51:09,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-06 11:51:09,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-06 11:51:09,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-06 11:51:09,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-06 11:56:20,f - INFO - factory - Aplicación iniciada
+2025-06-06 11:56:20,f - INFO - factory - Aplicación iniciada
+2025-06-06 11:56:20,f - INFO - factory - Aplicación iniciada
+2025-06-06 12:11:32,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/ - 302
+2025-06-06 12:11:32,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/ - 302
+2025-06-06 12:11:33,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/admin/dashboard - 200
+2025-06-06 12:11:33,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/admin/dashboard - 200
+2025-06-06 12:11:33,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-06 12:11:33,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-06 12:11:33,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-06 12:11:33,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-06 12:11:33,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-06 12:11:33,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-06 12:11:33,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-06 12:11:33,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-06 12:11:33,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-06 12:11:33,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-06 12:11:33,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/webfonts/fa-solid-900.woff2 - 304
+2025-06-06 12:11:33,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/webfonts/fa-solid-900.woff2 - 304
+2025-06-06 12:11:35,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/1 - 200
+2025-06-06 12:11:35,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/1 - 200
+2025-06-06 12:11:35,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-06 12:11:35,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-06 12:11:35,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-06 12:11:35,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-06 12:11:35,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-06 12:11:35,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-06 12:11:35,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-06 12:11:35,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-06 12:11:35,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-06 12:11:35,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-06 12:11:36,f - ERROR - logger - Error no manejado: ZebraPrinter.__init__() takes 1 positional argument but 2 were given
+Traceback (most recent call last):
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/venv/lib/python3.12/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/venv/lib/python3.12/site-packages/flask/app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/venv/lib/python3.12/site-packages/flask_login/utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/blueprints/orden/routes.py", line 567, in imprimir_etiqueta
+    printer = ZebraPrinter(current_app.config)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: ZebraPrinter.__init__() takes 1 positional argument but 2 were given
+2025-06-06 12:11:36,f - ERROR - logger - Error no manejado: ZebraPrinter.__init__() takes 1 positional argument but 2 were given
+Traceback (most recent call last):
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/venv/lib/python3.12/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/venv/lib/python3.12/site-packages/flask/app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/venv/lib/python3.12/site-packages/flask_login/utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/blueprints/orden/routes.py", line 567, in imprimir_etiqueta
+    printer = ZebraPrinter(current_app.config)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: ZebraPrinter.__init__() takes 1 positional argument but 2 were given
+2025-06-06 12:11:41,f - ERROR - logger - Error no manejado: ZebraPrinter.__init__() takes 1 positional argument but 2 were given
+Traceback (most recent call last):
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/venv/lib/python3.12/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/venv/lib/python3.12/site-packages/flask/app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/venv/lib/python3.12/site-packages/flask_login/utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/blueprints/orden/routes.py", line 28, in decorated_function
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/blueprints/orden/routes.py", line 650, in imprimir_test
+    printer = ZebraPrinter(current_app.config)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: ZebraPrinter.__init__() takes 1 positional argument but 2 were given
+2025-06-06 12:11:41,f - ERROR - logger - Error no manejado: ZebraPrinter.__init__() takes 1 positional argument but 2 were given
+Traceback (most recent call last):
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/venv/lib/python3.12/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/venv/lib/python3.12/site-packages/flask/app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/venv/lib/python3.12/site-packages/flask_login/utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/blueprints/orden/routes.py", line 28, in decorated_function
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/blueprints/orden/routes.py", line 650, in imprimir_test
+    printer = ZebraPrinter(current_app.config)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: ZebraPrinter.__init__() takes 1 positional argument but 2 were given
+2025-06-06 12:11:48,f - ERROR - logger - Error no manejado: ZebraPrinter.__init__() takes 1 positional argument but 2 were given
+Traceback (most recent call last):
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/venv/lib/python3.12/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/venv/lib/python3.12/site-packages/flask/app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/venv/lib/python3.12/site-packages/flask_login/utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/blueprints/orden/routes.py", line 567, in imprimir_etiqueta
+    printer = ZebraPrinter(current_app.config)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: ZebraPrinter.__init__() takes 1 positional argument but 2 were given
+2025-06-06 12:11:48,f - ERROR - logger - Error no manejado: ZebraPrinter.__init__() takes 1 positional argument but 2 were given
+Traceback (most recent call last):
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/venv/lib/python3.12/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/venv/lib/python3.12/site-packages/flask/app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/venv/lib/python3.12/site-packages/flask_login/utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/blueprints/orden/routes.py", line 567, in imprimir_etiqueta
+    printer = ZebraPrinter(current_app.config)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: ZebraPrinter.__init__() takes 1 positional argument but 2 were given
+2025-06-06 12:12:45,f - INFO - factory - Aplicación iniciada
+2025-06-06 12:12:56,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/1 - 200
+2025-06-06 12:12:56,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-06 12:12:56,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-06 12:12:56,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-06 12:12:56,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-06 12:12:56,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-06 12:12:57,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/1/imprimir_etiqueta - 302
+2025-06-06 12:12:57,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/1 - 200
+2025-06-06 12:12:57,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-06 12:12:57,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-06 12:12:57,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-06 12:12:57,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-06 12:12:57,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-06 12:14:22,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/1/imprimir_etiqueta - 302
+2025-06-06 12:14:22,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/1 - 200
+2025-06-06 12:14:22,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-06 12:14:22,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-06 12:14:22,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-06 12:14:22,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-06 12:14:22,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-06 12:16:52,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/1/imprimir_etiqueta - 302
+2025-06-06 12:16:52,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/1 - 200
+2025-06-06 12:16:52,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-06 12:16:52,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-06 12:16:52,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-06 12:16:52,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-06 12:16:52,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-06 12:16:53,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/webfonts/fa-solid-900.woff2 - 304
+2025-06-06 12:17:38,f - INFO - factory - Aplicación iniciada
+2025-06-06 12:17:38,f - INFO - factory - Aplicación iniciada
+2025-06-06 12:17:38,f - INFO - factory - Aplicación iniciada
+2025-06-06 12:17:44,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/1 - 200
+2025-06-06 12:17:44,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/1 - 200
+2025-06-06 12:17:44,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-06 12:17:44,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-06 12:17:44,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-06 12:17:44,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-06 12:17:44,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-06 12:17:44,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-06 12:17:44,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-06 12:17:44,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-06 12:17:44,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-06 12:17:44,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-06 12:17:44,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/webfonts/fa-solid-900.woff2 - 304
+2025-06-06 12:17:44,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/webfonts/fa-solid-900.woff2 - 304
+2025-06-06 12:17:45,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/1/imprimir_etiqueta - 302
+2025-06-06 12:17:45,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/1/imprimir_etiqueta - 302
+2025-06-06 12:17:45,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/1 - 200
+2025-06-06 12:17:45,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/1 - 200
+2025-06-06 12:17:45,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-06 12:17:45,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-06 12:17:45,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-06 12:17:45,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-06 12:17:45,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-06 12:17:45,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-06 12:17:45,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-06 12:17:45,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-06 12:17:45,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-06 12:17:45,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-06 12:19:03,f - INFO - factory - Aplicación iniciada
+2025-06-06 12:19:03,f - INFO - factory - Aplicación iniciada
+2025-06-06 12:19:03,f - INFO - factory - Aplicación iniciada
+2025-06-06 12:20:16,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/1 - 200
+2025-06-06 12:20:16,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/1 - 200
+2025-06-06 12:20:16,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-06 12:20:16,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-06 12:20:16,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-06 12:20:16,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-06 12:20:16,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-06 12:20:16,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-06 12:20:16,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-06 12:20:16,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-06 12:20:16,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-06 12:20:16,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-06 12:20:16,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/webfonts/fa-solid-900.woff2 - 304
+2025-06-06 12:20:16,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/webfonts/fa-solid-900.woff2 - 304
+2025-06-06 12:20:17,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/1/imprimir_etiqueta - 302
+2025-06-06 12:20:17,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/1/imprimir_etiqueta - 302
+2025-06-06 12:20:17,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/1 - 200
+2025-06-06 12:20:17,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/1 - 200
+2025-06-06 12:20:17,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-06 12:20:17,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-06 12:20:17,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-06 12:20:17,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-06 12:20:17,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-06 12:20:17,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-06 12:20:17,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-06 12:20:17,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-06 12:20:17,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-06 12:20:17,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-06 12:21:48,f - INFO - factory - Aplicación iniciada
+2025-06-06 12:21:49,f - INFO - factory - Aplicación iniciada
+2025-06-06 12:21:49,f - INFO - factory - Aplicación iniciada
+2025-06-06 12:21:55,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/1 - 200
+2025-06-06 12:21:55,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/1 - 200
+2025-06-06 12:21:55,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-06 12:21:55,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-06 12:21:55,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-06 12:21:55,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-06 12:21:55,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-06 12:21:55,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-06 12:21:55,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-06 12:21:55,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-06 12:21:55,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-06 12:21:55,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-06 12:21:55,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/webfonts/fa-solid-900.woff2 - 304
+2025-06-06 12:21:55,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/webfonts/fa-solid-900.woff2 - 304
+2025-06-06 12:21:57,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/1/imprimir_etiqueta - 302
+2025-06-06 12:21:57,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/1/imprimir_etiqueta - 302
+2025-06-06 12:21:57,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/1 - 200
+2025-06-06 12:21:57,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/1 - 200
+2025-06-06 12:21:57,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-06 12:21:57,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-06 12:21:57,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-06 12:21:57,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-06 12:21:57,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-06 12:21:57,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-06 12:21:57,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-06 12:21:57,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-06 12:21:57,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-06 12:21:57,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-06 12:22:27,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/1/imprimir_etiqueta - 302
+2025-06-06 12:22:27,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/1/imprimir_etiqueta - 302
+2025-06-06 12:22:27,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/1 - 200
+2025-06-06 12:22:27,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/1 - 200
+2025-06-06 12:22:27,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-06 12:22:27,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-06 12:22:27,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-06 12:22:27,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-06 12:22:27,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-06 12:22:27,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-06 12:22:27,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-06 12:22:27,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-06 12:22:27,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-06 12:22:27,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-06 12:24:17,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/1 - 200
+2025-06-06 12:24:17,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/1 - 200
+2025-06-06 12:24:17,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-06 12:24:17,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-06 12:24:17,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-06 12:24:17,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-06 12:24:17,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-06 12:24:17,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-06 12:24:17,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-06 12:24:17,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-06 12:24:17,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-06 12:24:17,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-06 12:24:17,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/webfonts/fa-solid-900.woff2 - 304
+2025-06-06 12:24:17,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/webfonts/fa-solid-900.woff2 - 304
+2025-06-06 12:24:18,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/1/imprimir_etiqueta - 302
+2025-06-06 12:24:18,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/1/imprimir_etiqueta - 302
+2025-06-06 12:24:19,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/1 - 200
+2025-06-06 12:24:19,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/1 - 200
+2025-06-06 12:24:19,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-06 12:24:19,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-06 12:24:19,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-06 12:24:19,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-06 12:24:19,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-06 12:24:19,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-06 12:24:19,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-06 12:24:19,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-06 12:24:19,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-06 12:24:19,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-06 12:26:20,f - INFO - factory - Aplicación iniciada
+2025-06-06 12:26:20,f - INFO - factory - Aplicación iniciada
+2025-06-06 12:26:24,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/1/imprimir_etiqueta - 302
+2025-06-06 12:26:24,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/1 - 200
+2025-06-06 12:26:25,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-06 12:26:25,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-06 12:26:25,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-06 12:26:25,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-06 12:26:25,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-06 12:26:25,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/webfonts/fa-solid-900.woff2 - 304
+2025-06-06 12:26:26,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/1 - 200
+2025-06-06 12:26:26,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-06 12:26:26,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-06 12:26:26,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-06 12:26:26,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-06 12:26:26,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-06 12:26:28,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/1/imprimir_etiqueta - 302
+2025-06-06 12:26:28,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/1 - 200
+2025-06-06 12:26:28,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-06 12:26:28,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-06 12:26:28,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-06 12:26:28,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-06 12:26:28,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-06 12:28:31,f - INFO - factory - Aplicación iniciada
+2025-06-06 12:28:32,f - INFO - factory - Aplicación iniciada
+2025-06-06 12:28:34,f - INFO - factory - Aplicación iniciada
+2025-06-06 12:28:41,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/1 - 200
+2025-06-06 12:28:42,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-06 12:28:42,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-06 12:28:42,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-06 12:28:42,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-06 12:28:42,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-06 12:28:42,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/webfonts/fa-solid-900.woff2 - 304
+2025-06-06 12:28:43,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/1/imprimir_etiqueta - 302
+2025-06-06 12:28:43,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/1 - 200
+2025-06-06 12:28:43,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-06 12:28:43,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-06 12:28:43,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-06 12:28:43,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-06 12:28:43,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-06 12:37:57,f - ERROR - logger - Error no manejado: ZebraPrinter.__init__() takes 1 positional argument but 2 were given
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/flask/app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/flask_login/utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/blueprints/orden/routes.py", line 28, in decorated_function
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/blueprints/orden/routes.py", line 625, in imprimir_test
+    printer = ZebraPrinter(current_app.config)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: ZebraPrinter.__init__() takes 1 positional argument but 2 were given
+2025-06-06 12:38:01,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/1/imprimir_etiqueta - 302
+2025-06-06 12:38:01,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/orden/1 - 200
+2025-06-06 12:38:01,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/css/all.min.css - 304
+2025-06-06 12:38:01,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/img/undraw_profile.svg - 304
+2025-06-06 12:38:01,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/css/sb-admin-2.min.css - 304
+2025-06-06 12:38:01,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/sb-admin-2.min.js - 304
+2025-06-06 12:38:01,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/js/datatables-es.js - 304
+2025-06-06 12:38:01,f - INFO - logger - 127.0.0.1 - GET http://127.0.0.1:5001/static/vendor/fontawesome-free/webfonts/fa-solid-900.woff2 - 304
+2025-06-06 12:40:53,f - ERROR - logger - Error no manejado: ZebraPrinter.__init__() takes 1 positional argument but 2 were given
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/flask/app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/flask_login/utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/blueprints/orden/routes.py", line 592, in generar_etiqueta_pdf
+    printer = ZebraPrinter(current_app.config)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: ZebraPrinter.__init__() takes 1 positional argument but 2 were given

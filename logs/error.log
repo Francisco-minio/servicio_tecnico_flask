@@ -517,3 +517,169 @@ Traceback (most recent call last):
   File "/usr/local/lib/python3.11/site-packages/flask_wtf/csrf.py", line 307, in _error_response
     raise CSRFError(reason)
 flask_wtf.csrf.CSRFError: 400 Bad Request: The CSRF session token is missing.
+ - ERROR - logger - Error no manejado: 400 Bad Request: The CSRF session token is missing.
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.9/site-packages/flask_wtf/csrf.py", line 261, in protect
+    validate_csrf(self._get_csrf_token())
+  File "/usr/local/lib/python3.9/site-packages/flask_wtf/csrf.py", line 103, in validate_csrf
+    raise ValidationError("The CSRF session token is missing.")
+wtforms.validators.ValidationError: The CSRF session token is missing.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 915, in full_dispatch_request
+    rv = self.preprocess_request()
+  File "/usr/local/lib/python3.9/site-packages/flask/app.py", line 1291, in preprocess_request
+    rv = self.ensure_sync(before_func)()
+  File "/usr/local/lib/python3.9/site-packages/flask_wtf/csrf.py", line 229, in csrf_protect
+    self.protect()
+  File "/usr/local/lib/python3.9/site-packages/flask_wtf/csrf.py", line 264, in protect
+    self._error_response(e.args[0])
+  File "/usr/local/lib/python3.9/site-packages/flask_wtf/csrf.py", line 307, in _error_response
+    raise CSRFError(reason)
+flask_wtf.csrf.CSRFError: 400 Bad Request: The CSRF session token is missing.
+2025-06-05 23:22:11,f - ERROR - logger - Error no manejado: 'Usuario' object has no attribute 'ordenes_creadas'
+Traceback (most recent call last):
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/venv/lib/python3.12/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/venv/lib/python3.12/site-packages/flask/app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/venv/lib/python3.12/site-packages/flask_login/utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/blueprints/perfil/routes.py", line 55, in actividad
+    total_ordenes = len(current_user.ordenes_creadas) + len(current_user.ordenes_asignadas)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Usuario' object has no attribute 'ordenes_creadas'. Did you mean: 'ordenes_asignadas'?
+2025-06-06 12:11:36,f - ERROR - logger - Error no manejado: ZebraPrinter.__init__() takes 1 positional argument but 2 were given
+Traceback (most recent call last):
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/venv/lib/python3.12/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/venv/lib/python3.12/site-packages/flask/app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/venv/lib/python3.12/site-packages/flask_login/utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/blueprints/orden/routes.py", line 567, in imprimir_etiqueta
+    printer = ZebraPrinter(current_app.config)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: ZebraPrinter.__init__() takes 1 positional argument but 2 were given
+2025-06-06 12:11:36,f - ERROR - logger - Error no manejado: ZebraPrinter.__init__() takes 1 positional argument but 2 were given
+Traceback (most recent call last):
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/venv/lib/python3.12/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/venv/lib/python3.12/site-packages/flask/app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/venv/lib/python3.12/site-packages/flask_login/utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/blueprints/orden/routes.py", line 567, in imprimir_etiqueta
+    printer = ZebraPrinter(current_app.config)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: ZebraPrinter.__init__() takes 1 positional argument but 2 were given
+2025-06-06 12:11:41,f - ERROR - logger - Error no manejado: ZebraPrinter.__init__() takes 1 positional argument but 2 were given
+Traceback (most recent call last):
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/venv/lib/python3.12/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/venv/lib/python3.12/site-packages/flask/app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/venv/lib/python3.12/site-packages/flask_login/utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/blueprints/orden/routes.py", line 28, in decorated_function
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/blueprints/orden/routes.py", line 650, in imprimir_test
+    printer = ZebraPrinter(current_app.config)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: ZebraPrinter.__init__() takes 1 positional argument but 2 were given
+2025-06-06 12:11:41,f - ERROR - logger - Error no manejado: ZebraPrinter.__init__() takes 1 positional argument but 2 were given
+Traceback (most recent call last):
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/venv/lib/python3.12/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/venv/lib/python3.12/site-packages/flask/app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/venv/lib/python3.12/site-packages/flask_login/utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/blueprints/orden/routes.py", line 28, in decorated_function
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/blueprints/orden/routes.py", line 650, in imprimir_test
+    printer = ZebraPrinter(current_app.config)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: ZebraPrinter.__init__() takes 1 positional argument but 2 were given
+2025-06-06 12:11:48,f - ERROR - logger - Error no manejado: ZebraPrinter.__init__() takes 1 positional argument but 2 were given
+Traceback (most recent call last):
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/venv/lib/python3.12/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/venv/lib/python3.12/site-packages/flask/app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/venv/lib/python3.12/site-packages/flask_login/utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/blueprints/orden/routes.py", line 567, in imprimir_etiqueta
+    printer = ZebraPrinter(current_app.config)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: ZebraPrinter.__init__() takes 1 positional argument but 2 were given
+2025-06-06 12:11:48,f - ERROR - logger - Error no manejado: ZebraPrinter.__init__() takes 1 positional argument but 2 were given
+Traceback (most recent call last):
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/venv/lib/python3.12/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/venv/lib/python3.12/site-packages/flask/app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/venv/lib/python3.12/site-packages/flask_login/utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/blueprints/orden/routes.py", line 567, in imprimir_etiqueta
+    printer = ZebraPrinter(current_app.config)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: ZebraPrinter.__init__() takes 1 positional argument but 2 were given
+2025-06-06 12:37:57,f - ERROR - logger - Error no manejado: ZebraPrinter.__init__() takes 1 positional argument but 2 were given
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/flask/app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/flask_login/utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/blueprints/orden/routes.py", line 28, in decorated_function
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/blueprints/orden/routes.py", line 625, in imprimir_test
+    printer = ZebraPrinter(current_app.config)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: ZebraPrinter.__init__() takes 1 positional argument but 2 were given
+2025-06-06 12:40:53,f - ERROR - logger - Error no manejado: ZebraPrinter.__init__() takes 1 positional argument but 2 were given
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/flask/app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/flask_login/utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/franciscominio/Documents/Python/servicio_tecnico_flask/blueprints/orden/routes.py", line 592, in generar_etiqueta_pdf
+    printer = ZebraPrinter(current_app.config)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: ZebraPrinter.__init__() takes 1 positional argument but 2 were given
