@@ -10,7 +10,7 @@
                     <form method="POST" enctype="multipart/form-data">
                         {{ form.csrf_token if form else csrf_token() }} {% block form_content %}{% endblock %}
                         <div class="form-group text-right">
-                            <a href="{% block cancel_url %}{{ url_for('index') }}{% endblock %}" class="btn btn-secondary">
+                            <a href="{% block cancel_url %}{{ url_for('main.index') }}{% endblock %}" class="btn btn-secondary">
                                 <i class="fas fa-times"></i> Cancelar
                             </a>
                             <button type="submit" class="btn btn-primary">

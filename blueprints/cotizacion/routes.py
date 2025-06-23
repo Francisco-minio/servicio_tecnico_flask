@@ -46,9 +46,9 @@ def nueva(orden_id=None):
                          ordenes=ordenes, 
                          orden_preseleccionada=orden)
 
-@cotizacion_bp.route('/listar')
+@cotizacion_bp.route('/listar_cotizaciones')
 @login_required
-def listar():
+def listar_cotizaciones():
     cotizaciones = SolicitudCotizacion.query.all()
     return render_template('cotizacion/listar_cotizaciones.html', cotizaciones=cotizaciones)
 
@@ -66,7 +66,7 @@ def editar(cotizacion_id):
     # Verificar permisos
     if not current_user.rol == 'admin' and cotizacion.usuario_id != current_user.id:
         flash('No tienes permiso para editar esta cotización', 'danger')
-        return redirect(url_for('cotizacion.listar'))
+        return redirect(url_for('cotizacion.listar_cotizaciones'))
     
     if request.method == 'POST':
         cotizacion.asunto = request.form.get('asunto')

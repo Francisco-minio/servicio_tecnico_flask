@@ -1,0 +1,122 @@
+{% extends 'base.html' %} {% block title %}Detalles del Técnico{% endblock %} {% block content %}
+<div class="container-fluid">
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Detalles del Técnico</h1>
+        <div>
+            <a href="{{ url_for('usuario.listar_tecnicos') }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+                <i class="fas fa-arrow-left fa-sm text-white-50"></i> Volver a la Lista
+            </a>
+            <a href="{{ url_for('usuario.editar_tecnico', tecnico_id=tecnico.id) }}" class="btn btn-warning btn-sm ml-2">
+                <i class="fas fa-edit"></i> Editar
+            </a>
+        </div>
+    </div>
+
+    <!-- Content Row -->
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Información del Técnico</h6>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>ID:</strong> {{ tecnico.id }}</p>
+                            <p><strong>Usuario:</strong> {{ tecnico.username }}</p>
+                            <p><strong>Nombre:</strong> {{ tecnico.nombre or 'No especificado' }}</p>
+                            <p><strong>Email:</strong> {{ tecnico.email }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Rol:</strong>
+                                <span class="badge badge-primary">{{ tecnico.rol|title }}</span>
+                            </p>
+                            <p><strong>Estado:</strong> {% if tecnico.activo %}
+                                <span class="badge badge-success">Activo</span> {% else %}
+                                <span class="badge badge-danger">Inactivo</span> {% endif %}
+                            </p>
+                            <p><strong>Fecha de Registro:</strong> {{ tecnico.fecha_registro.strftime('%d/%m/%Y %H:%M') if tecnico.fecha_registro else 'N/A' }}</p>
+                            <p><strong>Último Acceso:</strong> {{ tecnico.ultimo_acceso.strftime('%d/%m/%Y %H:%M') if tecnico.ultimo_acceso else 'Nunca' }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Preferencias</h6>
+                </div>
+                <div class="card-body">
+                    <p><strong>Notificaciones por Email:</strong> {% if tecnico.notificaciones_email %}
+                        <span class="badge badge-success">Activadas</span> {% else %}
+                        <span class="badge badge-secondary">Desactivadas</span> {% endif %}
+                    </p>
+                    <p><strong>Tema Oscuro:</strong> {% if tecnico.tema_oscuro %}
+                        <span class="badge badge-dark">Activado</span> {% else %}
+                        <span class="badge badge-light">Desactivado</span> {% endif %}
+                    </p>
+                    <p><strong>Idioma:</strong> {{ tecnico.idioma|upper }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Órdenes Asignadas -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Órdenes Asignadas</h6>
+                </div>
+                <div class="card-body">
+                    {% if tecnico.ordenes_asignadas.count() > 0 %}
+                    <div class="table-responsive">
+                        <table class="table table-bordered" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>ID Orden</th>
+                                    <th>Cliente</th>
+                                    <th>Equipo</th>
+                                    <th>Estado</th>
+                                    <th>Fecha</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for orden in tecnico.ordenes_asignadas.limit(10).all() %}
+                                <tr>
+                                    <td>{{ orden.id }}</td>
+                                    <td>{{ orden.cliente.nombre }}</td>
+                                    <td>{{ orden.equipo }}</td>
+                                    <td>
+                                        <span class="badge badge-{{ 'success' if orden.estado == 'Terminado' else 'warning' if orden.estado == 'En Reparación' else 'info' }}">
+                                            {{ orden.estado }}
+                                        </span>
+                                    </td>
+                                    <td>{{ orden.fecha_creacion.strftime('%d/%m/%Y') }}</td>
+                                    <td>
+                                        <a href="{{ url_for('orden.ver_orden', orden_id=orden.id) }}" class="btn btn-sm btn-info" title="Ver orden">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <div class="text-center py-4">
+                        <i class="fas fa-clipboard-list fa-3x text-gray-300 mb-3"></i>
+                        <h5 class="text-gray-500">No hay órdenes asignadas</h5>
+                        <p class="text-gray-400">Este técnico no tiene órdenes asignadas actualmente.</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

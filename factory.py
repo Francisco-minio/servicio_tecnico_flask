@@ -11,6 +11,8 @@ Características principales:
 """
 
 import os
+import logging
+from logging.handlers import RotatingFileHandler
 from flask import Flask, redirect, url_for, render_template
 from flask_migrate import Migrate
 from flask_login import LoginManager, current_user
@@ -19,8 +21,6 @@ from flask_session import Session
 from flask_talisman import Talisman
 from extensions import db, mail
 from models import Usuario
-import logging
-from logging.handlers import RotatingFileHandler
 from datetime import timedelta
 
 # Importar configuración
@@ -49,15 +49,19 @@ def register_blueprints(app):
     from blueprints.cliente import cliente_bp
     from blueprints.cotizacion import cotizacion_bp
     from blueprints.perfil import perfil_bp
+    from blueprints.main import main_bp
+    from blueprints.usuario import usuario_bp
 
     # Lista de blueprints con sus configuraciones
     blueprints = [
+        main_bp,  # Blueprint principal (sin prefijo)
         auth_bp,  # Autenticación (sin prefijo)
         (orden_bp, {'url_prefix': '/orden'}),  # Gestión de órdenes
         (cliente_bp, {'url_prefix': '/cliente'}),  # Gestión de clientes
         (admin_bp, {'url_prefix': '/admin'}),  # Panel de administración
         (cotizacion_bp, {'url_prefix': '/cotizacion'}),  # Gestión de cotizaciones
-        (perfil_bp, {'url_prefix': '/perfil'})  # Perfil de usuario
+        (perfil_bp, {'url_prefix': '/perfil'}),  # Perfil de usuario
+        (usuario_bp, {'url_prefix': '/usuarios'})  # Gestión de usuarios
     ]
 
     # Registrar cada blueprint
@@ -87,89 +91,8 @@ def create_app(config_name='development'):
     """
     app = Flask(__name__)
     
-    # Configuración básica según el entorno
-    if config_name == 'development':
-        app.config.from_object('config.DevelopmentConfig')
-    else:
-        app.config.from_object('config.ProductionConfig')
-    
-    # Filtro Jinja2 para convertir saltos de línea en <br>
-    @app.template_filter('nl2br')
-    def nl2br_filter(s):
-        """Convierte \n en <br> para mostrar texto con formato en HTML."""
-        if s is None:
-            return ""
-        return s.replace('\n', '<br>')
-    
-    # Configuración de seguridad con Talisman
-    # Define políticas de seguridad de contenido (CSP) y permisos
-    csp = {
-        'default-src': [
-            '\'self\'',
-            '\'unsafe-inline\'',
-            '\'unsafe-eval\'',
-            'cdn.datatables.net',
-            'cdn.jsdelivr.net',
-            'fonts.googleapis.com',
-            'fonts.gstatic.com',
-            'code.jquery.com',
-            'localhost:8080'
-        ],
-        'img-src': ['\'self\'', 'data:', '*'],
-        'script-src': [
-            '\'self\'',
-            '\'unsafe-inline\'',
-            '\'unsafe-eval\'',
-            'cdn.datatables.net',
-            'cdn.jsdelivr.net',
-            'code.jquery.com',
-            'localhost:8080'
-        ],
-        'style-src': [
-            '\'self\'',
-            '\'unsafe-inline\'',
-            'cdn.datatables.net',
-            'fonts.googleapis.com',
-            'cdn.jsdelivr.net'
-        ],
-        'font-src': ['\'self\'', 'fonts.gstatic.com'],
-        'connect-src': [
-            '\'self\'',
-            'localhost:8080',
-            'cdn.datatables.net',
-            'https://cdn.datatables.net'
-        ]
-    }
-
-    # Política de permisos del navegador
-    # Restringe acceso a características sensibles
-    permissions_policy = {
-        'accelerometer': '()',
-        'autoplay': '()',
-        'camera': '()',
-        'display-capture': '()',
-        'encrypted-media': '()',
-        'fullscreen': '()',
-        'geolocation': '()',
-        'gyroscope': '()',
-        'magnetometer': '()',
-        'microphone': '()',
-        'midi': '()',
-        'payment': '()',
-        'picture-in-picture': '()',
-        'publickey-credentials-get': '()',
-        'screen-wake-lock': '()',
-        'sync-xhr': '()',
-        'usb': '()',
-        'web-share': '()',
-        'xr-spatial-tracking': '()'
-    }
-
-    # Aplicar configuración de Talisman según el entorno
-    if config_name == 'development':
-        Talisman(app, force_https=False, content_security_policy=None)
-    else:
-        Talisman(app)
+    # Configuración básica
+    app.config.from_object(config[config_name])
     
     # Configuración del servidor de correo
     app.config['MAIL_SERVER'] = os.environ.get('MAIL_SERVER', 'smtp.smtp2go.com')
@@ -215,10 +138,6 @@ def create_app(config_name='development'):
         return render_template('errors/500.html'), 500
     
     # Configuración del sistema de logging
-    setup_logger(app)
-    FileHandler.init_app(app)
-    
-    # Configurar logging con rotación de archivos
     if not os.path.exists('logs'):
         os.makedirs('logs')
     
@@ -235,22 +154,14 @@ def create_app(config_name='development'):
     app.logger.setLevel(logging.INFO)
     app.logger.info('Aplicación iniciada')
     
-    # Registrar blueprints de la aplicación
+    # Registrar blueprints
     register_blueprints(app)
     
-    # Ruta principal (redirección según rol)
-    @app.route('/')
-    def index():
-        """
-        Ruta principal que redirige según el estado de autenticación:
-        - Usuarios autenticados: al dashboard o lista de órdenes según rol
-        - Usuarios no autenticados: a la página de login
-        """
-        if current_user.is_authenticated:
-            if current_user.rol == 'admin':
-                return redirect(url_for('admin.dashboard'))
-            else:
-                return redirect(url_for('orden.listar_ordenes'))
-        return redirect(url_for('auth.login'))
+    # Registrar filtro nl2br para Jinja
+    def nl2br(value):
+        if not value:
+            return ''
+        return value.replace('\n', '<br>\n')
+    app.jinja_env.filters['nl2br'] = nl2br
     
     return app 

@@ -52,7 +52,7 @@ def actividad():
         .order_by(Historial.fecha.desc()).limit(50).all()
     
     # Obtener estadísticas
-    total_ordenes = len(current_user.ordenes_creadas) + len(current_user.ordenes_asignadas)
+    total_ordenes = current_user.ordenes_asignadas.count()
     
     return render_template('perfil/actividad.html', 
                          historial=historial,

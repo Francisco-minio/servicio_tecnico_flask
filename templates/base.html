@@ -3,8 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>{% block title %}Servicio Técnico{% endblock %}</title>
 
     <!-- Custom fonts -->
@@ -18,8 +17,64 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.7/css/responsive.bootstrap4.min.css" />
 
+    <!-- Select2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@1.5.2/dist/select2-bootstrap4.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
     <!-- Custom styles -->
-    <link href="{{ url_for('static', filename='css/sb-admin-2.min.css') }}" rel="stylesheet"> {% block extra_css %}{% endblock %}
+    <link href="{{ url_for('static', filename='css/sb-admin-2.min.css') }}" rel="stylesheet">
+
+    <!-- Custom styles for mobile -->
+    <style>
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 0 !important;
+                overflow: hidden;
+            }
+            .sidebar.toggled {
+                width: 6.5rem !important;
+                overflow: visible;
+            }
+            #content-wrapper {
+                margin-left: 0 !important;
+            }
+            .navbar-nav {
+                padding: 0.5rem 0;
+            }
+            .navbar-nav .nav-item {
+                padding: 0 1rem;
+            }
+            .table-responsive {
+                overflow-x: auto;
+            }
+            .card {
+                margin-bottom: 1rem;
+            }
+            .btn-responsive {
+                padding: 0.25rem 0.5rem;
+                font-size: 0.875rem;
+                line-height: 1.5;
+                border-radius: 0.2rem;
+            }
+            .select2-container {
+                width: 100% !important;
+            }
+            .dataTables_wrapper {
+                overflow-x: auto;
+            }
+            .dataTables_filter,
+            .dataTables_length {
+                text-align: left !important;
+                margin-bottom: 1rem;
+            }
+            .dataTables_info,
+            .dataTables_paginate {
+                text-align: center !important;
+                margin-top: 1rem;
+            }
+        }
+    </style>
+    {% block extra_css %}{% endblock %}
 </head>
 
 <body id="page-top">
@@ -29,7 +84,7 @@
         <!-- Sidebar -->
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ url_for('index') }}">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ url_for('main.index') }}">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-tools"></i>
                 </div>
@@ -41,7 +96,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('index') }}">
+                <a class="nav-link" href="{{ url_for('main.index') }}">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span>
                 </a>
@@ -98,13 +153,20 @@
 
             <li class="nav-item">
                 <a class="nav-link" href="{{ url_for('cliente.listar_clientes') }}">
-                    <i class="fas fa-fw fa-user"></i>
+                    <i class="fas fa-fw fa-users"></i>
                     <span>Clientes</span>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('cotizacion.listar') }}">
+                <a class="nav-link" href="{{ url_for('usuario.listar_tecnicos') }}">
+                    <i class="fas fa-fw fa-user-tie"></i>
+                    <span>Técnicos</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('cotizacion.listar_cotizaciones') }}">
                     <i class="fas fa-fw fa-file-invoice-dollar"></i>
                     <span>Cotizaciones</span>
                 </a>
@@ -120,22 +182,27 @@
                 {% if current_user.is_authenticated %}
                 <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                    <!-- Sidebar Toggle (Topbar) -->
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
+
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <div class="topbar-divider d-none d-sm-block"></div>
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ current_user.username }}</span>
-                                <img class="img-profile rounded-circle" src="{{ url_for('static', filename='img/undraw_profile.svg') }}">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ current_user.nombre }}</span>
+                                <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
                                 <h6 class="dropdown-header">
                                     Rol: {{ current_user.rol|title }}
                                 </h6>
-                                <a class="dropdown-item" href="{{ url_for('perfil.mi_perfil') }}">
-                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i> Mi Perfil
+                                <a class="dropdown-item" href="{{ url_for('usuario.perfil') }}">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i> Perfil
                                 </a>
                                 <a class="dropdown-item" href="{{ url_for('perfil.configuracion') }}">
                                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i> Configuración
@@ -203,6 +270,9 @@
     <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.7/js/dataTables.responsive.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.7/js/responsive.bootstrap4.min.js"></script>
 
+    <!-- Select2 JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
     <!-- DataTables Spanish -->
     <script src="{{ url_for('static', filename='js/datatables-es.js') }}"></script>
 
@@ -210,6 +280,71 @@
     <script src="{{ url_for('static', filename='js/sb-admin-2.min.js') }}"></script>
 
     {% block extra_js %}{% endblock %}
+
+    <!-- Custom scripts for mobile -->
+    <script>
+        // Toggle the side navigation
+        $("#sidebarToggle, #sidebarToggleTop").on('click', function(e) {
+            $("body").toggleClass("sidebar-toggled");
+            $(".sidebar").toggleClass("toggled");
+            if ($(".sidebar").hasClass("toggled")) {
+                $('.sidebar .collapse').collapse('hide');
+            };
+        });
+
+        // Close any open menu accordions when window is resized below 768px
+        $(window).resize(function() {
+            if ($(window).width() < 768) {
+                $('.sidebar .collapse').collapse('hide');
+            };
+        });
+
+        // Prevent the content wrapper from scrolling when the fixed side navigation hovered over
+        $('body.fixed-nav .sidebar').on('mousewheel DOMMouseScroll wheel', function(e) {
+            if ($(window).width() > 768) {
+                var e0 = e.originalEvent,
+                    delta = e0.wheelDelta || -e0.detail;
+                this.scrollTop += (delta < 0 ? 1 : -1) * 30;
+                e.preventDefault();
+            }
+        });
+
+        // Scroll to top button appear
+        $(document).on('scroll', function() {
+            var scrollDistance = $(this).scrollTop();
+            if (scrollDistance > 100) {
+                $('.scroll-to-top').fadeIn();
+            } else {
+                $('.scroll-to-top').fadeOut();
+            }
+        });
+
+        // Smooth scrolling using jQuery easing
+        $(document).on('click', 'a.scroll-to-top', function(e) {
+            var $anchor = $(this);
+            $('html, body').stop().animate({
+                scrollTop: ($($anchor.attr('href')).offset().top)
+            }, 1000, 'easeInOutExpo');
+            e.preventDefault();
+        });
+
+        // Inicializar Select2 con configuración responsive
+        $.fn.select2.defaults.set("theme", "bootstrap4");
+        $.fn.select2.defaults.set("width", "100%");
+        $.fn.select2.defaults.set("language", "es");
+
+        // Configuración global de DataTables
+        $.extend(true, $.fn.dataTable.defaults, {
+            responsive: true,
+            language: {
+                url: "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
+            },
+            dom: "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+                "<'row'<'col-sm-12'tr>>" +
+                "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+            pageLength: 10
+        });
+    </script>
 </body>
 
 </html>

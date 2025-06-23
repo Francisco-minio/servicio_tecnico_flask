@@ -13,7 +13,7 @@ auth_bp = Blueprint('auth', __name__, url_prefix='/auth')
 def login():
     # Si el usuario ya está autenticado, redirigir
     if current_user.is_authenticated:
-        return redirect(url_for('index'))
+        return redirect(url_for('main.index'))
 
     if request.method == 'POST':
         username = request.form.get('username')
@@ -34,7 +34,7 @@ def login():
                 next_page = request.args.get('next')
                 if next_page:
                     return redirect(next_page)
-                return redirect(url_for('index'))
+                return redirect(url_for('main.index'))
             else:
                 flash('Usuario o contraseña incorrectos', 'danger')
                 logger.warning(f'Intento fallido de inicio de sesión para el usuario {username}')

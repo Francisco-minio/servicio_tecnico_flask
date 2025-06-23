@@ -11,7 +11,7 @@ def create_admin_user():
         if admin is None:
             admin = Usuario(
                 username='admin',
-                password=generate_password_hash('admin123'),
+                password=generate_password_hash('admin123', method='pbkdf2:sha256'),
                 email='admin@example.com',
                 nombre='Administrador',
                 rol='admin',

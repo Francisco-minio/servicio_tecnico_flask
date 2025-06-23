@@ -1,0 +1,83 @@
+{% extends 'base.html' %} {% block title %}Lista de Técnicos{% endblock %} {% block content %}
+<div class="container-fluid">
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Lista de Técnicos</h1>
+        <a href="{{ url_for('admin.dashboard') if current_user.rol == 'admin' else url_for('orden.listar_ordenes') }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+            <i class="fas fa-arrow-left fa-sm text-white-50"></i> Volver al Dashboard
+        </a>
+    </div>
+
+    <!-- Content Row -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Técnicos Registrados</h6>
+                </div>
+                <div class="card-body">
+                    {% if tecnicos %}
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Usuario</th>
+                                    <th>Nombre</th>
+                                    <th>Email</th>
+                                    <th>Estado</th>
+                                    <th>Fecha Registro</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for tecnico in tecnicos %}
+                                <tr>
+                                    <td>{{ tecnico.id }}</td>
+                                    <td>{{ tecnico.username }}</td>
+                                    <td>{{ tecnico.nombre or 'No especificado' }}</td>
+                                    <td>{{ tecnico.email }}</td>
+                                    <td>
+                                        {% if tecnico.activo %}
+                                        <span class="badge badge-success">Activo</span> {% else %}
+                                        <span class="badge badge-danger">Inactivo</span> {% endif %}
+                                    </td>
+                                    <td>{{ tecnico.fecha_registro.strftime('%d/%m/%Y') if tecnico.fecha_registro else 'N/A' }}</td>
+                                    <td>
+                                        <a href="{{ url_for('usuario.ver_tecnico', tecnico_id=tecnico.id) }}" class="btn btn-sm btn-info" title="Ver detalles">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <div class="text-center py-4">
+                        <i class="fas fa-users fa-3x text-gray-300 mb-3"></i>
+                        <h5 class="text-gray-500">No hay técnicos registrados</h5>
+                        <p class="text-gray-400">Los técnicos aparecerán aquí cuando se registren en el sistema.</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} {% block extra_js %}
+<script>
+    $(document).ready(function() {
+        $('#dataTable').DataTable({
+            language: {
+                url: '/static/js/datatables-es.js'
+            },
+            order: [
+                [0, 'asc']
+            ],
+            pageLength: 10,
+            responsive: true
+        });
+    });
+</script>
+{% endblock %}

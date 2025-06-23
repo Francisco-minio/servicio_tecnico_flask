@@ -1,0 +1,135 @@
+{% extends 'base.html' %} {% block title %}Mi Perfil{% endblock %} {% block content %}
+<div class="container-fluid">
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Mi Perfil</h1>
+        <a href="{{ url_for('admin.dashboard') if current_user.rol == 'admin' else url_for('orden.listar_ordenes') }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+            <i class="fas fa-arrow-left fa-sm text-white-50"></i> Volver al Dashboard
+        </a>
+    </div>
+
+    <!-- Content Row -->
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Información Personal</h6>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>ID:</strong> {{ current_user.id }}</p>
+                            <p><strong>Usuario:</strong> {{ current_user.username }}</p>
+                            <p><strong>Nombre:</strong> {{ current_user.nombre or 'No especificado' }}</p>
+                            <p><strong>Email:</strong> {{ current_user.email }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Rol:</strong>
+                                <span class="badge badge-primary">{{ current_user.rol|title }}</span>
+                            </p>
+                            <p><strong>Estado:</strong> {% if current_user.activo %}
+                                <span class="badge badge-success">Activo</span> {% else %}
+                                <span class="badge badge-danger">Inactivo</span> {% endif %}
+                            </p>
+                            <p><strong>Fecha de Registro:</strong> {{ current_user.fecha_registro.strftime('%d/%m/%Y %H:%M') if current_user.fecha_registro else 'N/A' }}</p>
+                            <p><strong>Último Acceso:</strong> {{ current_user.ultimo_acceso.strftime('%d/%m/%Y %H:%M') if current_user.ultimo_acceso else 'Nunca' }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Mis Preferencias</h6>
+                </div>
+                <div class="card-body">
+                    <p><strong>Notificaciones por Email:</strong> {% if current_user.notificaciones_email %}
+                        <span class="badge badge-success">Activadas</span> {% else %}
+                        <span class="badge badge-secondary">Desactivadas</span> {% endif %}
+                    </p>
+                    <p><strong>Tema Oscuro:</strong> {% if current_user.tema_oscuro %}
+                        <span class="badge badge-dark">Activado</span> {% else %}
+                        <span class="badge badge-light">Desactivado</span> {% endif %}
+                    </p>
+                    <p><strong>Idioma:</strong> {{ current_user.idioma|upper }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Estadísticas del Usuario -->
+    {% if current_user.rol == 'tecnico' %}
+    <div class="row">
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                Órdenes Asignadas</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ current_user.ordenes_asignadas.count() }}</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                Órdenes Completadas</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ current_user.ordenes_asignadas.filter_by(estado='Terminado').count() }}</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-check-circle fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                En Progreso</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ current_user.ordenes_asignadas.filter_by(estado='En Reparación').count() }}</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-tools fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-info shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                Pendientes</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ current_user.ordenes_asignadas.filter_by(estado='Pendiente').count() }}</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-clock fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

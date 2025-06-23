@@ -1,0 +1,133 @@
+{% extends "base.html" %} {% block title %}Nueva Orden de Servicio{% endblock %} {% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Nueva Orden de Servicio</h6>
+                </div>
+                <div class="card-body">
+                    <form method="POST" class="needs-validation" novalidate>
+                        {{ form.hidden_tag() }}
+
+                        <div class="row">
+                            <!-- Cliente -->
+                            <div class="col-12 col-md-6 mb-3">
+                                <div class="form-group">
+                                    {{ form.cliente.label(class="form-label") }} {{ form.cliente(class="form-control") }} {% if form.cliente.errors %} {% for error in form.cliente.errors %}
+                                    <div class="invalid-feedback d-block">{{ error }}</div>
+                                    {% endfor %} {% endif %}
+                                </div>
+                            </div>
+
+                            <!-- Tipo de Equipo -->
+                            <div class="col-12 col-md-6 mb-3">
+                                <div class="form-group">
+                                    {{ form.tipo_equipo.label(class="form-label") }} {{ form.tipo_equipo(class="form-control") }} {% if form.tipo_equipo.errors %} {% for error in form.tipo_equipo.errors %}
+                                    <div class="invalid-feedback d-block">{{ error }}</div>
+                                    {% endfor %} {% endif %}
+                                </div>
+                            </div>
+
+                            <!-- Marca -->
+                            <div class="col-12 col-md-6 mb-3">
+                                <div class="form-group">
+                                    {{ form.marca.label(class="form-label") }} {{ form.marca(class="form-control") }} {% if form.marca.errors %} {% for error in form.marca.errors %}
+                                    <div class="invalid-feedback d-block">{{ error }}</div>
+                                    {% endfor %} {% endif %}
+                                </div>
+                            </div>
+
+                            <!-- Modelo -->
+                            <div class="col-12 col-md-6 mb-3">
+                                <div class="form-group">
+                                    {{ form.modelo.label(class="form-label") }} {{ form.modelo(class="form-control") }} {% if form.modelo.errors %} {% for error in form.modelo.errors %}
+                                    <div class="invalid-feedback d-block">{{ error }}</div>
+                                    {% endfor %} {% endif %}
+                                </div>
+                            </div>
+
+                            <!-- Número de Serie -->
+                            <div class="col-12 col-md-6 mb-3">
+                                <div class="form-group">
+                                    {{ form.numero_serie.label(class="form-label") }} {{ form.numero_serie(class="form-control") }} {% if form.numero_serie.errors %} {% for error in form.numero_serie.errors %}
+                                    <div class="invalid-feedback d-block">{{ error }}</div>
+                                    {% endfor %} {% endif %}
+                                </div>
+                            </div>
+
+                            <!-- Estado -->
+                            <div class="col-12 col-md-6 mb-3">
+                                <div class="form-group">
+                                    {{ form.estado.label(class="form-label") }} {{ form.estado(class="form-control") }} {% if form.estado.errors %} {% for error in form.estado.errors %}
+                                    <div class="invalid-feedback d-block">{{ error }}</div>
+                                    {% endfor %} {% endif %}
+                                </div>
+                            </div>
+
+                            <!-- Descripción del Problema -->
+                            <div class="col-12 mb-3">
+                                <div class="form-group">
+                                    {{ form.descripcion_problema.label(class="form-label") }} {{ form.descripcion_problema(class="form-control", rows="4") }} {% if form.descripcion_problema.errors %} {% for error in form.descripcion_problema.errors %}
+                                    <div class="invalid-feedback d-block">{{ error }}</div>
+                                    {% endfor %} {% endif %}
+                                </div>
+                            </div>
+
+                            <!-- Observaciones -->
+                            <div class="col-12 mb-3">
+                                <div class="form-group">
+                                    {{ form.observaciones.label(class="form-label") }} {{ form.observaciones(class="form-control", rows="4") }} {% if form.observaciones.errors %} {% for error in form.observaciones.errors %}
+                                    <div class="invalid-feedback d-block">{{ error }}</div>
+                                    {% endfor %} {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-12 col-md-6 mb-3 mb-md-0">
+                                <a href="{{ url_for('ordenes.listar_ordenes') }}" class="btn btn-secondary btn-block">
+                                    <i class="fas fa-arrow-left"></i> Volver
+                                </a>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <button type="submit" class="btn btn-primary btn-block">
+                                    <i class="fas fa-save"></i> Guardar
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} {% block extra_js %}
+<script>
+    $(document).ready(function() {
+        // Inicializar Select2 para el campo de cliente
+        $('#cliente').select2({
+            theme: 'bootstrap4',
+            placeholder: 'Seleccione un cliente',
+            width: '100%'
+        });
+
+        // Validación del formulario
+        (function() {
+            'use strict';
+            window.addEventListener('load', function() {
+                var forms = document.getElementsByClassName('needs-validation');
+                var validation = Array.prototype.filter.call(forms, function(form) {
+                    form.addEventListener('submit', function(event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+        })();
+    });
+</script>
+{% endblock %}

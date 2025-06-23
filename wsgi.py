@@ -1,5 +1,5 @@
 import os
-from app import create_app
+from factory import create_app
 
 # Configurar el entorno como producción
 os.environ['FLASK_ENV'] = 'production'

@@ -642,4 +642,53 @@ def imprimir_test():
     else:
         flash('Error al enviar la etiqueta de prueba.', 'error')
     
-    return redirect(url_for('orden.listar_ordenes')) 
+    return redirect(url_for('orden.listar_ordenes'))
+
+@orden_bp.route('/<int:orden_id>/editar', methods=['GET', 'POST'])
+@login_required
+def editar_orden(orden_id):
+    if current_user.rol != 'admin':
+        flash('Solo los administradores pueden editar órdenes.', 'danger')
+        return redirect(url_for('orden.ver_orden', orden_id=orden_id))
+    orden = Orden.query.get_or_404(orden_id)
+    tecnicos = Usuario.query.filter_by(rol='tecnico').all()
+    clientes = Cliente.query.all()
+    if request.method == 'POST':
+        cambios = []
+        campos = [
+            ('equipo', 'Equipo'),
+            ('marca', 'Marca'),
+            ('modelo', 'Modelo'),
+            ('procesador', 'Procesador'),
+            ('ram', 'RAM'),
+            ('disco', 'Disco'),
+            ('pantalla', 'Pantalla'),
+            ('correo', 'Correo alternativo'),
+            ('descripcion', 'Descripción'),
+            ('estado', 'Estado'),
+            ('tecnico_id', 'Técnico asignado'),
+            ('cliente_id', 'Cliente'),
+        ]
+        for campo, nombre in campos:
+            valor_anterior = getattr(orden, campo)
+            valor_nuevo = request.form.get(campo)
+            # Para técnico y cliente, convertir a int o None
+            if campo in ['tecnico_id', 'cliente_id']:
+                valor_nuevo = int(valor_nuevo) if valor_nuevo and valor_nuevo != 'None' else None
+            if valor_anterior != valor_nuevo:
+                cambios.append(f"{nombre}: {valor_anterior} → {valor_nuevo}")
+                setattr(orden, campo, valor_nuevo)
+        db.session.commit()
+        if cambios:
+            descripcion = f"Orden editada por {current_user.username}. Cambios: " + ", ".join(cambios)
+            historial = Historial(
+                orden_id=orden.id,
+                usuario_id=current_user.id,
+                descripcion=descripcion,
+                fecha=datetime.now()
+            )
+            db.session.add(historial)
+            db.session.commit()
+        flash('Orden actualizada correctamente', 'success')
+        return redirect(url_for('orden.ver_orden', orden_id=orden.id))
+    return render_template('orden/editar_orden.html', orden=orden, tecnicos=tecnicos, clientes=clientes) 

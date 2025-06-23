@@ -1,7 +1,7 @@
 from flask import render_template, redirect, url_for, request, flash, jsonify, send_file
 from flask_login import login_required, current_user
 from werkzeug.security import generate_password_hash
-from models import Usuario, Orden, CorreoLog, OrdenEliminada
+from models import Usuario, Orden, CorreoLog, OrdenEliminada, Cliente
 from extensions import db
 from . import admin_bp
 from functools import wraps
@@ -31,8 +31,44 @@ def admin_required(f):
 @login_required
 @admin_required
 def dashboard():
-    ordenes = Orden.query.all()
-    return render_template('dashboard_admin.html', ordenes=ordenes)
+    # Métricas de órdenes
+    total_ordenes = Orden.query.count()
+    ordenes_pendientes = Orden.query.filter(Orden.estado == 'Ingresado').count()
+    ordenes_diagnostico = Orden.query.filter(Orden.estado == 'En Diagnóstico').count()
+    ordenes_reparacion = Orden.query.filter(Orden.estado == 'En Reparación').count()
+    ordenes_espera = Orden.query.filter(Orden.estado == 'Esperando Repuestos').count()
+    ordenes_terminadas = Orden.query.filter(Orden.estado == 'Terminado').count()
+    ordenes_entregadas = Orden.query.filter(Orden.estado == 'Entregado').count()
+    # Usuarios
+    total_tecnicos = Usuario.query.filter_by(rol='tecnico').count()
+    total_clientes = Cliente.query.count()
+    total_usuarios = Usuario.query.count()
+    # Órdenes eliminadas
+    total_ordenes_eliminadas = OrdenEliminada.query.count()
+    # Correos
+    total_correos = CorreoLog.query.count()
+    correos_enviados = CorreoLog.query.filter(CorreoLog.estado.ilike('enviado')).count()
+    correos_error = CorreoLog.query.filter(CorreoLog.estado.ilike('error')).count()
+    # Últimas órdenes
+    ordenes = Orden.query.order_by(Orden.fecha_creacion.desc()).limit(10).all()
+    return render_template(
+        'dashboard_admin.html',
+        ordenes=ordenes,
+        total_ordenes=total_ordenes,
+        ordenes_pendientes=ordenes_pendientes,
+        ordenes_diagnostico=ordenes_diagnostico,
+        ordenes_reparacion=ordenes_reparacion,
+        ordenes_espera=ordenes_espera,
+        ordenes_terminadas=ordenes_terminadas,
+        ordenes_entregadas=ordenes_entregadas,
+        total_tecnicos=total_tecnicos,
+        total_clientes=total_clientes,
+        total_usuarios=total_usuarios,
+        total_ordenes_eliminadas=total_ordenes_eliminadas,
+        total_correos=total_correos,
+        correos_enviados=correos_enviados,
+        correos_error=correos_error
+    )
 
 @admin_bp.route('/usuarios')
 @login_required
